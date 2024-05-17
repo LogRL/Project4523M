@@ -1,0 +1,28 @@
+.forms1 , .forms2{
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.img-box {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+
+    border-radius: 50%;
+
+    user-select: none;
+    overflow: hidden;
+    box-shadow: 4px 4px 3px rgba(0, 0, 0, .1);
+}
+
+
+.img-box img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
