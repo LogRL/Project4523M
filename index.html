@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="./login.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <title>Login</title>
+    </head>
+    <body>
+  
+       <div class="box">
+ 
+        <div class="pre-box">
+            <h1>WELCOME</h1>
+            <div class="img-box">
+                <img src="asserts/img/popcat1.png" alt="">
+            </div>
+        </div>
+ 
+        <div class="dealer-form">
+
+            <div class="title-box">
+                <h1>Dealer Login</h1>
+            </div>
+
+            <div class="input-box">
+                <input type="text" placeholder="Account">
+                <input type="password" placeholder="Password">
+            </div>
+ 
+            <div class="btn-box">
+                <button>Login</button>
+    
+                <p onclick="mySwitch()">Sales Manager?</p>
+            </div>
+        </div>
+
+        <div class="manager-form">
+      
+            <div class="title-box">
+                <h1>Sales Manager Login </h1>
+            </div>
+      
+            <div class="input-box">
+                <input type="text" placeholder="Account">
+                <input type="password" placeholder="Password">
+            </div>
+
+            <div class="btn-box">
+                <button>Login</button>
+                <p onclick="mySwitch()">Dealer?</p>
+            </div>
+        </div>
+       </div>
+       <script>
+             let flag=true
+             const mySwitch=()=>{
+                if(flag){
+                    $(".pre-box").css("transform","translateX(100%)")
+                    $(".pre-box").css("background-color","#c9e0ed")
+                    $("img").attr("src","asserts/img/popcat2.jpg")  
+                }
+                else {
+                    $(".pre-box").css("transform","translateX(0%)")
+                    $(".pre-box").css("background-color","#edd4dc")
+                    $("img").attr("src","asserts/img/popcat1.png")
+                }
+                flag=!flag
+             }
+       </script>
+    </body>
+</html>
