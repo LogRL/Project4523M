@@ -55,26 +55,34 @@
       </div>
     </div>
   </nav>
-  
+
   <div class="container">
     <div class="row">
       <div class="forms1 col">
         <form>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <label for="exampleInputPassword1" class="form-label">Old Password</label>
             <input type="password" class="form-control" id="exampleInputPassword1">
           </div>
-    
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Re enter the new Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+
           <div class="mb-3">
             <label for="exampleInputContactNum" class="form-label">Contact Number</label>
             <input type="ContactNum" class="form-control" id="exampleInputContactNum">
           </div>
-    
+
           <div class="mb-3">
             <label for="exampleInputFaxNum" class="form-label">Fax Number</label>
             <input type="InputFaxNum" class="form-control" id="exampleInputFaxNum">
           </div>
-    
+
           <div class="mb-3">
             <label for="exampleInputDeliveryAddress
         " class="form-label">Delivery Address</label>
@@ -85,20 +93,22 @@
       </div>
       <div class="forms2 col">
         <form>
-          <div class="mb-3"> 
+          <div class="mb-3">
             <div class="img-box">
               <img src="../asserts/img/popcat2.jpg" alt="">
+            </div>
           </div>
-          </div>
-          <div class="mb-3">
-            <label for="UserName" class="form-label">User Name</label>
-            <input type="UserName" class="form-control" id="exampleInputUserName">
-          </div>
-    
-          <div class="mb-3">
-            <label for="exampleInputEmail" class="form-label">Email</label>
-            <input type="Email" class="form-control" id="exampleInputEmail">
-          </div>
+          <fieldset disabled>
+            <div class="mb-3 disabledInput">
+              <label for="UserName" class="form-label">User Name</label>
+              <input type="UserName" class="form-control" id="exampleInputUserName">
+            </div>
+
+            <div class="mb-3 disabledInput">
+              <label for="exampleInputEmail" class="form-label">Email</label>
+              <input type="Email" class="form-control" id="exampleInputEmail">
+            </div>
+          </fieldset>
         </form>
       </div>
     </div>
