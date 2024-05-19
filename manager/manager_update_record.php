@@ -55,6 +55,59 @@
             </div>
         </div>
     </nav>
+    <div class="accordion " id="accordionFlushExample">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+
+                <button class="accordion-button collapsed  " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    <div>
+                        Order:OrderID<br>
+                        Manager ID:SalesManagerID<br>
+                        Manager's Contact Name:Manager'sContactName<br>
+                        Manager's Contact Number:Manager'sContactNumber<br>
+                        Order Date & Time:OrderDateTime<br>
+                        Delivery Address:DeliveryAddress<br>
+                        Delivery Date:DeliveryDate<br>
+                        Order Status:OrderStatus<br>
+                    </div>
+                </button>
+
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                data-bs-parent="#accordionFlushExample">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Spare Part Image</th>
+                            <th scope="col">Spare Part Name</th>
+                            <th scope="col">Order Quantity</th>
+                            <th scope="col">Order Price</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>img.link</td>
+                            <td>car</td>
+                            <td>999</td>
+                            <td>999999</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>img.link</td>
+                            <td>car</td>
+                            <td>999</td>
+                            <td>999999</td>
+                    </tbody>
+                </table>
+                <button class="btn btn-primary" type="submit">Update</button>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

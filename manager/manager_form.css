@@ -6,3 +6,9 @@
     border: 1px solid #ccc;
     box-shadow: 0 0 10px #ccc;
 }
+
+
+.report_image_size{
+   width: 100px;
+    height: 100px;
+}
