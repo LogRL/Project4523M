@@ -103,14 +103,19 @@
                             <td>999</td>
                             <td>999999</td>
                     </tbody>
+
                 </table>
-                <button class="btn btn-primary" type="submit">Update</button>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="
+    padding-bottom: 15px;
+    padding-right: 15px;">
+                    <button class="btn btn-primary me-md-2" type="button">Update</button>
+                    <button class="btn btn-primary" type="button">Reject</button>
+                </div>
             </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>
