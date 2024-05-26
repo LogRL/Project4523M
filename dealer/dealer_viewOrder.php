@@ -27,7 +27,7 @@
             <a class="nav-link" aria-current="page" href="dealer_home.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="dealer_UpdateInfo.html">User Info</i></a>
+            <a class="nav-link" href="dealer_UpdateInfo.php">User Info</i></a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -35,12 +35,12 @@
               Order
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="dealer_createOrder.html">Create Order</a></li>
+              <li><a class="dropdown-item" href="dealer_createOrder.php">Create Order</a></li>
 
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="dealer_viewOrder.html">View Order</a></li>
+              <li><a class="dropdown-item" href="dealer_viewOrder.php">View Order</a></li>
             </ul>
           </li>
 

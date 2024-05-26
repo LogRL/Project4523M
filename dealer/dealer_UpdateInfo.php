@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+$username = $_SESSION['name'];
+$contactnumber = $_SESSION['contactnumber'];
+$faxnumber = $_SESSION['faxnumber'];
+$deliveryaddress = $_SESSION['deliveryaddress'];
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,12 +47,12 @@
               Order
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="dealer_createOrder.html">Create Order</a></li>
+              <li><a class="dropdown-item" href="dealer_createOrder.php">Create Order</a></li>
 
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="dealer_viewOrder.html">View Order</a></li>
+              <li><a class="dropdown-item" href="dealer_viewOrder.php">View Order</a></li>
             </ul>
           </li>
           
@@ -72,17 +83,17 @@
 
           <div class="mb-3">
             <label for="exampleInputContactNum" class="form-label">Contact Number</label>
-            <input type="ContactNum" class="form-control" id="exampleInputContactNum">
+            <input type="ContactNum" class="form-control" id="exampleInputContactNum" placeholder="<?php echo $contactnumber ?>">
           </div>
 
           <div class="mb-3">
             <label for="exampleInputFaxNum" class="form-label">Fax Number</label>
-            <input type="InputFaxNum" class="form-control" id="exampleInputFaxNum">
+            <input type="InputFaxNum" class="form-control" id="exampleInputFaxNum" placeholder="<?php echo $faxnumber ?>">
           </div>
 
           <div class="mb-3">
             <label for="exampleInputDeliveryAddress" class="form-label">Delivery Address</label>
-            <input type="DeliveryAddress" class="form-control" id="exampleInputDeliveryAddress">
+            <input type="DeliveryAddress" class="form-control" id="exampleInputDeliveryAddress" placeholder="<?php echo $deliveryaddress ?>">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -97,7 +108,7 @@
           <fieldset disabled>
             <div class="mb-3 disabledInput">
               <label for="UserName" class="form-label">User Name</label>
-              <input type="UserName" class="form-control" id="exampleInputUserName">
+              <input type="UserName" class="form-control" id="exampleInputUserName" placeholder="<?php echo $username ?>">
             </div>
 
             <div class="mb-3 disabledInput">
@@ -116,3 +127,4 @@
 </body>
 
 </html>
+
