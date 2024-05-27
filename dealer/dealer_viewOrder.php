@@ -11,7 +11,7 @@
   <title>Dealer View Order </title>
 </head>
 
-<body style=" background-image:url('../asserts/img/bg.jpeg'); background-size: cover;">
+<body >
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid ">
       <a class="navbar-brand" href="#">
@@ -45,6 +45,7 @@
           </li>
 
         </ul>
+        <a class="btn btn btn-outline-success" href="./checkout.php" role="button" style="margin-right:15px">Checkout</a>
         <form class="d-flex">
           <button class="btn btn-outline-success" type="button">Logout</button>
         </form>

@@ -23,7 +23,7 @@ $deliveryaddress = $_SESSION['deliveryaddress'];
   <link rel="stylesheet" href="form.css">
 </head>
 
-<body style=" background-image:url('../asserts/img/bg.jpeg'); background-size: cover;">
+<body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid ">
       <a class="navbar-brand" href="#">
@@ -57,6 +57,7 @@ $deliveryaddress = $_SESSION['deliveryaddress'];
           </li>
           
         </ul>
+        <a class="btn btn btn-outline-success" href="./checkout.php" role="button" style="margin-right:15px">Checkout</a>
         <form class="d-flex">
           <button class="btn btn-outline-success" type="button">Logout</button>
         </form>
@@ -66,7 +67,7 @@ $deliveryaddress = $_SESSION['deliveryaddress'];
 
   <div class="container" style=" background:url('../asserts/img/bg.jpeg')no repeat fixed;">
     <div class="row align-items-center">
-      <div class="forms1 col" style="margin-top: 15%;">
+      <div class="forms1 col" style="margin-top: 10%;">
         <form >
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Old Password</label>
@@ -98,7 +99,7 @@ $deliveryaddress = $_SESSION['deliveryaddress'];
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
-      <div class="forms2 col" style="margin-top: 11%;">
+      <div class="forms2 col" style="margin-top: 10%;">
         <form>
           <div class="mb-3">
             <div class="img-box">
