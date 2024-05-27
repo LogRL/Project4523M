@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1:3306
--- 產生時間： 2024-05-17 14:32:37
+-- 產生時間： 2024-05-27 14:20:30
 -- 伺服器版本： 8.0.37
 -- PHP 版本： 8.2.13
 
@@ -18,51 +18,56 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `projectdb`
+-- 資料庫： `project4523mdb`
 --
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `order`
+-- 資料表結構 `dealer`
 --
 
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE IF NOT EXISTS `order` (
-  `order_id` int NOT NULL AUTO_INCREMENT,
-  `sales_manager_id` int DEFAULT NULL,
-  `manager_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `manager_contactnumber` int DEFAULT NULL,
-  `order_date` date NOT NULL,
-  `order_time` date NOT NULL,
-  `delivery_address` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `deliverty_date` date NOT NULL,
-  `partimgage` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `partname` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `Quantity` int NOT NULL,
-  `price` double NOT NULL,
-  `Amount` double DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `shipping_cost` double DEFAULT NULL,
-  `item_id` int NOT NULL,
-  `dealer_id` int NOT NULL,
-  PRIMARY KEY (`order_id`),
-  KEY `item_id_fk` (`item_id`),
-  KEY `sales_manager_id_fk` (`sales_manager_id`),
-  KEY `dealer_id_fk` (`dealer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS `dealer`;
+CREATE TABLE IF NOT EXISTS `dealer` (
+  `dealerID` int NOT NULL,
+  `password` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `dealerName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contactName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contactNumber` int NOT NULL,
+  `faxNumber` int NOT NULL,
+  `deliveryAddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`dealerID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- 已傾印資料表的限制式
+-- 傾印資料表的資料 `dealer`
 --
 
+INSERT INTO `dealer` (`dealerID`, `password`, `dealerName`, `contactName`, `contactNumber`, `faxNumber`, `deliveryAddress`) VALUES
+(1, '001', 'd001', 'KenLau', 54946051, 54946051, 'Chai Wan');
+
+-- --------------------------------------------------------
+
 --
--- 資料表的限制式 `order`
+-- 資料表結構 `salesmanager`
 --
-ALTER TABLE `order`
-  ADD CONSTRAINT `dealer_id_fk` FOREIGN KEY (`dealer_id`) REFERENCES `dealer` (`deal_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `item_id_fk` FOREIGN KEY (`item_id`) REFERENCES `spare` (`item_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `sales_manager_id_fk` FOREIGN KEY (`sales_manager_id`) REFERENCES `manager` (`sales_manager_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+DROP TABLE IF EXISTS `salesmanager`;
+CREATE TABLE IF NOT EXISTS `salesmanager` (
+  `salesManagerID` int NOT NULL,
+  `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `managerName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contactName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contactNumber` int NOT NULL,
+  PRIMARY KEY (`salesManagerID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- 傾印資料表的資料 `salesmanager`
+--
+
+INSERT INTO `salesmanager` (`salesManagerID`, `password`, `managerName`, `contactName`, `contactNumber`) VALUES
+(1, '001', 'sm001', 'Lau King Yuet', 54946051);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
