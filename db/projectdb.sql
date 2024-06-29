@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1:3306
--- 產生時間： 2024-06-29 13:11:20
+-- 產生時間： 2024-06-29 16:36:29
 -- 伺服器版本： 8.0.37
 -- PHP 版本： 8.2.13
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   `price` int NOT NULL,
   `category_id` int NOT NULL,
   PRIMARY KEY (`item_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- 資料表新增資料前，先清除舊資料 `item`
@@ -52,7 +52,8 @@ TRUNCATE TABLE `item`;
 --
 
 INSERT INTO `item` (`item_id`, `item_name`, `item_image`, `item_desc`, `weight`, `quantity`, `price`, `category_id`) VALUES
-(1, 'Sheet Metal 1', '../asserts/img/A-Sheetal Metal/100001', 'Sheetal Metal 1', 0, 2000, 100, 1);
+(1, 'Sheet Metal 1', '../asserts/img/A-Sheet Metal/100001.jpg', 'Sheet Metal 1', 0, 2000, 100, 1),
+(2, 'Sheet Metal 2', '../asserts/img/A-Sheet Metal/100002.jpg', 'Sheet Metal 2', 1, 2500, 9999, 1);
 
 -- --------------------------------------------------------
 
@@ -96,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   `delivery_date` date NOT NULL,
   `deal_id` int NOT NULL,
   `sm_id` int DEFAULT NULL,
+  `order_status` varchar(255) NOT NULL,
   PRIMARY KEY (`order_id`),
   KEY `deal_id` (`deal_id`),
   KEY `sm_id` (`sm_id`)
