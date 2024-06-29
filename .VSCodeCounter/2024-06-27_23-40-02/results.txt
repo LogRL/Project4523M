@@ -1,0 +1,56 @@
+Date : 2024-06-27 23:40:02
+Directory : c:\wamp64\www\Project4523M
+Total : 22 files,  2183 codes, 25 comments, 269 blanks, all 2477 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| PHP      |         12 |      1,477 |          0 |        129 |      1,606 |
+| HTML     |          4 |        461 |          0 |         45 |        506 |
+| CSS      |          4 |        210 |          0 |         78 |        288 |
+| SQL      |          1 |         35 |         25 |         16 |         76 |
+| Python   |          1 |          0 |          0 |          1 |          1 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                           | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                              |         22 |      2,183 |         25 |        269 |      2,477 |
+| . (Files)                                                      |          6 |        374 |          0 |        120 |        494 |
+| asserts                                                        |          1 |          0 |          0 |          2 |          2 |
+| asserts\css                                                    |          1 |          0 |          0 |          2 |          2 |
+| db                                                             |          2 |         46 |         25 |         18 |         89 |
+| dealer                                                         |          6 |      1,003 |          0 |         87 |      1,090 |
+| manager                                                        |          7 |        760 |          0 |         42 |        802 |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                       | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\wamp64\www\Project4523M\api.py                              | Python   |          0 |          0 |          1 |          1 |
+| c:\wamp64\www\Project4523M\asserts\css\style.css               | CSS      |          0 |          0 |          2 |          2 |
+| c:\wamp64\www\Project4523M\db\connet.php                       | PHP      |         11 |          0 |          2 |         13 |
+| c:\wamp64\www\Project4523M\db\order.sql                        | SQL      |         35 |         25 |         16 |         76 |
+| c:\wamp64\www\Project4523M\dealer\checkout.php                 | PHP      |        163 |          0 |         18 |        181 |
+| c:\wamp64\www\Project4523M\dealer\dealer_UpdateInfo.php        | PHP      |        115 |          0 |         17 |        132 |
+| c:\wamp64\www\Project4523M\dealer\dealer_createOrder.php       | PHP      |        495 |          0 |         24 |        519 |
+| c:\wamp64\www\Project4523M\dealer\dealer_home.html             | HTML     |         78 |          0 |          7 |         85 |
+| c:\wamp64\www\Project4523M\dealer\dealer_viewOrder.php         | PHP      |        125 |          0 |         14 |        139 |
+| c:\wamp64\www\Project4523M\dealer\form.css                     | CSS      |         27 |          0 |          7 |         34 |
+| c:\wamp64\www\Project4523M\dealer_login.php                    | PHP      |         30 |          0 |          9 |         39 |
+| c:\wamp64\www\Project4523M\index.html                          | HTML     |        111 |          0 |         30 |        141 |
+| c:\wamp64\www\Project4523M\login.css                           | CSS      |        171 |          0 |         67 |        238 |
+| c:\wamp64\www\Project4523M\manager\manager_delete_Item.php     | PHP      |        104 |          0 |         11 |        115 |
+| c:\wamp64\www\Project4523M\manager\manager_edit_Item.php       | PHP      |         82 |          0 |          2 |         84 |
+| c:\wamp64\www\Project4523M\manager\manager_form.css            | CSS      |         12 |          0 |          2 |         14 |
+| c:\wamp64\www\Project4523M\manager\manager_generate_report.php | PHP      |        116 |          0 |          5 |        121 |
+| c:\wamp64\www\Project4523M\manager\manager_home.html           | HTML     |        234 |          0 |          4 |        238 |
+| c:\wamp64\www\Project4523M\manager\manager_insert_Item.php     | PHP      |        102 |          0 |          8 |        110 |
+| c:\wamp64\www\Project4523M\manager\manager_update_record.php   | PHP      |        110 |          0 |         10 |        120 |
+| c:\wamp64\www\Project4523M\manager_login.php                   | PHP      |         24 |          0 |          9 |         33 |
+| c:\wamp64\www\Project4523M\test.html                           | HTML     |         38 |          0 |          4 |         42 |
+| Total                                                          |          |      2,183 |         25 |        269 |      2,477 |
++----------------------------------------------------------------+----------+------------+------------+------------+------------+

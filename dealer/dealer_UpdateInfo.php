@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$username = $_SESSION['name'];
+$username = $_SESSION['useraccountname'];
 $contactnumber = $_SESSION['contactnumber'];
 $faxnumber = $_SESSION['faxnumber'];
 $deliveryaddress = $_SESSION['deliveryaddress'];
@@ -42,7 +42,7 @@ $deliveryaddress = $_SESSION['deliveryaddress'];
             <a class="nav-link active" href="#">User Info</i></a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            <a class="nav-link dropdown-toggle" href="#" id="<php ?" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
               Order
             </a>

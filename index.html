@@ -31,8 +31,8 @@
             </div>
 
             <div class="input-box">
-                <input type="text" id="dealer_name" placeholder="Account">
-                <input type="password" id="dealer_pw" placeholder="Password">
+                <input type="text" id="login_name" placeholder="Account">
+                <input type="password" id="login_pw" placeholder="Password">
             </div>
 
             <div class="btn-box">
@@ -77,24 +77,26 @@
         }
 
         function dealer_login() {
-            var dealer_name = document.getElementById("dealer_name").value;
-            var dealer_pw = document.getElementById("dealer_pw").value;
+            var login_name = document.getElementById("login_name").value;
+            var ogin_pw = document.getElementById("login_pw").value;
             
 
                     $.ajax({
                         type: "POST",
                         url: "./dealer_login.php",
                         data: {
-                            dealer_name: dealer_name,
-                            dealer_pw: dealer_pw
+                            login_name: login_name,
+                            login_pw: login_pw
                         },
                         success: function (response) {
-                            if(response == "success"){
+                            if(response == "dealer"){
                                 alert("Login Success");
                                 window.location.href = "./dealer/dealer_home.html";
-                            }else{
-                                alert("Login Fail");
+                            }else if(response =="salesmanager"){
+                                alert("Login Success");
+                                window.location.href = "./manager/manager_home.html";
                             }
+                            else{alert("Login Fail");}
                         }
                     });
      

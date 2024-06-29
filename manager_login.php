@@ -11,6 +11,10 @@
         if(mysqli_num_rows($result) != 0)
         {
             echo "success";
+            session_start();
+            $rs = mysqli_fetch_array($result);
+           
+            
         }
         else
         {
