@@ -1,3 +1,9 @@
+<?php
+
+require_once ('../db/connet.php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,462 +61,79 @@
   </nav>
   <div class="container" style="padding-top:5%;">
     <div class="row row-col-3 ">
+      <!-- list of category -->
       <div class="col col-md-3">
         <div class="list-group" id="list-tab" role="tablist">
           <div class="list-outline-item">
             <h3> Categories</h3>
           </div>
-          <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list"
-            href="#list-A" role="tab" aria-controls="list-home">
-            <h5>Sheet Metal</h5>
-          </a>
-          <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-B"
-            role="tab" aria-controls="list-profile">
-            <h5>Major Asssemblies</h5>
-          </a>
-          <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-C"
-            role="tab" aria-controls="list-messages">
-            <h5>Light Components</h5>
-          </a>
-          <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-D"
-            role="tab" aria-controls="list-settings">
-            <h5>Accessories</h5>
-          </a>
+          <?php
+          $sql = "select * from item_category";
+          $result = mysqli_query($conn, $sql);
+          while ($rs = mysqli_fetch_array($result)) {
+            ?>
+
+            <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list"
+              href="#list-<?php echo $rs['category']; ?>" role="tab"
+              aria-controls="home"><?php echo $rs['category']; ?></a>
+
+            <?php
+          }
+          mysqli_free_result($result);
+
+          ?>
+
+
+
         </div>
       </div>
+
+      <!-- card -->
       <div class="col-3 col-md-9">
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="list-A" role="tabpanel" aria-labelledby="list-home-list">
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/A-Sheet Metal/100001.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
+            <?php
+            $sql = "select * from item";
+            $result = mysqli_query($conn, $sql);
+            while ($rs = mysqli_fetch_array($result)) {
 
-                  </div>
-                </div>
-              </div>
-            </div>
+              ?>
 
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/A-Sheet Metal/100002.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
+              <div class="card mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="<?php echo $rs['item_image']?>" class="img-fluid rounded-start"
+                      alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                        additional content. This content is a little bit longer.</p>
+                      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                      <div class="d-grid gap-2 d-md-flex justify-content-md-end"
+                        style="padding-bottom: 15px;padding-right: 15px;">
+                        <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/A-Sheet Metal/100003.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/A-Sheet Metal/100004.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/A-Sheet Metal/100005.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane fade" id="list-B" role="tabpanel" aria-labelledby="list-profile-list">
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/B-Major Assemblies/200001.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/B-Major Assemblies/200002.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/B-Major Assemblies/200003.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/B-Major Assemblies/200004.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/B-Major Assemblies/200005.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane fade" id="list-C" role="tabpanel" aria-labelledby="list-messages-list">
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/C-Light Components/300001.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/C-Light Components/300002.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/C-Light Components/300003.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/C-Light Components/300004.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/C-Light Components/300005.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane fade" id="list-D" role="tabpanel" aria-labelledby="list-settings-list">
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/D-Accessories/400001.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/D-Accessories/400002.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/D-Accessories/400003.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/D-Accessories/400004.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="../asserts/img/sample images/D-Accessories/400005.jpg" class="img-fluid rounded-start"
-                    alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                      additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                      style="padding-bottom: 15px;padding-right: 15px;">
-                      <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              <?php
+            }
+            ?>
           </div>
         </div>
       </div>
+
+
+
     </div>
   </div>
-
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
