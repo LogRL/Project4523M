@@ -14,7 +14,6 @@ body {
 }
 
 body {
-
     overflow-x: hidden;
     display: flex;
 
@@ -79,17 +78,15 @@ span {
 
 
 .pre-box {
-
     width: 50%;
-
     height: 100%;
 
     position: absolute;
 
     left: 0;
-
     top: 0;
     z-index: 99;
+
     border-radius: 4px;
     background-color: #edd4dc;
     box-shadow: 2px 1px 19px rgba(0, 0, 0, .1);
@@ -171,7 +168,6 @@ span {
     display: flex;
 
     flex-direction: column;
-
     align-items: center;
 }
 
@@ -189,9 +185,7 @@ input {
 }
 
 input:focus {
-
-    color: #b0cfe9;
-
+    color: #181818;
 }
 
 
@@ -229,7 +223,6 @@ button:hover {
     user-select: none;
     font-size: 14px;
     color: white;
-
 }
 
 .btn-box p:hover {
