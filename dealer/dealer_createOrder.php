@@ -107,7 +107,8 @@ require_once ('../db/connet.php');
           ?>
 
           <form method="POST" action="">
-            <select name="selectOrder" onchange="this.form.submit()">
+            <select name="selectOrder" class="form-select" aria-label="Default select example"
+              onchange="this.form.submit()">
               <option value="" disabled selected>--select--</option>
               <option value="1">ID(Low to High)</option>
               <option value="2">ID(Highb to Low)</option>
@@ -142,20 +143,24 @@ require_once ('../db/connet.php');
             <div class="tab-pane fade show active" id="list-<?php echo $cate ?>" role="tabpanel"
               aria-labelledby="list-home-list">
               <?php
+         
               $keyword = "";
 
-              if(isset($_POST['selectOrder'])){
+              if (isset($_POST['selectOrder'])) {
                 $country = $_POST['selectOrder'];
-                if($country == 1){
+                if ($country == 1) {
                   $keyword = "order by item_id asc";
-                }else if($country == 2){
+                } else if ($country == 2) {
                   $keyword = "order by item_id desc";
-                }else if($country == 3){
+                } else if ($country == 3) {
                   $keyword = "order by price asc";
-                }else if($country == 4){
+                } else if ($country == 4) {
                   $keyword = "order by price desc";
                 }
+                
               }
+              
+
               $sql2 = "select * from item,item_category where item.category_id = item_category.categroy_id and item_category.category = '$cate'" . $keyword;
               $result2 = mysqli_query($conn, $sql2);
               while ($rs2 = mysqli_fetch_array($result2)) {
@@ -187,7 +192,7 @@ require_once ('../db/connet.php');
             </div>
             <?php
           }
-    
+
           ?>
         </div>
       </div>
