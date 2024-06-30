@@ -11,16 +11,15 @@
         $partQty = $_POST['inputQuantity'];
         $partPrice = $_POST['inputPrice'];
 
-        $sql = "INSERT INTO item (name, email) VALUES ('$name', '$email')";
+        $sql = "INSERT INTO item (item_name, item_image, item_desc, weight, quantity, price, category_id, product_id) VALUES ('$partName', '$imgFile', '$partDescription', '$partWeight', '$partQty', '$partPrice', '$partCategory', '$partNum')";
         if (mysqli_query($conn, $sql)) {
             echo "Data inserted successfully";
         } else {
             echo "Error: " . mysqli_error($conn);
         }
-
         // Close the database connection
         mysqli_close($conn);
-}
+    }
 ?>
 
 <!DOCTYPE html>
