@@ -127,7 +127,7 @@ require_once ('../db/connet.php');
                   <div class="col-md-8">
                     <div class="card-body">
                       <h5 class="card-title"><?php echo $rs2['item_name']?></h5>
-                      <p class="card-text"><?php echo $rs2['item_desc']?></p>
+                      <p class="card-text"><?php echo $rs2['item_name']?></p>
                       <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                       <div class="d-grid gap-2 d-md-flex justify-content-md-end"
                         style="padding-bottom: 15px;padding-right: 15px;">

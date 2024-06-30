@@ -1,13 +1,10 @@
 <?php
     require_once('./db/connet.php');
 
-
     $dealer_name = $_POST['dealer_name'];
     $dealer_pw = $_POST['dealer_pw'];
 
-
-
-    $sql = "SELECT * FROM dealer WHERE dealerName = '$dealer_name' AND password = '$dealer_pw'";
+    $sql = "SELECT * FROM user WHERE deal_name = '$dealer_name' AND pwd = '$dealer_pw'";
 
     if($result = mysqli_query($conn, $sql))
     {
@@ -15,25 +12,17 @@
         {
             echo "success";
             session_start();
-            $_SESSION['userid'] = $_POST['dealer_name'];
-            $_SESSION['password'] = $_POST['dealer_pw'];
-            $rs=mysqli_fetch_array($result);
-            $_SESSION['name'] = $rs['contactName'];
-            $_SESSION['contactnumber'] = $rs['contactNumber'];
-            $_SESSION['faxnumber'] = $rs['faxNumber'];
-            $_SESSION['deliveryaddress'] = $rs['deliveryAddress'];
+            $rs = mysqli_fetch_array($result);
         }
         else
         {
-            echo "false";
+            echo "wrong account name or password";
         }
-
     }
     else
     {
-        echo "false";
+        echo "database connet error";
     }
     
-
     mysqli_close($conn);
 ?>
