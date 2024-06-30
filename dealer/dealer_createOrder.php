@@ -17,6 +17,24 @@ require_once ('../db/connet.php');
   <title>Dealer Create Order</title>
 </head>
 
+<script>
+
+
+  function setORder() {
+    var x = document.getElementById("selectOrder").value;
+    keyword = "";
+    if (x == 1) {
+      keyword = "order by item_id asc";
+    } else if (x == 2) {
+      keyword = "order by item_id desc";
+    } else if (x == 3) {
+      keyword = "order by price asc";
+    } else if (x == 4) {
+      keyword = "order by price desc";
+    }
+  }
+</script>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid ">
@@ -60,11 +78,11 @@ require_once ('../db/connet.php');
     </div>
   </nav>
   <div class="container" style="padding-top:5%;">
-  <div class="row">
-    <div class="col-sm-8">col-sm-8</div>
-    <div class="col-sm-4">col-sm-4</div>
-  </div>
- 
+    <div class="row">
+      <div class="col-sm-8">col-sm-8</div>
+      <div class="col-sm-4">col-sm-4</div>
+    </div>
+
     <div class="row row-col-3 ">
       <!-- list of category -->
       <div class="col col-md-3">
@@ -88,61 +106,88 @@ require_once ('../db/connet.php');
 
           ?>
 
+          <form method="POST" action="">
+            <select name="selectOrder" onchange="this.form.submit()">
+              <option value="" disabled selected>--select--</option>
+              <option value="1">ID(Low to High)</option>
+              <option value="2">ID(Highb to Low)</option>
+              <option value="3">Price(Low to High)</option>
+              <option value="4">Price(High to Low)</option>
+            </select>
+          </form>
+
 
 
         </div>
       </div>
-      
+
       <!-- card -->
-      <?php 
-       //create a null array call category to store the category
-        $category = array();
-        $sql = "select * from item_category";
-        $result = mysqli_query($conn, $sql);
-        while($rs = mysqli_fetch_array($result)){
-          array_push($category, $rs['category']);
-        }
-        mysqli_free_result($result);
-       
-       ?>
+      <?php
+      //create a null array call category to store the category
+      $category = array();
+      $sql = "select * from item_category";
+      $result = mysqli_query($conn, $sql);
+      while ($rs = mysqli_fetch_array($result)) {
+        array_push($category, $rs['category']);
+      }
+      mysqli_free_result($result);
+
+      ?>
       <div class="col-3 col-md-9">
         <div class="tab-content" id="nav-tabContent">
-          <?php 
-           foreach ($category as $cate){
-          ?>
-          <div class="tab-pane fade show active" id="list-<?php echo $cate ?>" role="tabpanel" aria-labelledby="list-home-list">
-            <?php
-            $sql2 = "select * from item,item_category where item.category_id = item_category.categroy_id and item_category.category = '$cate'";
-            $result2 = mysqli_query($conn, $sql2);
-            while ($rs2 = mysqli_fetch_array($result2)) {
+          <?php
+          foreach ($category as $cate) {
+            ?>
+            <h1><?php echo $cate ?></h1>
+            <div class="tab-pane fade show active" id="list-<?php echo $cate ?>" role="tabpanel"
+              aria-labelledby="list-home-list">
+              <?php
+              $keyword = "";
 
-              ?>
+              if(isset($_POST['selectOrder'])){
+                $country = $_POST['selectOrder'];
+                if($country == 1){
+                  $keyword = "order by item_id asc";
+                }else if($country == 2){
+                  $keyword = "order by item_id desc";
+                }else if($country == 3){
+                  $keyword = "order by price asc";
+                }else if($country == 4){
+                  $keyword = "order by price desc";
+                }
+              }
+              $sql2 = "select * from item,item_category where item.category_id = item_category.categroy_id and item_category.category = '$cate'" . $keyword;
+              $result2 = mysqli_query($conn, $sql2);
+              while ($rs2 = mysqli_fetch_array($result2)) {
 
-              <div class="card mb-3">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="<?php echo $rs2['item_image']?>" class="img-fluid rounded-start"
-                      alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title"><?php echo $rs2['item_name']?></h5>
-                      <p class="card-text"><?php echo $rs2['item_name']?></p>
-                      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                      <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                        style="padding-bottom: 15px;padding-right: 15px;">
-                        <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
+                ?>
+
+                <div class="card mb-3">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="<?php echo $rs2['item_image'] ?>" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title"><?php echo $rs2['item_name'] ?></h5>
+                        <p class="card-text"><?php echo $rs2['item_name'] ?></p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end"
+                          style="padding-bottom: 15px;padding-right: 15px;">
+                          <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <?php
-            }mysqli_free_result($result2);
-            ?>
-          </div>
-          <?php
+                <?php
+              }
+              mysqli_free_result($result2);
+              ?>
+            </div>
+            <?php
           }
+    
           ?>
         </div>
       </div>
