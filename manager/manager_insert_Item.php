@@ -1,7 +1,27 @@
 <?php
+    require_once '../db/connet.php';
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $partNum = $_POST['inputPartNumber'];
+        $partCategory = $_POST['inputpartCategory'];
+        $partName = $_POST['inputPartname'];
+        $imgFile = $_POST['imgFile'];
+        $partDescription = $_POST['inputPartdescription'];
+        $partWeight = $_POST['inputWeight'];
+        $partQty = $_POST['inputQuantity'];
+        $partPrice = $_POST['inputPrice'];
+
+        $sql = "INSERT INTO item (name, email) VALUES ('$name', '$email')";
+        if (mysqli_query($conn, $sql)) {
+            echo "Data inserted successfully";
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
+
+        // Close the database connection
+        mysqli_close($conn);
+}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +34,6 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./manager_form.css">
-
 </head>
 
 <body>
@@ -64,7 +83,7 @@
     <div class="container">
         <div class="row">
             <div class=" forms1 col">
-                <form>
+                <form method="POST" action="manager_insert_Item.php" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="inputPartNumber" class="form-label">Part Number</label>
                         <input type="text" class="form-control" id="inputPartNumber">
