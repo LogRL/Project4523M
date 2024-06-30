@@ -1,10 +1,10 @@
 <?php
     require_once('./db/connet.php');
 
-    $dealer_name = $_POST['dealer_name'];
+    $deal_name = $_POST['deal_name'];
     $dealer_pw = $_POST['dealer_pw'];
 
-    $sql = "SELECT * FROM user WHERE deal_name = '$dealer_name' AND pwd = '$dealer_pw'";
+    $sql = "SELECT * FROM user WHERE deal_name = '$deal_name' AND pwd = '$dealer_pw'";
 
     if($result = mysqli_query($conn, $sql))
     {
@@ -12,7 +12,11 @@
         {
             echo "success";
             session_start();
+            $_SESSION['deal_name'] = $deal_name;
+
             $rs = mysqli_fetch_array($result);
+            
+            
         }
         else
         {

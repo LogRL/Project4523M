@@ -74,14 +74,14 @@
         }
 
         function dealer_login() {
-            var dealer_name = document.getElementById("dealer_name").value;
+            var deal_name = document.getElementById("dealer_name").value;
             var dealer_pw = document.getElementById("dealer_pw").value;
             
             $.ajax({
                 type: "Post",
                 url: "./dealer_login.php",
                 data: {
-                    dealer_name: dealer_name,
+                    deal_name: deal_name,
                     dealer_pw: dealer_pw
                 },
                 success: function (response) {

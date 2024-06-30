@@ -1,3 +1,12 @@
+<?php 
+    require_once('../db/connet.php');
+    
+    session_start();
+
+
+?>
+
+
 <!doctype html>
 <html lang="en">
 
@@ -68,13 +77,7 @@
                     <span class="badge badge-secondary badge-pill">3</span>
                 </h4>
                 <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0">A-Sheet Metal</h6>
-                            <small class="text-muted">Brief description</small>
-                        </div>
-                        <span class="text-muted">$999</span>
-                    </li>
+                    
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
                             <h6 class="my-0">Major Assemblies</h6>
@@ -118,25 +121,25 @@
                         <table class="table">
                             <tbody>
                                 <tr >
-                                    <td><img src="../asserts/img/sample images/A-Sheet Metal/100001.jpg" style="width:50px; height:50px;"></td>
+                                    <td><img src="../asserts/img/A-Sheet Metal/100001.jpg" style="width:50px; height:50px;"></td>
                                     <td class="align-middle ">A-Sheet Metal<br>100001</td>
                                     <td class="align-middle"><input type="number" id="tentacles" name="tentacles" min="1" max="100" value="1" /></td>
                                     <td class="align-middle">$999</td>
                                 </tr>
                                 <tr>
-                                    <td><img src="../asserts/img/sample images/B-Major Assemblies/200001.jpg" style="width:50px; height:50px;"></td>
+                                    <td><img src="../asserts/img/B-Major Assemblies/200001.jpg" style="width:50px; height:50px;"></td>
                                     <td class="align-middle">Major Assemblies<br>200001</td>
                                     <td class="align-middle"><input type="number" id="tentacles" name="tentacles" min="1" max="100" value="1" /></td>
                                     <td class="align-middle">$999</td>
                                 </tr>
                                 <tr>
-                                    <td><img src="..\asserts\img\sample images\C-Light Components\300001.jpg" style="width:50px; height:50px;"></td>
+                                    <td><img src="..\asserts\img\C-Light Components\300001.jpg" style="width:50px; height:50px;"></td>
                                     <td class="align-middle">Light Components<br>300001</td>
                                     <td class="align-middle"><input type="number" id="tentacles" name="tentacles" min="1" max="100" value="1" /></td>
                                     <td class="align-middle">$999</td>
                                 </tr>
                                 <tr>
-                                <td><img src="..\asserts\img\sample images\D-Accessories\400001.jpg" style="width:50px; height:50px;"></td>
+                                <td><img src="..\asserts\img\D-Accessories\400001.jpg" style="width:50px; height:50px;"></td>
                                     <td class="align-middle">Accessories<br>400001</td>
                                     <td class="align-middle"><input type="number" id="tentacles" name="tentacles" min="1" max="100" value="1" /></td>
                                     <td class="align-middle">$999</td>

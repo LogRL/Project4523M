@@ -2,7 +2,14 @@
 
 require_once ('../db/connet.php');
 
+
+session_start();
+$username = $_SESSION['deal_name'];
+
+
+ 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -107,7 +114,7 @@ require_once ('../db/connet.php');
           ?>
 
           <form method="POST" action="">
-            <select name="selectOrder" class="form-select" aria-label="Default select example"
+            <select name="selectOrder" class="form-select mt-3" aria-label="Default select example"
               onchange="this.form.submit()">
               <option value="" disabled selected>--select--</option>
               <option value="1">ID(Low to High)</option>
@@ -143,7 +150,7 @@ require_once ('../db/connet.php');
             <div class="tab-pane fade show active" id="list-<?php echo $cate ?>" role="tabpanel"
               aria-labelledby="list-home-list">
               <?php
-         
+
               $keyword = "";
 
               if (isset($_POST['selectOrder'])) {
@@ -157,9 +164,9 @@ require_once ('../db/connet.php');
                 } else if ($country == 4) {
                   $keyword = "order by price desc";
                 }
-                
+
               }
-              
+
 
               $sql2 = "select * from item,item_category where item.category_id = item_category.categroy_id and item_category.category = '$cate'" . $keyword;
               $result2 = mysqli_query($conn, $sql2);
@@ -177,10 +184,15 @@ require_once ('../db/connet.php');
                         <h5 class="card-title"><?php echo $rs2['item_name'] ?></h5>
                         <p class="card-text"><?php echo $rs2['item_name'] ?></p>
                         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end"
-                          style="padding-bottom: 15px;padding-right: 15px;">
-                          <button class="btn btn-primary me-md-2" type="button">Add to cart</button>
-                        </div>
+                        <form method="GET" action="./dealer_createOrder.php">
+                          <input type="hidden" name="item_id" value="<?php echo $rs2['item_id'] ?>">
+                          <div class="d-grid gap-2 d-md-flex justify-content-md-end"
+                            style="padding-bottom: 15px;padding-right: 15px;">
+                            <input type="number" class="form-control" name="quantity" value="1" min="1">
+                            <button type="submit" name="add_to_cart" class="btn btn-primary me-md-2" type="button">Add to
+                              cart</button>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
@@ -201,6 +213,10 @@ require_once ('../db/connet.php');
 
     </div>
   </div>
+
+<?php 
+  
+?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
