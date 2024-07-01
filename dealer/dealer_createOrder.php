@@ -7,7 +7,39 @@ session_start();
 $username = $_SESSION['deal_name'];
 
 
- 
+if(isset($_GET['add_to_cart'])){
+  if(isset($_SESSION['cart'])){
+    $session_array_id = array_column($_SESSION['cart'], "item_id");
+    if(!in_array($_GET['item_id'], $session_array_id)){
+      // Item does not exist, add new item
+      $session_array = array(
+        "item_id" => $_GET['item_id'],
+        "item_name" => $_GET['item_name'],
+        "price" => $_GET['price'],
+        "quantity" => $_GET['quantity']
+      );
+      $_SESSION['cart'][] = $session_array;
+    } else {
+      // Item exists, update quantity
+      foreach($_SESSION['cart'] as $key => $value){
+        if($value["item_id"] == $_GET['item_id']){
+          // Update quantity
+          $_SESSION['cart'][$key]['quantity'] += $_GET['quantity'];
+          break; // Stop the loop after updating
+        }
+      }
+    }
+  } else {
+    // Cart does not exist, create new cart and add item
+    $session_array = array(
+      "item_id" => $_GET['item_id'],
+      "item_name" => $_GET['item_name'],
+      "price" => $_GET['price'],
+      "quantity" => $_GET['quantity']
+    );
+    $_SESSION['cart'][] = $session_array;
+  }
+}
 ?>
 
 
@@ -76,11 +108,13 @@ $username = $_SESSION['deal_name'];
           </li>
 
         </ul>
+     
         <a class="btn btn btn-outline-success" href="./checkout.php" role="button"
           style="margin-right:15px">Checkout</a>
-        <form class="d-flex">
-          <button class="btn btn-outline-success" type="button">Logout</button>
-        </form>
+     
+ 
+          <button class="btn btn-outline-success"  type="button">Logout</button>
+  
       </div>
     </div>
   </nav>
@@ -181,14 +215,17 @@ $username = $_SESSION['deal_name'];
                     </div>
                     <div class="col-md-8">
                       <div class="card-body">
-                        <h5 class="card-title"><?php echo $rs2['item_name'] ?></h5>
-                        <p class="card-text"><?php echo $rs2['item_name'] ?></p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
                         <form method="GET" action="./dealer_createOrder.php">
+                          <h5 class="card-title" name="item_name"><?php echo $rs2['item_name'] ?></h5>
+                          <p class="card-text" name="item_desc"><?php echo $rs2['item_desc'] ?></p>
+                          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                          <input type="hidden" name="item_name" value="<?php echo $rs2['item_name'] ?>">
                           <input type="hidden" name="item_id" value="<?php echo $rs2['item_id'] ?>">
+                          <input type="hidden" name="price" value="<?php echo $rs2['price'] ?>">
                           <div class="d-grid gap-2 d-md-flex justify-content-md-end"
                             style="padding-bottom: 15px;padding-right: 15px;">
-                            <input type="number" class="form-control" name="quantity" value="1" min="1">
+                            <input type="number" class="form-control" name="quantity" value ="1" min="1">
                             <button type="submit" name="add_to_cart" class="btn btn-primary me-md-2" type="button">Add to
                               cart</button>
                           </div>
@@ -213,10 +250,6 @@ $username = $_SESSION['deal_name'];
 
     </div>
   </div>
-
-<?php 
-  
-?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
