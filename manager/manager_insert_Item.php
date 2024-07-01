@@ -1,6 +1,21 @@
 <?php
     require_once '../db/connet.php';
 
+    $sql = "SELECT category FROM item_category";
+    $result = mysqli_query($conn, $sql);
+
+    // Check if the query was successful
+    if ($result) {
+        // Initialize an empty array to store the categories
+        $categories = [];
+        // Fetch each category from the result set
+        while ($row = mysqli_fetch_assoc($result)) {
+            $categories[] = $row['category'];
+        }
+    } else {
+        echo 'Error fetching categories: ' . mysqli_error($conn);
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $partNum = $_POST['inputPartNumber'];
         $partCategory = $_POST['inputpartCategory'];
@@ -11,7 +26,7 @@
         $partQty = $_POST['inputQuantity'];
         $partPrice = $_POST['inputPrice'];
 
-        $sql = "INSERT INTO item (item_name, item_image, item_desc, weight, quantity, price, category_id, product_id) VALUES ('$partName', '$imgFile', '$partDescription', '$partWeight', '$partQty', '$partPrice', '$partCategory', '$partNum')";
+        $sql = "INSERT INTO item (item_id, item_name, item_image, item_desc, weight, quantity, price, category_id, product_id) VALUES (NULL, '$partName', '$imgFile', '$partDescription', '$partWeight', '$partQty', '$partPrice', '$partCategory', '$partNum')";
         if (mysqli_query($conn, $sql)) {
             echo "Data inserted successfully";
         } else {
@@ -89,7 +104,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="partCategory" class="form-label">Part Category</label>
-                        <input type="text" class="form-control" id="inputpartCategory">
+                        <select class="form-select" id="inputpartCategory">
+                            <option selected>Choose...</option>
+                            <?php
+                                foreach ($categories as $key => $category) {
+                                    $mykey = $key + 1;
+                                    echo "<option value='$mykey'>$category</option>";
+                                }
+                            ?>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="inputPartname" class="form-label">Part Name</label>
