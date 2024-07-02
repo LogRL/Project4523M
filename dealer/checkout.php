@@ -26,6 +26,7 @@ $session_total_price = 0;
 </head>
 
 <body class="bg-light">
+  
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container-fluid ">
             <a class="navbar-brand" href="#">
@@ -122,38 +123,27 @@ $session_total_price = 0;
                     <div class="row">
                         <table class="table">
                             <tbody>
-                                <tr>
-                                    <td><img src="../asserts/img/A-Sheet Metal/100001.jpg"
-                                            style="width:50px; height:50px;"></td>
-                                    <td class="align-middle ">A-Sheet Metal<br>100001</td>
-                                    <td class="align-middle"><input type="number" id="tentacles" name="tentacles"
-                                            min="1" max="100" value="1" /></td>
-                                    <td class="align-middle">$999</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="../asserts/img/B-Major Assemblies/200001.jpg"
-                                            style="width:50px; height:50px;"></td>
-                                    <td class="align-middle">Major Assemblies<br>200001</td>
-                                    <td class="align-middle"><input type="number" id="tentacles" name="tentacles"
-                                            min="1" max="100" value="1" /></td>
-                                    <td class="align-middle">$999</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="..\asserts\img\C-Light Components\300001.jpg"
-                                            style="width:50px; height:50px;"></td>
-                                    <td class="align-middle">Light Components<br>300001</td>
-                                    <td class="align-middle"><input type="number" id="tentacles" name="tentacles"
-                                            min="1" max="100" value="1" /></td>
-                                    <td class="align-middle">$999</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="..\asserts\img\D-Accessories\400001.jpg"
-                                            style="width:50px; height:50px;"></td>
-                                    <td class="align-middle">Accessories<br>400001</td>
-                                    <td class="align-middle"><input type="number" id="tentacles" name="tentacles"
-                                            min="1" max="100" value="1" /></td>
-                                    <td class="align-middle">$999</td>
-                                </tr>
+                               
+                                <?php 
+                                    if(!empty($_SESSION['cart'])){
+                                        foreach($_SESSION['cart'] as $key => $value){
+                                            echo "<tr>";
+                                            echo "<td><img src=\"".$value['item_image']."\" style='width:50px; height:50px;'></td>";
+                                            echo " <td class=\"align-middle\">".$value['item_name']."<br>".$value['full_product_id']."</td>";
+                                            echo "<td class=\"align-middle\"><input type=\"number\" id=\"tentacles\" name=\tentacles\"
+                                            min=\"1\"  value=".$value['quantity']." /></td>";
+                                            echo "<td class=\"align-middle\">$".$value['price'] * $value['quantity']."</td>";
+                                            echo "<td> 
+                                            <a href='checkout.php?action=remove&id=".$value['item_id']."'> 
+                                            <button type=\"button\" class=\"btn btn-danger\">Remove</button>
+                                            </a>
+                                            </td>"
+                                            ;
+                                        }
+                                    }
+                                    
+                                ?>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -184,7 +174,20 @@ $session_total_price = 0;
             </div>
         </div>
     </div>
+    <?php
+    if(isset($_GET['action'])){
+        if($_GET['action'] == 'remove'){
+            foreach($_SESSION['cart'] as $key => $value){
+                if($value['item_id'] == $_GET['id']){
+                    unset($_SESSION['cart'][$key]);
+                    echo "<script>window.location = 'checkout.php'</script>";
+                }
+            }
+        }
+    }
 
+
+?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
