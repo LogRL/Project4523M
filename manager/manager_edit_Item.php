@@ -1,3 +1,9 @@
+<?php
+    require_once '../db/connet.php';
+
+    
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

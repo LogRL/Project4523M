@@ -111,7 +111,8 @@ INSERT INTO `item_category` (`categroy_id`, `category`) VALUES
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE IF NOT EXISTS `order` (
   `order_id` int NOT NULL AUTO_INCREMENT,
-  `order_datetime` date NOT NULL,
+  `order_date` date NOT NULL,
+  `order_time` time NOT NULL,
   `address` varchar(255) NOT NULL,
   `delivery_date` date NOT NULL,
   `deal_id` int NOT NULL,
@@ -120,13 +121,22 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`order_id`),
   KEY `deal_id` (`deal_id`),
   KEY `sm_id` (`sm_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- 資料表新增資料前，先清除舊資料 `order`
 --
 
 TRUNCATE TABLE `order`;
+
+--
+-- 傾印資料表的資料 `order`
+--
+
+INSERT INTO `order` (`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `sm_id`, `order_status`) VALUES
+(1, '2024-06-27', '21:25:15', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-06-29', 1, 1, 'Packing'),
+(2, '2024-06-30', '16:18:09', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-02', 1, 1, 'Packing'),
+(3, '2024-07-02', '10:34:23', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-04', 1, 1, 'Packing');
 -- --------------------------------------------------------
 
 --
