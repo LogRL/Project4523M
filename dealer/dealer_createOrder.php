@@ -67,7 +67,11 @@ if (isset($_GET['add_to_cart'])) {
 <script>
   function linktotag(category) {
     //go to the id place
-    window.location.href = "#list-" + category;
+    if(category == "home"){
+      window.location.href = "dealer_createOrder.php";
+    }else{
+      window.location.href = "#list-" + category;
+    }
   }
 
   function setORder() {
@@ -139,6 +143,7 @@ if (isset($_GET['add_to_cart'])) {
           <div class="list-outline-item">
             <h3> Categories</h3>
           </div>
+          <a class = "list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="home" onclick="linktotag('home')">All</a>
           <?php
           $sql = "select * from item_category";
           $result = mysqli_query($conn, $sql);
@@ -268,7 +273,7 @@ if (isset($_GET['add_to_cart'])) {
     </div>
   </div>
 
-  <?php var_dump($_SESSION['cart']) ?>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
