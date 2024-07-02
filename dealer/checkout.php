@@ -3,7 +3,7 @@ require_once ('../db/connet.php');
 
 session_start();
 
-
+$session_total_price = 0;
 ?>
 
 
@@ -84,32 +84,39 @@ session_start();
                     <?php
                     if (!empty($_SESSION['cart'])) {
                         foreach ($_SESSION['cart'] as $key => $value) {
-                            $total_price = 0;
+                            $session_total_price = 0;
                             ?>
                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                 <div>
                                     <h6 class="my-0"><?php echo $value['item_name'] ?></h6>
-                                    <small class="text-muted"><?php echo "Quantity: ". $value['quantity'] ?></small>
+                                    <small class="text-muted"><?php echo "Quantity: " . $value['quantity'] ?></small>
                                 </div>
                                 <span
                                     class="text-muted"><?php echo "$" . number_format($value['price'] * $value['quantity']) ?></span>
                             </li>
-                            
+
                             <?php
-                            $total_price += $value['price'] * $value['quantity'];
+                            $session_total_price += $value['price'] * $value['quantity'];
                         }
+                    } else {
+                        echo "<h1>Cart is empty</h1>";
                     }
                     ?>
-                    </ul>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (HKD)</span>
-                        <strong>$<?php echo $total_price?></strong>
-                    </li>
+                </ul>
+                <li class="list-group-item d-flex justify-content-between">
+
+                    <strong><?php if ($session_total_price == 0) {
+
+                    } else {
+                        echo "<span>Total (HKD)</span>";
+                        echo "$" . number_format($session_total_price);
+
+                    } ?></strong>
+                </li>
                 </ul>
 
             </div>
-            <div class="col-md-8 order-md-1" style="
-    margin-top: 25px;">
+            <div class="col-md-8 order-md-1" style="margin-top: 25px;">
                 <h4 class="mb-3"> Smart & Luxury Motor Company</h4>
                 <form class="needs-validation" novalidate>
                     <div class="row">
