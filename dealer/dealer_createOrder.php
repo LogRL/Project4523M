@@ -61,12 +61,14 @@ if (isset($_GET['add_to_cart'])) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="../asserts/css/style.css">
   <title>Dealer Create Order</title>
 </head>
 
 <script>
-
+  function linktotag(category) {
+    //go to the id place
+    window.location.href = "#list-" + category;
+  }
 
   function setORder() {
     var x = document.getElementById("selectOrder").value;
@@ -145,7 +147,7 @@ if (isset($_GET['add_to_cart'])) {
 
             <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list"
               href="#list-<?php echo $rs['category']; ?>" role="tab"
-              aria-controls="home"><?php echo $rs['category']; ?></a>
+              aria-controls="home" onclick="linktotag('<?php echo $rs['category']; ?>')"><?php echo $rs['category']; ?></a>
 
             <?php
           }
@@ -265,6 +267,7 @@ if (isset($_GET['add_to_cart'])) {
 
     </div>
   </div>
+
   <?php var_dump($_SESSION['cart']) ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
