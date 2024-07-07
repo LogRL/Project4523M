@@ -1,6 +1,10 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
+
 
 @app.route('/ship_cost_api/<mode>/<value>', methods=['GET'])
 def calculate_shipping_cost(mode, value):
