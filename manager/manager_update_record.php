@@ -1,37 +1,26 @@
 <?php
 require_once('../db/connet.php');
 
-$query = "SELECT sm_id, contact_name, contact_num FROM sales_manager";
-$result = mysqli_query($conn, $query);
+$sql = "SELECT order_id, order_date, order_time, address, delivery_date, order_status, sales_manager.sm_id, sales_manager.contact_name, sales_manager.contact_num FROM `order`, `sales_manager`;";
+$result = mysqli_query($conn, $sql);
 
 if ($result) {
   while ($rs = mysqli_fetch_assoc($result)) {
-    $smId = $rs['sm_id'];
-    $contact_name = $rs['contact_name'];
-    $contact_num = $rs['contact_num'];
-    // ... process other columns as needed
-  }
-} else {
-  echo "Error: " . mysqli_error($conn);
-}
-
-$query = "SELECT * FROM `order`";
-$result = mysqli_query($conn, $query);
-
-if ($result) {
-  while ($row = mysqli_fetch_assoc($result)) {
-    $orderId = $row['order_id'];
-    $orderDateTime = $row['order_date_time'];
-    $deliveryAddress = $row['delivery_address'];
-    $deliveryDate = $row['delivery_date'];
-    $orderStatus = $row['order_status'];
+    $orderId[] = $rs['order_id'];
+    $smId[] = $rs['sm_id'];
+    $contactName[] = $rs['contact_name'];
+    $contactNum[] = $rs['contact_num'];
+    $orderDate[] = $rs['order_date'];
+    $orderTime[] = $rs['order_time'];
+    $address[] = $rs['address'];
+    $deliveryDate[] = $rs['delivery_date'];
+    $orderStatus[] = $rs['order_status'];
     // ... process other columns as needed
   }
 } else {
   echo "Error: " . mysqli_error($conn);
 }
 mysqli_close($conn);
-
 ?>
 
 <!DOCTYPE html>
@@ -85,23 +74,22 @@ mysqli_close($conn);
       </div>
     </div>
   </nav>
-
+  <?php foreach($orderId as $key => $orderId): $count = $key + 1 ?> 
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
-
       <button class="accordion-button collapsed  " type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        <div>
-          Order: <?php echo $orderId ?><br>
-          Manager ID:<?php echo $smId ?><br>
-          Manager's Contact Name:Manager'sContactName<br>
-          Manager's Contact Number:Manager'sContactNumber<br>
-          Order Date & Time:OrderDateTime<br>
-          Delivery Address:DeliveryAddress<br>
-          Delivery Date:DeliveryDate<br>
-          Order Status:OrderStatus<br>
+        <div><br>
+          Order: <?php echo "$count"?> <br>
+          Manager ID: <?php echo"$smId[$key]"?><br>
+          Manager's Contact Name: <?php echo"$contactName[$key]"?><br>
+          Manager's Contact Number: <?php echo"$contactNum[$key]"?><br>
+          Order Date: <?php echo"$orderDate[$key]"?><br>
+          Order Time: <?php echo"$orderTime[$key]"?><br>
+          Delivery Address: <?php echo"$address[$key]"?><br>
+          Delivery Date: <?php echo"$deliveryDate[$key]"?><br>
+          Order Status: <?php echo"$orderStatus[$key]"?><br><br>
         </div>
       </button>
-
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
       <table class="table table-striped">
@@ -140,7 +128,7 @@ mysqli_close($conn);
       </div>
     </div>
   </div>
+  <?php endforeach;?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 </html>
