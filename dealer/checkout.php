@@ -8,7 +8,6 @@ $total_price = 0;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['create_order'])) {
-        // 获取表单数据
         $shippingMethod = $_POST['shippingmethod'];
         $totalWeight = $_POST['total_weight'];
         $totalCount = $_POST['total_count'];
@@ -16,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $shippingCost = $_POST['shipping_cost'];
         $totalPrice = $_POST['total_price'];
 
-        // 打印表单数据
         echo "Shipping method: " . $shippingMethod . "<br>";
         echo "Shipping cost: " . $shippingCost . "<br>";
         echo "Total price: " . $totalPrice . "<br>";
@@ -24,14 +22,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Total count: " . $totalCount . "<br>";
         echo "Subtotal price: " . $subtotalPrice . "<br>";
         echo "<br>";
-        
-        // 打印购物车中的产品信息
-        foreach ($_SESSION['cart'] as $key => $value) {
-            echo "Item ID: " . $value['item_id'] . "<br>";
-            echo "Quantity: " . $value['quantity'] . "<br>";
-            echo "Price: " . $value['price'] . "<br>";
-            echo "<br>";
+
+        // table column have order_date order_time address delivery_date deal_id sm_id order_status,sm will be null get the address from dealer table first
+        $addresssql = "SELECT address FROM user WHERE deal_id = ".$_SESSION['deal_id'];
+        $addressresult = mysqli_query($conn, $addresssql);
+        $addressrow = mysqli_fetch_assoc($addressresult);
+        $address = $addressrow['address'];
+        date_default_timezone_set('Asia/Hong_Kong');
+        $order_date = date("Y-m-d");
+        $order_time = date("H:i:s");
+        echo "Order date: " . $order_date . "<br>";
+        echo "Order time: " . $order_time . "<br>";
+        echo "Address: " . $address . "<br>";
+        $expected_delivery_date = date('Y-m-d', strtotime($order_date. ' + 7 days'));
+        $create_order_sql = "INSERT INTO `order` (order_date, order_time, address, delivery_date, deal_id,order_status,total_price,shipping_cost,shipping_method) VALUES ('$order_date', '$order_time', '$address', '$expected_delivery_date', ".$_SESSION['deal_id'].", 'Pending', $totalPrice, $shippingCost, '$shippingMethod')";
+        if (mysqli_query($conn, $create_order_sql)) {
+            echo "Order created successfully<br>";
+            $order_id = mysqli_insert_id($conn);
+            echo "Order ID: " . $order_id . "<br>";
+            foreach ($_SESSION['cart'] as $key => $value) {
+                $item_id = $value['item_id'];
+                $quantity = $value['quantity'];
+                $price = $value['price'];
+                $create_order_detail_sql = "INSERT INTO order_item (order_id, item_id, quantity) VALUES ($order_id, $item_id, $quantity)";
+                if (mysqli_query($conn, $create_order_detail_sql)) {
+                    echo '<script>console.log("Order created successfully");</script>';
+                } else {
+                    //user console.log to print out the error message
+                    echo '<script>console.log("Error: ' . $create_order_detail_sql . '<br>' . mysqli_error($conn) . '");</script>';
+                }
+            }
+            unset($_SESSION['cart']);
+        } else {
+            //use console.log to print out the error message
+            echo '<script>console.log("Error: ' . $create_order_sql . '<br>' . mysqli_error($conn) . '");</script>';
         }
+
+        
+
+        
+ 
     }
 }
 ?>
@@ -72,15 +102,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     const subtotalPrice = formData.get('subtotal_price');
                     const totalPrice = parseFloat(subtotalPrice) + parseFloat(shippingCost);
 
-                    // 设置运费和总价到隐藏输入字段
+                    //set the shipping cost and totalprice to hidden tag
                     document.getElementById('hidden-shipping-cost').value = shippingCost;
                     document.getElementById('hidden-total-price').value = totalPrice;
 
-                    // 更新显示的运费和总价
+                    //update shipping cost and total price
                     document.getElementById('shipping-cost').textContent = `$${shippingCost}`;
                     document.getElementById('total-price').textContent = `$${totalPrice}`;
 
-                    // 启用创建订单按钮
+                    // able the create order button
                     document.getElementById('create-order-btn').disabled = false;
                 } else {
                     alert(data.reason);
@@ -211,15 +241,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <hr class="mb-4">
                     <input type="hidden" name="total_weight" value="<?php $total_weight = 0;
-                    foreach ($_SESSION['cart'] as $key => $value) {
-                        $total_weight += $value['weight'] * $value['quantity'];
+                    //if cart not null
+                    if(!empty($_SESSION['cart'])){
+                        foreach ($_SESSION['cart'] as $key => $value) {
+                            $total_weight += $value['weight'] * $value['quantity'];
+                        }
+                        echo $total_weight; ?>">
+                        <input type="hidden" name="total_count" value="<?php $total_count = 0;
+                        foreach ($_SESSION['cart'] as $key => $value) {
+                            $total_count += $value['quantity'];
+                        }
+                        echo $total_count;
                     }
-                    echo $total_weight; ?>">
-                    <input type="hidden" name="total_count" value="<?php $total_count = 0;
-                    foreach ($_SESSION['cart'] as $key => $value) {
-                        $total_count += $value['quantity'];
-                    }
-                    echo $total_count; ?>">
+                    ?>">
                     <input type="hidden" name="subtotal_price" value="<?php echo $session_total_price; ?>">
                     <input type="hidden" name="shipping_cost" id="hidden-shipping-cost" value="">
                     <input type="hidden" name="total_price" id="hidden-total-price" value="">
