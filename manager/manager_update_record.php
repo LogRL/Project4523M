@@ -6,9 +6,25 @@ $result = mysqli_query($conn, $query);
 
 if ($result) {
   while ($rs = mysqli_fetch_assoc($result)) {
-    $sm_id = $rs['sm_id'];
+    $smId = $rs['sm_id'];
     $contact_name = $rs['contact_name'];
     $contact_num = $rs['contact_num'];
+    // ... process other columns as needed
+  }
+} else {
+  echo "Error: " . mysqli_error($conn);
+}
+
+$query = "SELECT * FROM `order`";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+  while ($row = mysqli_fetch_assoc($result)) {
+    $orderId = $row['order_id'];
+    $orderDateTime = $row['order_date_time'];
+    $deliveryAddress = $row['delivery_address'];
+    $deliveryDate = $row['delivery_date'];
+    $orderStatus = $row['order_status'];
     // ... process other columns as needed
   }
 } else {
