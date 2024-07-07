@@ -54,7 +54,7 @@ $address = $rs['address'];
               Order
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="dealer_createOrder.php">Create Order</a></li>
+              <li><a class="dropdown-item" href="Item.php">Create Order</a></li>
 
               <li>
                 <hr class="dropdown-divider">

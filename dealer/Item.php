@@ -68,7 +68,7 @@ if (isset($_GET['add_to_cart'])) {
   function linktotag(category) {
     //go to the id place
     if(category == "home"){
-      window.location.href = "dealer_createOrder.php";
+      window.location.href = "Item.php";
     }else{
       window.location.href = "#list-" + category;
     }
@@ -113,7 +113,7 @@ if (isset($_GET['add_to_cart'])) {
               Order
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="dealer_createOrder.php">Create Order</a></li>
+              <li><a class="dropdown-item" href="Item.php">Create Order</a></li>
 
               <li>
                 <hr class="dropdown-divider">
@@ -229,7 +229,7 @@ if (isset($_GET['add_to_cart'])) {
                     <div class="col-md-8">
                       <div class="card-body">
 
-                        <form method="GET" action="./dealer_createOrder.php">
+                        <form method="GET" action="./Item.php">
                           <h5 class="card-title" name="item_nametext"><?php echo $rs2['item_name'] ?></h5>
                           <p class="card-text"><small class="text-muted">Product ID: <?php echo $rs2['category_id'].$rs2['product_id']?></small></p>
                           <p class="card-text" name="item_desctext">Item Description:<?php echo $rs2['item_desc'] ?></p>
