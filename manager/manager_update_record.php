@@ -1,7 +1,7 @@
 <?php
 require_once('../db/connet.php');
 
-$sql = "SELECT order_id, order_date, order_time, address, delivery_date, order_status, sales_manager.sm_id, sales_manager.contact_name, sales_manager.contact_num FROM `order`, `sales_manager`;";
+$sql = "SELECT `order`.`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `order`.`sm_id`, `order_status`, `order_item`.`item_id`, `item`.`item_name`, `item`.`item_image`, `order_item`.`quantity`, `sales_manager`.`contact_name`, `sales_manager`.`contact_num` FROM `order` INNER JOIN `order_item` on `order_item`.`order_id` = `order`.`order_id` INNER JOIN `item` on `item`.`item_id` = `order_item`.`item_id` INNER JOIN `sales_manager` on `sales_manager`.`sm_id` = `order`.`sm_id`;";
 $result = mysqli_query($conn, $sql);
 
 if ($result) {
@@ -15,6 +15,10 @@ if ($result) {
     $address[] = $rs['address'];
     $deliveryDate[] = $rs['delivery_date'];
     $orderStatus[] = $rs['order_status'];
+    $itemId[] = $rs['item_id'];
+    $quantity[] = $rs['quantity'];
+    $itemName[] = $rs['item_name'];
+    $itemImage[] = $rs['item_image'];
     // ... process other columns as needed
   }
 } else {
@@ -77,7 +81,7 @@ mysqli_close($conn);
   <?php foreach($orderId as $key => $orderId): $count = $key + 1 ?> 
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
-      <button class="accordion-button collapsed  " type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo"$key"?>" aria-expanded="false" aria-controls="flush-collapseOne">
         <div><br>
           Order: <?php echo "$count"?> <br>
           Manager ID: <?php echo"$smId[$key]"?><br>
@@ -91,7 +95,7 @@ mysqli_close($conn);
         </div>
       </button>
     </h2>
-    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+    <div id="flush-collapse<?php echo"$key"?>" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
       <table class="table table-striped">
         <thead>
           <tr>
