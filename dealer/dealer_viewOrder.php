@@ -1,3 +1,52 @@
+<?php 
+require_once('../db/connet.php');
+SESSION_START();
+
+//get order details  from id
+$order_detail_sql = "select * from `order` where deal_id = '".$_SESSION['deal_id']."'";
+$order_detail_result = mysqli_query($conn, $order_detail_sql);
+// use while looop to get all order details and put into array order as dictionary
+while($order_detail_rs = mysqli_fetch_assoc($order_detail_result)){
+    $array_order_detail = array(
+      "order_id" => $order_detail_rs['order_id'],
+      "order_date" => $order_detail_rs['order_date'],
+      "order_time" => $order_detail_rs['order_time'],
+      "address" => $order_detail_rs['address'],
+      "delivery_date" => $order_detail_rs['delivery_date'],
+      "deal_id" => $order_detail_rs['deal_id'],
+      "sm_id" => $order_detail_rs['sm_id'],
+      "order_status" => $order_detail_rs['order_status'],
+      "total_price" => $order_detail_rs['total_price'],
+      "shipping_cost" => $order_detail_rs['shipping_cost'],
+      "shipping_method" => $order_detail_rs['shipping_method']
+
+    );
+    $array_order['order'][] = $array_order_detail;
+}
+
+//
+
+
+//print all order details in foreach
+if(!empty($array_order['order'])){
+  foreach($array_order['order'] as $key => $value){
+    //echo all order details
+    echo "order_id: ".$value['order_id']."<br>";
+    echo "order_date: ".$value['order_date']."<br>";
+    echo "order_time: ".$value['order_time']."<br>";
+    echo "address: ".$value['address']."<br>";
+    echo "delivery_date: ".$value['delivery_date']."<br>";
+    echo "deal_id: ".$value['deal_id']."<br>";
+    echo "sm_id: ".$value['sm_id']."<br>";
+    echo "order_status: ".$value['order_status']."<br>";
+    echo "total_price: ".$value['total_price']."<br>";
+    echo "shipping_cost: ".$value['shipping_cost']."<br>";
+    echo "shipping_method: ".$value['shipping_method']."<br>";
+    
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
