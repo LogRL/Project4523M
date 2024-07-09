@@ -15,13 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $shippingCost = $_POST['shipping_cost'];
         $totalPrice = $_POST['total_price'];
 
-        echo "Shipping method: " . $shippingMethod . "<br>";
-        echo "Shipping cost: " . $shippingCost . "<br>";
-        echo "Total price: " . $totalPrice . "<br>";
-        echo "Total weight: " . $totalWeight . "<br>";
-        echo "Total count: " . $totalCount . "<br>";
-        echo "Subtotal price: " . $subtotalPrice . "<br>";
-        echo "<br>";
+        // echo "Shipping method: " . $shippingMethod . "<br>";
+        // echo "Shipping cost: " . $shippingCost . "<br>";
+        // echo "Total price: " . $totalPrice . "<br>";
+        // echo "Total weight: " . $totalWeight . "<br>";
+        // echo "Total count: " . $totalCount . "<br>";
+        // echo "Subtotal price: " . $subtotalPrice . "<br>";
+        // echo "<br>";
 
         // table column have order_date order_time address delivery_date deal_id sm_id order_status,sm will be null get the address from dealer table first
         $addresssql = "SELECT address FROM user WHERE deal_id = ".$_SESSION['deal_id'];
@@ -31,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         date_default_timezone_set('Asia/Hong_Kong');
         $order_date = date("Y-m-d");
         $order_time = date("H:i:s");
-        echo "Order date: " . $order_date . "<br>";
-        echo "Order time: " . $order_time . "<br>";
-        echo "Address: " . $address . "<br>";
+        // echo "Order date: " . $order_date . "<br>";
+        // echo "Order time: " . $order_time . "<br>";
+        // echo "Address: " . $address . "<br>";
         $expected_delivery_date = date('Y-m-d', strtotime($order_date. ' + 7 days'));
-        $create_order_sql = "INSERT INTO `order` (order_date, order_time, address, delivery_date, deal_id,order_status,total_price,shipping_cost,shipping_method) VALUES ('$order_date', '$order_time', '$address', '$expected_delivery_date', ".$_SESSION['deal_id'].", 'Pending', $totalPrice, $shippingCost, '$shippingMethod')";
+        $create_order_sql = "INSERT INTO `order` (order_date, order_time, address, delivery_date, deal_id,order_status,total_price,shipping_cost,shipping_method) VALUES ('$order_date', '$order_time', '$address', '$expected_delivery_date', ".$_SESSION['deal_id'].", 'waiting to process', $totalPrice, $shippingCost, '$shippingMethod')";
         if (mysqli_query($conn, $create_order_sql)) {
             echo "Order created successfully<br>";
             $order_id = mysqli_insert_id($conn);

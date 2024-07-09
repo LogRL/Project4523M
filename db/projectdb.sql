@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1:3306
--- 產生時間： 2024-06-30 10:58:55
+-- 產生時間： 2024-07-09 09:40:17
 -- 伺服器版本： 8.0.37
 -- PHP 版本： 8.2.13
 
@@ -118,25 +118,28 @@ CREATE TABLE IF NOT EXISTS `order` (
   `deal_id` int NOT NULL,
   `sm_id` int DEFAULT NULL,
   `order_status` varchar(255) NOT NULL,
+  `total_price` int NOT NULL,
+  `shipping_cost` int NOT NULL,
+  `shipping_method` varchar(255) NOT NULL,
   PRIMARY KEY (`order_id`),
   KEY `deal_id` (`deal_id`),
   KEY `sm_id` (`sm_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- 資料表新增資料前，先清除舊資料 `order`
 --
 
 TRUNCATE TABLE `order`;
-
 --
 -- 傾印資料表的資料 `order`
 --
 
-INSERT INTO `order` (`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `sm_id`, `order_status`) VALUES
-(1, '2024-06-27', '21:25:15', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-06-29', 1, 1, 'Packing'),
-(2, '2024-06-30', '16:18:09', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-02', 1, 1, 'Packing'),
-(3, '2024-07-02', '10:34:23', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-04', 1, 1, 'Packing');
+INSERT INTO `order` (`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `sm_id`, `order_status`, `total_price`, `shipping_cost`, `shipping_method`) VALUES
+(4, '2024-07-07', '19:58:08', 'CW　IVE', '2024-07-14', 1, NULL, 'waiting to process', 3200, 500, 'Quantity'),
+(5, '2024-07-07', '20:10:03', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, NULL, 'waiting to process', 3180, 2800, 'Weight'),
+(6, '2024-07-07', '20:11:52', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, NULL, 'waiting to process\r\n', 600, 500, 'Weight');
+
 -- --------------------------------------------------------
 
 --
@@ -157,6 +160,17 @@ CREATE TABLE IF NOT EXISTS `order_item` (
 --
 
 TRUNCATE TABLE `order_item`;
+--
+-- 傾印資料表的資料 `order_item`
+--
+
+INSERT INTO `order_item` (`order_id`, `item_id`, `quantity`) VALUES
+(4, 1, 50),
+(5, 5, 4),
+(5, 7, 2),
+(5, 8, 1),
+(6, 1, 1);
+
 -- --------------------------------------------------------
 
 --
