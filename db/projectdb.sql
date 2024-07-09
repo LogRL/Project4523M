@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1:3306
--- 產生時間： 2024-07-09 09:43:29
+-- 產生時間： 2024-07-09 12:48:40
 -- 伺服器版本： 8.0.37
 -- PHP 版本： 8.2.13
 
@@ -227,7 +227,7 @@ TRUNCATE TABLE `user`;
 --
 
 INSERT INTO `user` (`deal_id`, `deal_name`, `email`, `pwd`, `contact_num`, `fax_num`, `address`) VALUES
-(1, 'ken_deal', 'ken_deal@gmail.com', 123, 12345678, 12345678, 'Chai Wan Estate Wan Yin House');
+(1, 'ken_deal', 'ken_deal@gmail.com', 123, 54946052, 54946052, 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ');
 
 --
 -- 已傾印資料表的限制式
