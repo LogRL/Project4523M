@@ -16,7 +16,7 @@
             $_SESSION['dealer_pw'] = $dealer_pw;
             $rs = mysqli_fetch_array($result);
             $_SESSION['deal_id'] = $rs['deal_id'];
-            $_SESSSION['email'] = $rs['email'];
+            $_SESSION['email'] = $rs['email'];
             $_SESSION['contact_num'] = $rs['contact_num'];
             $_SESSION['fax_num'] = $rs['fax_num'];
             $_SESSION['address'] = $rs['address'];

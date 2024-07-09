@@ -1,27 +1,74 @@
 <?php
 session_start();
-
 require_once ('../db/connet.php');
 $username = $_SESSION['deal_name'];
-$sql = "SELECT * FROM user WHERE deal_name = '$username'";
-$result = mysqli_query($conn, $sql);
-$rs = mysqli_fetch_array($result);
-$pwd = $rs['pwd'];
-$contact_num = $rs['contact_num'];
-$email = $rs['email'];
-$fax_num = $rs['fax_num'];
-$address = $rs['address'];
 
+$id = $_SESSION['deal_id'];
+$contact_num = $_SESSION['contact_num'];
+$fax_num = $_SESSION['fax_num'];
+$address = $_SESSION['address'];
+
+if (isset($_POST['update_password'])) {
+    $old_password = $_POST['old_password'];
+    $new_password = $_POST['new_password'];
+    $re_new_password = $_POST['re_new_password'];
+    $new_contact_num = $_POST['contact_num'];
+    $new_fax_num = $_POST['fax_num'];
+    $new_address = $_POST['address'];
+    $sql_getpassword = "SELECT pwd FROM user WHERE deal_id='$id'";
+    $result = mysqli_query($conn, $sql_getpassword);
+    $rs = mysqli_fetch_array($result);
+    $pwd = $rs['pwd'];
+
+    // Check if the old password matches
+    if ($old_password === $pwd) {
+        // Check if new passwords match
+        if ($new_password === $re_new_password) {
+            // Update password in the database
+            $update_password_query = "UPDATE user SET pwd='$new_password' WHERE deal_id='$id'";
+            mysqli_query($conn, $update_password_query);
+
+            // Update contact number if provided
+            if (!empty($new_contact_num) && is_numeric($new_contact_num)) {
+                $update_contact_num_query = "UPDATE user SET contact_num='$new_contact_num' WHERE deal_id='$id'";
+                mysqli_query($conn, $update_contact_num_query);
+                $_SESSION['contact_num'] = $new_contact_num;
+            }
+
+            // Update fax number if provided
+            if (!empty($new_fax_num)) {
+                $update_fax_num_query = "UPDATE user SET fax_num='$new_fax_num' WHERE deal_id='$id'";
+                mysqli_query($conn, $update_fax_num_query);
+                $_SESSION['fax_num'] = $new_fax_num;
+            }
+
+            // Update address if provided and within length limit
+            if (!empty($new_address) && strlen($new_address) <= 200) {
+                $update_address_query = "UPDATE user SET address='$new_address' WHERE deal_id='$id'";
+                mysqli_query($conn, $update_address_query);
+                $_SESSION['address'] = $new_address;
+            }
+
+            echo "<script>alert('Update successful.');</script>";
+          
+        } else {
+            echo "<script>alert('New passwords do not match.');</script>";
+        }
+    } else {
+    
+        echo "<script>alert('Old password is incorrect.');</script>";
+    }
+
+}
+mysqli_close($conn);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Update Info</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -46,23 +93,21 @@ $address = $rs['address'];
             <a class="nav-link" aria-current="page" href="dealer_home.html">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">User Info</i></a>
+            <a class="nav-link active" href="#">User Info</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="<php ?" role="button" data-bs-toggle="dropdown"
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
               Order
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="Item.php">Create Order</a></li>
-
               <li>
                 <hr class="dropdown-divider">
               </li>
               <li><a class="dropdown-item" href="dealer_viewOrder.php">View Order</a></li>
             </ul>
           </li>
-
         </ul>
         <a class="btn btn btn-outline-success" href="./checkout.php" role="button"
           style="margin-right:15px">Checkout</a>
@@ -73,40 +118,35 @@ $address = $rs['address'];
     </div>
   </nav>
 
-  <div class="container" style=" background:url('../asserts/img/bg.jpeg')no repeat fixed;">
+  <div class="container" style="background:url('../asserts/img/bg.jpeg')no-repeat fixed;">
     <div class="row align-items-center">
       <div class="forms1 col" style="margin-top: 10%;">
-        <form>
+        <form action="" method="POST">
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Old Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <label for="old_password" class="form-label">Old Password</label>
+            <input type="password" class="form-control" id="old_password" name="old_password" required>
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">New Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword2">
+            <label for="new_password" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="new_password" name="new_password" required>
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Re enter the new Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword3.">
+            <label for="re_new_password" class="form-label">Re-enter New Password</label>
+            <input type="password" class="form-control" id="re_new_password" name="re_new_password" required>
           </div>
-
           <div class="mb-3">
-            <label for="exampleInputContactNum" class="form-label">Contact Number</label>
-            <input type="ContactNum" class="form-control" id="exampleInputContactNum"
-              placeholder="<?php echo $contact_num ?>">
+            <label for="contact_num" class="form-label">Contact Number</label>
+            <input type="text" class="form-control" id="contact_num" name="contact_num" placeholder="<?php echo $contact_num ?>">
           </div>
-
           <div class="mb-3">
-            <label for="exampleInputFaxNum" class="form-label">Fax Number</label>
-            <input type="InputFaxNum" class="form-control" id="exampleInputFaxNum" placeholder="<?php echo $fax_num ?>">
+            <label for="fax_num" class="form-label">Fax Number</label>
+            <input type="text" class="form-control" id="fax_num" name="fax_num" placeholder="<?php echo $fax_num ?>">
           </div>
-
           <div class="mb-3">
-            <label for="exampleInputDeliveryAddress" class="form-label">Delivery Address</label>
-            <input type="DeliveryAddress" class="form-control" id="exampleInputDeliveryAddress"
-              placeholder="<?php echo $address ?>">
+            <label for="address" class="form-label">Delivery Address</label>
+            <input type="text" class="form-control" id="address" name="address" placeholder="<?php echo $address ?>">
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary" name="update_password">Submit</button>
         </form>
       </div>
       <div class="forms2 col" style="margin-top: 10%;">
@@ -118,14 +158,12 @@ $address = $rs['address'];
           </div>
           <fieldset disabled>
             <div class="mb-3 disabledInput">
-              <label for="UserName" class="form-label">User Name</label>
-              <input type="UserName" class="form-control" id="exampleInputUserName"
-                placeholder="<?php echo $username ?>">
+              <label for="exampleInputUserName" class="form-label">User Name</label>
+              <input type="text" class="form-control" id="exampleInputUserName" placeholder="<?php echo $username ?>">
             </div>
-
             <div class="mb-3 disabledInput">
-              <label for="exampleInputEmail" class="form-label"></label>
-              <input type="Email" class="form-control" id="exampleInputEmail" placeholder="<?php echo $email ?>">
+              <label for="exampleInputEmail" class="form-label">Email</label>
+              <input type="email" class="form-control" id="exampleInputEmail" placeholder="<?php echo $_SESSION['email'] ?>">
             </div>
           </fieldset>
         </form>
