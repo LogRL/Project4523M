@@ -124,7 +124,11 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`order_id`),
   KEY `deal_id` (`deal_id`),
   KEY `sm_id` (`sm_id`)
+<<<<<<< HEAD
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+>>>>>>> 26365c1bb82fe833fffbba7d40573ec45297fd44
 
 --
 -- 資料表新增資料前，先清除舊資料 `order`
@@ -135,11 +139,22 @@ TRUNCATE TABLE `order`;
 -- 傾印資料表的資料 `order`
 --
 
+<<<<<<< HEAD
 INSERT INTO `order` (`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `sm_id`, `order_status`, `total_price`, `shipping_cost`, `shipping_method`) VALUES
 (4, '2024-07-07', '19:58:08', 'CW　IVE', '2024-07-14', 1, NULL, 'waiting to process', 3200, 500, 'Quantity'),
 (5, '2024-07-07', '20:10:03', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, NULL, 'waiting to process', 3180, 2800, 'Weight'),
 (6, '2024-07-07', '20:11:52', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, NULL, 'waiting to process\r\n', 600, 500, 'Weight');
 
+=======
+INSERT INTO `order` (`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `sm_id`, `order_status`) VALUES
+(1, '2024-06-27', '21:25:15', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-06-29', 1, 1, 'Packing'),
+(2, '2024-06-30', '16:18:09', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-02', 1, 1, 'Packing'),
+(3, '2024-07-02', '10:34:23', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-04', 1, 1, 'Packing'),
+(4, '2024-07-03', '07:57:38', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-07', 1, 1, 'Packing'),
+(5, '2024-07-03', '11:03:09', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-06', 1, 1, 'Packing'),
+(6, '2024-07-04', '18:47:41', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-07', 1, 1, 'Packing'),
+(7, '2024-07-05', '23:30:39', '30 Shing Tai Road, Chai Wan, Hong Kong', '2024-07-07', 1, 1, 'Packing');
+>>>>>>> 26365c1bb82fe833fffbba7d40573ec45297fd44
 -- --------------------------------------------------------
 
 --
@@ -160,17 +175,34 @@ CREATE TABLE IF NOT EXISTS `order_item` (
 --
 
 TRUNCATE TABLE `order_item`;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 26365c1bb82fe833fffbba7d40573ec45297fd44
 --
 -- 傾印資料表的資料 `order_item`
 --
 
 INSERT INTO `order_item` (`order_id`, `item_id`, `quantity`) VALUES
+<<<<<<< HEAD
 (4, 1, 50),
 (5, 5, 4),
 (5, 7, 2),
 (5, 8, 1),
 (6, 1, 1);
 
+=======
+(1, 1, 1),
+(1, 11, 2),
+(2, 3, 1),
+(2, 5, 1),
+(2, 9, 1),
+(3, 2, 1),
+(4, 8, 1),
+(5, 4, 1),
+(6, 10, 1),
+(7, 6, 1);
+>>>>>>> 26365c1bb82fe833fffbba7d40573ec45297fd44
 -- --------------------------------------------------------
 
 --
