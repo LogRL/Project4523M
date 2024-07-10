@@ -1,7 +1,7 @@
 <?php
 require_once('../db/connet.php');
 
-$sql = "SELECT `order`.`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `order`.`sm_id`, `order_status`, `order_item`.`item_id`, `item`.`item_name`, `item`.`item_image`, `order_item`.`quantity`, `sales_manager`.`contact_name`, `sales_manager`.`contact_num` FROM `order` INNER JOIN `order_item` on `order_item`.`order_id` = `order`.`order_id` INNER JOIN `item` on `item`.`item_id` = `order_item`.`item_id` INNER JOIN `sales_manager` on `sales_manager`.`sm_id` = `order`.`sm_id`;";
+$sql = "SELECT `order`.`order_id`, `order_date`, `total_price`, `order_time`, `address`, `delivery_date`, `deal_id`, `order`.`sm_id`, `order_status`, `order_item`.`item_id`, `item`.`item_name`, `item`.`item_image`, `order_item`.`quantity`, `sales_manager`.`contact_name`, `sales_manager`.`contact_num` FROM `order` INNER JOIN `order_item` on `order_item`.`order_id` = `order`.`order_id` INNER JOIN `item` on `item`.`item_id` = `order_item`.`item_id` INNER JOIN `sales_manager` on `sales_manager`.`sm_id` = `order`.`sm_id`;";
 $result = mysqli_query($conn, $sql);
 
 if ($result) {
@@ -19,6 +19,7 @@ if ($result) {
     $quantity[] = $rs['quantity'];
     $itemName[] = $rs['item_name'];
     $itemImage[] = $rs['item_image'];
+    $price[] = $rs['total_price'];
     // ... process other columns as needed
   }
 } else {
@@ -78,24 +79,24 @@ mysqli_close($conn);
       </div>
     </div>
   </nav>
-  <?php foreach($orderId as $key => $orderId): $count = $key + 1 ?> 
+  <?php foreach($orderId as $key => $orderid): $mkey = $key ?> 
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo"$key"?>" aria-expanded="false" aria-controls="flush-collapseOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo"$mkey"?>" aria-expanded="false" aria-controls="flush-collapseOne">
         <div><br>
-          Order: <?php echo "$count"?> <br>
-          Manager ID: <?php echo"$smId[$key]"?><br>
-          Manager's Contact Name: <?php echo"$contactName[$key]"?><br>
-          Manager's Contact Number: <?php echo"$contactNum[$key]"?><br>
-          Order Date: <?php echo"$orderDate[$key]"?><br>
-          Order Time: <?php echo"$orderTime[$key]"?><br>
-          Delivery Address: <?php echo"$address[$key]"?><br>
-          Delivery Date: <?php echo"$deliveryDate[$key]"?><br>
-          Order Status: <?php echo"$orderStatus[$key]"?><br><br>
+          Order: <?php echo "$orderid"?> <br>
+          Manager ID: <?php echo"$smId[$mkey]"?><br>
+          Manager's Contact Name: <?php echo"$contactName[$mkey]"?><br>
+          Manager's Contact Number: <?php echo"$contactNum[$mkey]"?><br>
+          Order Date: <?php echo"$orderDate[$mkey]"?><br>
+          Order Time: <?php echo"$orderTime[$mkey]"?><br>
+          Delivery Address: <?php echo"$address[$mkey]"?><br>
+          Delivery Date: <?php echo"$deliveryDate[$mkey]"?><br>
+          Order Status: <?php echo"$orderStatus[$mkey]"?><br><br>
         </div>
       </button>
     </h2>
-    <div id="flush-collapse<?php echo"$key"?>" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+    <div id="flush-collapse<?php echo"$mkey"?>" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -108,25 +109,19 @@ mysqli_close($conn);
           </tr>
         </thead>
         <tbody>
+          <?php foreach($itemId as $mykey => $item): $itemCount = $mykey + 1 ?>
           <tr>
-            <th scope="row">1</th>
-            <td>img.link</td>
-            <td>car</td>
-            <td>999</td>
-            <td>999999</td>
+            <th scope="row"><?php echo"$itemCount"?> </th>
+            <td><div class="col-sm-2 align-self-start"><img src="<?php echo"$itemImage[$mykey]"?>" class="img-fluid rounded-start" alt="..."></div></td>
+            <td><?php echo"$itemName[$mykey]"?></td>
+            <td><?php echo"$quantity[$mykey]"?></td>
+            <td><?php echo"$price[$mykey]"?></td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>img.link</td>
-            <td>car</td>
-            <td>999</td>
-            <td>999999</td>
+          <?php endforeach;?>
         </tbody>
 
       </table>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="
-    padding-bottom: 15px;
-    padding-right: 15px;">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="padding-bottom: 15px; padding-right: 15px;">
         <button class="btn btn-primary me-md-2" type="button">Update</button>
         <button class="btn btn-primary" type="button">Reject</button>
       </div>

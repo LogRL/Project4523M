@@ -1,3 +1,28 @@
+<?php
+require_once('../db/connet.php');
+
+if(isset($_POST['submit'])) {
+    $partNumber = $_POST['inputPartnumber'];
+    $rePartNumber = $_POST['inputrePartnumber'];
+
+    // Check if the part numbers match
+    if($partNumber == $rePartNumber) {
+        $query = "DELETE FROM item WHERE item_id = '$partNumber'";
+        $result = mysqli_query($conn, $query);
+
+        if($result) {
+            echo "Item deleted successfully.";
+        } else {
+            echo "Failed to delete item.";
+        }
+        mysqli_close($conn);
+    } else {
+        echo "Part numbers do not match.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,18 +123,13 @@
                             </div>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-
-
-
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
