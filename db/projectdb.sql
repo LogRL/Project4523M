@@ -136,9 +136,9 @@ TRUNCATE TABLE `order`;
 --
 
 INSERT INTO `order` (`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `sm_id`, `order_status`, `total_price`, `shipping_cost`, `shipping_method`) VALUES
-(4, '2024-07-07', '19:58:08', 'CW　IVE', '2024-07-14', 1, NULL, 'waiting to process', 3200, 500, 'Quantity'),
-(5, '2024-07-07', '20:10:03', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, NULL, 'waiting to process', 3180, 2800, 'Weight'),
-(6, '2024-07-07', '20:11:52', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, NULL, 'waiting to process\r\n', 600, 500, 'Weight');
+(4, '2024-07-07', '19:58:08', 'CW　IVE', '2024-07-14', 1, 1, 'waiting to process', 3200, 500, 'Quantity'),
+(5, '2024-07-07', '20:10:03', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, 1, 'waiting to process', 3180, 2800, 'Weight'),
+(6, '2024-07-07', '20:11:52', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, 1, 'waiting to process\r\n', 600, 500, 'Weight');
 
 -- --------------------------------------------------------
 
