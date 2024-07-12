@@ -191,7 +191,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
               if ($value['order_status'] == "waiting to process") {
 
                 ?>
-                <div class="d-flex justify-content-end mg-2">
+                <div class="d-flex justify-content-end m-2">
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $value['order_id']?>">
                     Delete
                   </button>
