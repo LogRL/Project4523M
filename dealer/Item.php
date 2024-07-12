@@ -155,8 +155,11 @@ $username = $_SESSION['deal_name'];
             </ul>
           </li>
         </ul>
-        <a class="btn btn-outline-success" href="./checkout.php" role="button" style="margin-right:15px">Checkout</a>
-        <button class="btn btn-outline-success" type="button">Logout</button>
+        <div class="d-flex">
+          <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button"
+            >Checkout</a>
+          <a class="btn btn btn-outline-success m-2" href="./logout.php" role="button">Logout</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -227,7 +230,7 @@ $username = $_SESSION['deal_name'];
                   $keyword = "order by price desc";
                 }
               }
-              $sql2 = "select item_id, item_name, item_image, item_desc, weight, quantity, price, category_id, LPAD(product_id, 5, 0) as product_id from item, item_category where item.category_id = item_category.categroy_id and item_category.category = '$cate' " . $keyword ."and quantity > 0";
+              $sql2 = "select item_id, item_name, item_image, item_desc, weight, quantity, price, category_id, LPAD(product_id, 5, 0) as product_id from item, item_category where item.category_id = item_category.categroy_id and item_category.category = '$cate' " ." and quantity > 0 " . $keyword;
               $result2 = mysqli_query($conn, $sql2);
               while ($rs2 = mysqli_fetch_array($result2)) {
                 ?>

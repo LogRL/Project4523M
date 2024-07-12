@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1:3306
--- 產生時間： 2024-07-09 12:48:40
+-- 產生時間： 2024-07-12 08:50:31
 -- 伺服器版本： 8.0.37
 -- PHP 版本： 8.2.13
 
@@ -53,14 +53,14 @@ TRUNCATE TABLE `item`;
 --
 
 INSERT INTO `item` (`item_id`, `item_name`, `item_image`, `item_desc`, `weight`, `quantity`, `price`, `category_id`, `product_id`) VALUES
-(1, 'Sheet Metal 1', '../asserts/img/A-Sheet Metal/100001.jpg', 'Sheet Metal 1', 5, 2000, 100, 1, 1),
+(1, 'Sheet Metal 1', '../asserts/img/A-Sheet Metal/100001.jpg', 'Sheet Metal 1', 5, 1, 100, 1, 1),
 (2, 'Sheet Metal 2', '../asserts/img/A-Sheet Metal/100002.jpg', 'Sheet Metal 2', 1, 2500, 9999, 1, 2),
 (3, 'Major Assemblies 1', '../asserts/img/B-Major Assemblies/200001.jpg', 'Major Assemblies 1 desc', 5, 1500, 50, 2, 1),
 (4, 'Major Assemblies 2', '../asserts/img/B-Major Assemblies/200002.jpg', 'Major Assemblies 2 desc', 1, 2500, 80, 2, 2),
-(5, 'Sheet Metal 3', '../asserts/img/A-Sheet Metal/100003.jpg', 'Sheet Metal 3 desc ', 4, 2500, 60, 1, 3),
-(6, 'Sheet Metal 4', '../asserts/img/A-Sheet Metal/100004.jpg', 'Sheet Metal 4', 8, 70, 40, 1, 4),
-(7, 'Sheet Metal 5', '../asserts/img/A-Sheet Metal/100005.jpg', 'Sheet Metal 5 desc', 10, 6500, 25, 1, 5),
-(8, 'Major Assemblies 3', '../asserts/img/B-Major Assemblies/200003.jpg', 'Major Assemblies 3 desc', 15, 6500, 90, 2, 3),
+(5, 'Sheet Metal 3', '../asserts/img/A-Sheet Metal/100003.jpg', 'Sheet Metal 3 desc ', 4, 2504, 60, 1, 3),
+(6, 'Sheet Metal 4', '../asserts/img/A-Sheet Metal/100004.jpg', 'Sheet Metal 4', 8, 0, 40, 1, 4),
+(7, 'Sheet Metal 5', '../asserts/img/A-Sheet Metal/100005.jpg', 'Sheet Metal 5 desc', 10, 6502, 25, 1, 5),
+(8, 'Major Assemblies 3', '../asserts/img/B-Major Assemblies/200003.jpg', 'Major Assemblies 3 desc', 15, 6501, 90, 2, 3),
 (9, 'Major Assemblies 4', '../asserts/img/B-Major Assemblies/200004.jpg', 'Major Assemblies 4 desc', 20, 7500, 100, 2, 4),
 (10, 'Major Assemblies 5', '../asserts/img/B-Major Assemblies/200005.jpg', 'Major Assemblies 5 desc', 25, 850, 110, 2, 5),
 (11, 'Light\r\nComponents 1', '../asserts/img/C-Light Components/300001.jpg', 'Light\r\nComponents 1 desc', 10, 1200, 10, 3, 1),
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`order_id`),
   KEY `deal_id` (`deal_id`),
   KEY `sm_id` (`sm_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- 資料表新增資料前，先清除舊資料 `order`
@@ -136,9 +136,13 @@ TRUNCATE TABLE `order`;
 --
 
 INSERT INTO `order` (`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `sm_id`, `order_status`, `total_price`, `shipping_cost`, `shipping_method`) VALUES
-(4, '2024-07-07', '19:58:08', 'CW　IVE', '2024-07-14', 1, 1, 'waiting to process', 3200, 500, 'Quantity'),
-(5, '2024-07-07', '20:10:03', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, 1, 'waiting to process', 3180, 2800, 'Weight'),
-(6, '2024-07-07', '20:11:52', 'Chai Wan Estate Wan Yin House', '2024-07-14', 1, 1, 'waiting to process\r\n', 600, 500, 'Weight');
+(4, '2024-07-07', '19:58:08', 'HAHAHAHAHAHA', '2024-07-14', 1, NULL, 'waiting to process', 3200, 500, 'Quantity'),
+(5, '2024-07-07', '20:10:03', 'HAHAHAHAHA', '2024-07-14', 1, NULL, 'cancel', 3180, 2800, 'Weight'),
+(6, '2024-07-07', '20:11:52', 'HAHAHAHAHAHHA', '2024-07-14', 1, NULL, 'cancel', 600, 500, 'Weight'),
+(7, '2024-07-12', '14:03:49', 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ', '2024-07-19', 1, NULL, 'waiting to process', 690, 650, 'Weight'),
+(8, '2024-07-12', '14:05:01', 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ', '2024-07-19', 1, NULL, 'waiting to process', 690, 650, 'Weight'),
+(9, '2024-07-12', '14:05:15', 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ', '2024-07-19', 1, NULL, 'waiting to process', 690, 650, 'Weight'),
+(10, '2024-07-12', '14:05:55', 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ', '2024-07-19', 1, 1, 'Packing', 690, 650, 'Weight');
 
 -- --------------------------------------------------------
 
@@ -169,7 +173,10 @@ INSERT INTO `order_item` (`order_id`, `item_id`, `quantity`) VALUES
 (5, 5, 4),
 (5, 7, 2),
 (5, 8, 1),
-(6, 1, 1);
+(6, 1, 1),
+(7, 6, 1),
+(9, 6, 1),
+(10, 6, 1);
 
 -- --------------------------------------------------------
 

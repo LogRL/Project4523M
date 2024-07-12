@@ -1,50 +1,67 @@
-<?php 
-require_once('../db/connet.php');
+<?php
+require_once ('../db/connet.php');
 SESSION_START();
 
 //get order details  from id
-$order_detail_sql = "select * from `order` where deal_id = '".$_SESSION['deal_id']."'";
+$order_detail_sql = "select * from `order` where deal_id = '" . $_SESSION['deal_id'] . "'";
 $order_detail_result = mysqli_query($conn, $order_detail_sql);
 // use while looop to get all order details and put into array order as dictionary
-while($order_detail_rs = mysqli_fetch_assoc($order_detail_result)){
-    $array_order_detail = array(
-      "order_id" => $order_detail_rs['order_id'],
-      "order_date" => $order_detail_rs['order_date'],
-      "order_time" => $order_detail_rs['order_time'],
-      "address" => $order_detail_rs['address'],
-      "delivery_date" => $order_detail_rs['delivery_date'],
-      "deal_id" => $order_detail_rs['deal_id'],
-      "sm_id" => $order_detail_rs['sm_id'],
-      "order_status" => $order_detail_rs['order_status'],
-      "total_price" => $order_detail_rs['total_price'],
-      "shipping_cost" => $order_detail_rs['shipping_cost'],
-      "shipping_method" => $order_detail_rs['shipping_method']
+while ($order_detail_rs = mysqli_fetch_assoc($order_detail_result)) {
+  $array_order_detail = array(
+    "order_id" => $order_detail_rs['order_id'],
+    "order_date" => $order_detail_rs['order_date'],
+    "order_time" => $order_detail_rs['order_time'],
+    "address" => $order_detail_rs['address'],
+    "delivery_date" => $order_detail_rs['delivery_date'],
+    "deal_id" => $order_detail_rs['deal_id'],
+    "sm_id" => $order_detail_rs['sm_id'],
+    "order_status" => $order_detail_rs['order_status'],
+    "total_price" => $order_detail_rs['total_price'],
+    "shipping_cost" => $order_detail_rs['shipping_cost'],
+    "shipping_method" => $order_detail_rs['shipping_method']
 
-    );
-    $array_order['order'][] = $array_order_detail;
+  );
+  $array_order['order'][] = $array_order_detail;
 }
-
+if($_SERVER['REQUEST_METHOD'] == "POST"){
+  if(isset($_POST['cancel_order'])){
+    //change the order status to cancel and add the order_item quantity back to item quantity
+    $cancel_order_sql = "update `order` set order_status = 'cancel' where order_id = '".$_POST['order_id']."'";
+    $cancel_order_result = mysqli_query($conn,$cancel_order_sql);
+    $get_order_item_sql = "select * from order_item where order_id = '".$_POST['order_id']."'";
+    $get_order_item_result = mysqli_query($conn,$get_order_item_sql);
+    while($get_order_item_rs = mysqli_fetch_assoc($get_order_item_result)){
+      $get_item_quantity_sql = "select quantity from item where item_id = '".$get_order_item_rs['item_id']."'";
+      $get_item_quantity_result = mysqli_query($conn,$get_item_quantity_sql);
+      $get_item_quantity_rs = mysqli_fetch_assoc($get_item_quantity_result);
+      $new_quantity = $get_item_quantity_rs['quantity'] + $get_order_item_rs['quantity'];
+      $update_item_quantity_sql = "update item set quantity = '".$new_quantity."' where item_id = '".$get_order_item_rs['item_id']."'";
+      $update_item_quantity_result = mysqli_query($conn,$update_item_quantity_sql);
+    }
+    header("Refresh:0");
+  }
+}
 //
 
 
 //print all order details in foreach
-if(!empty($array_order['order'])){
-  foreach($array_order['order'] as $key => $value){
-    //echo all order details
-    echo "order_id: ".$value['order_id']."<br>";
-    echo "order_date: ".$value['order_date']."<br>";
-    echo "order_time: ".$value['order_time']."<br>";
-    echo "address: ".$value['address']."<br>";
-    echo "delivery_date: ".$value['delivery_date']."<br>";
-    echo "deal_id: ".$value['deal_id']."<br>";
-    echo "sm_id: ".$value['sm_id']."<br>";
-    echo "order_status: ".$value['order_status']."<br>";
-    echo "total_price: ".$value['total_price']."<br>";
-    echo "shipping_cost: ".$value['shipping_cost']."<br>";
-    echo "shipping_method: ".$value['shipping_method']."<br>";
-    
-  }
-}
+// if(!empty($array_order['order'])){
+//   foreach($array_order['order'] as $key => $value){
+//     //echo all order details
+//     echo "order_id: ".$value['order_id']."<br>";
+//     echo "order_date: ".$value['order_date']."<br>";
+//     echo "order_time: ".$value['order_time']."<br>";
+//     echo "address: ".$value['address']."<br>";
+//     echo "delivery_date: ".$value['delivery_date']."<br>";
+//     echo "deal_id: ".$value['deal_id']."<br>";
+//     echo "sm_id: ".$value['sm_id']."<br>";
+//     echo "order_status: ".$value['order_status']."<br>";
+//     echo "total_price: ".$value['total_price']."<br>";
+//     echo "shipping_cost: ".$value['shipping_cost']."<br>";
+//     echo "shipping_method: ".$value['shipping_method']."<br>";
+
+//   }
+// }
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +77,7 @@ if(!empty($array_order['order'])){
   <title>Dealer View Order </title>
 </head>
 
-<body >
+<body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid ">
       <a class="navbar-brand" href="#">
@@ -79,8 +96,8 @@ if(!empty($array_order['order'])){
             <a class="nav-link" href="dealer_UpdateInfo.php">User Info</i></a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
+            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
               Order
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -94,87 +111,125 @@ if(!empty($array_order['order'])){
           </li>
 
         </ul>
-        <a class="btn btn btn-outline-success" href="./checkout.php" role="button" style="margin-right:15px">Checkout</a>
-        <form class="d-flex">
-          <button class="btn btn-outline-success" type="button">Logout</button>
-        </form>
+        <div class="d-flex">
+          <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button"
+            >Checkout</a>
+          <a class="btn btn btn-outline-success m-2" href="./logout.php" role="button">Logout</a>
+        </div>
       </div>
     </div>
   </nav>
-  <div class="accordion " id="accordionFlushExample">
+  <div class="container  pt-2">
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+      <?php
+      if (!empty($array_order['order'])) {
+        foreach ($array_order['order'] as $key => $value) {
 
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="flush-headingOne">
+          ?>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
 
-        <button class="accordion-button collapsed  " type="button" data-bs-toggle="collapse"
-          data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-          <div>
-            Order:OrderID<br>
-            Manager ID:SalesManagerID<br>
-            Manager's Contact Name:Manager'sContactName<br>
-            Manager's Contact Number:Manager'sContactNumber<br>
-            Order Date & Time:OrderDateTime<br>
-            Delivery Address:DeliveryAddress<br>
-            Delivery Date:DeliveryDate<br>
-            Order Status:OrderStatus<br>
-          </div>
-        </button>
+              <button class="accordion-button collapsed  " type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapse<?php echo $value['order_id'] ?>" aria-expanded="false"
+                aria-controls="flush-collapse<?php echo $value['order_id'] ?>">
+                <div>
+                  Order ID:<?php echo $value['order_id'] ?><br>
+                  Order Status:<?php echo $value['order_status'] ?><br>
+                </div>
+              </button>
 
-      </h2>
-      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
-        data-bs-parent="#accordionFlushExample">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Spare Part Image</th>
-              <th scope="col">Spare Part Name</th>
-              <th scope="col">Order Quantity</th>
-              <th scope="col">Order Price</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>img.link</td>
-              <td>car</td>
-              <td>999</td>
-              <td>999999</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>img.link</td>
-              <td>car</td>
-              <td>999</td>
-              <td>999999</td>
-          </tbody>
-        </table>
+            </h2>
+            <div id="flush-collapse<?php echo $value['order_id'] ?>" class="accordion-collapse collapse"
+              aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Spare Part Image</th>
+                    <th scope="col">Spare Part Name</th>
+                    <th scope="col">Order Quantity</th>
+                    <th scope="col">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $get_order_item_sql = "select order_item.quantity , item.item_name , item.item_image, item.price from order_item join item on order_item.item_id = item.item_id where order_id = '" . $value['order_id'] . "'";
+                  $get_order_item_result = mysqli_query($conn, $get_order_item_sql);
+                  $count = 1;
+                  while ($get_order_item_rs = mysqli_fetch_assoc($get_order_item_result)) {
+                    echo "<tr>";
+                    echo "<th scope='row'>" . $count . "</th>";
+                    echo "<td><img src='" . $get_order_item_rs['item_image'] . "' alt='item image' style='width:50px;height:50px;'></td>";
+                    echo "<td>" . $get_order_item_rs['item_name'] . "</td>";
+                    echo "<td>" . $get_order_item_rs['quantity'] . "</td>";
+                    echo "<td>" . $get_order_item_rs['price'] . "</td>";
+                    echo "</tr>";
+                    $count++;
+                  }
+                  echo "<div class = mg-2>";
+                  echo "order_date: " . $value['order_date'] . "<br>";
+                  echo "order_time: " . $value['order_time'] . "<br>";
+                  echo "address: " . $value['address'] . "<br>";
+                  echo "delivery_date: " . $value['delivery_date'] . "<br>";
+                  echo "deal_id: " . $value['deal_id'] . "<br>";
+                
+                  echo "total_price: " . $value['total_price'] . "<br>";
+                  echo "shipping_cost: " . $value['shipping_cost'] . "<br>";
+                  echo "shipping_method: " . $value['shipping_method'] . "<br>";
+                  if($value['order_status'] == "Packing"){
+                    echo "sm_id: " . $value['sm_id'] . "<br>";
+                  }else{
+                   
+                  }
+                  echo "</div>";
+                  ?>
+                </tbody>
+              </table>
               <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" >
-          Delete
-        </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Confirm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                Are you sure you want to delete this item?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="submit" class="btn btn-primary">Yes</button>
-              </div>
+              <?php
+              if ($value['order_status'] == "waiting to process") {
+
+                ?>
+                <div class="d-flex justify-content-end mg-2">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $value['order_id']?>">
+                    Delete
+                  </button>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal<?php echo $value['order_id']?>" tabindex="-1" aria-labelledby="exampleModalLabel<?php echo $value['order_id']?>"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel<?php echo $value['order_id']?>">Delete Confirm</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to delete this item?
+                      </div>
+                      <form method = "POST" action = "">
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <input type="hidden" name="order_id" value="<?php echo $value['order_id']?>">
+                        <button type="submit" name="cancel_order" class="btn btn-primary">Yes</button>
+                      </div>
+                      </form>
+                    </div>
+                  </div>
+
+                </div>
+                <?php
+              } else {
+
+              }
+              ?>
             </div>
           </div>
-
-        </div>
-      </div>
+          <?php
+        }
+      }
+      ?>
     </div>
   </div>
 

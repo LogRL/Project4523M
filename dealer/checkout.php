@@ -186,11 +186,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </ul>
                     </li>
                 </ul>
-                <a class="btn btn btn-outline-success active" href="./checkout.php" role="button"
-                    style="margin-right:15px">Checkout</a>
-                <form class="d-flex">
-                    <button class="btn btn-outline-success" type="button">Logout</button>
-                </form>
+                <div class="d-flex">
+                    <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button">Checkout</a>
+                    <a class="btn btn btn-outline-success m-2" href="./logout.php" role="button">Logout</a>
+                </div>
             </div>
         </div>
     </nav>
