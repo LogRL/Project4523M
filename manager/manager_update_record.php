@@ -154,7 +154,7 @@ mysqli_close($conn);
           ?>
           <tr>
             <th scope="row"><?php echo"$itemCount"?></th>
-            <td><div class="col-sm-2 align-self-start"><img src="<?php echo"$itemImage[$item]"?>" class="img-thumbnail" alt="..."></div></td>
+            <td><div class="col-sm-2 align-self-start"><img src="<?php echo"$itemImage[$item]"?>" class="img-thumbnail" alt="..." width="200" height="200"></div></td>
             <td><?php echo"$itemName[$item]"?></td>
             <td><?php echo"$quantity[$mykey]"?></td>
             <td><?php $sum = $price[$item] * $quantity[$mykey]; echo $sum;?></td>

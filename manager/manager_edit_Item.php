@@ -1,7 +1,21 @@
 <?php
 require_once '../db/connet.php';
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $partNumber = $_POST["inputPartNumber"];
+  $partImage = $_FILES["imgFile"]["name"];
+  $partDescription = $_POST["inputPartdescription"];
+  $quantity = $_POST["inputQuantity"];
+  $price = $_POST["inputPrice"];
 
+  // Update the item in the database
+  $sql = "UPDATE items SET partImage = '$partImage', partDescription = '$partDescription', quantity = '$quantity', price = '$price' WHERE partNumber = '$partNumber'";
+  if (mysqli_query($conn, $sql)) {
+    echo "Item updated successfully";
+  } else {
+    echo "Error updating item: " . mysqli_error($conn);
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
