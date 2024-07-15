@@ -1,3 +1,8 @@
+<?php
+require_once '../db/connet.php';
+$sql = "select item_id, item_name, item_image, item_desc, weight, quantity, price, category_id, LPAD(product_id, 5, 0) as product_id from item, item_category where item.category_id = item_category.categroy_id;";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,30 +59,32 @@
       </div>
     </div>
   </nav>
-  <div class="container ">
-    <div class="row">
+  <div class="container mt-5">
+    <div class="row mb-5">
       <div class="col-sm-6">
-        <div class="card">
+        <div class="card border-dark my-2">
+          <div class="card-header bg-dark text-light"><h5 class="card-title mt-2">Today Sales</h5></div>
           <div class="card-body">
-            <h5 class="card-title"> Today Sales </h5>
             <p class="card-text">$99</p>
           </div>
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="card">
+        <div class="card border-dark my-2">
+          <div class="card-header bg-dark text-light"><h5 class="card-title mt-2">Month Sales</h5></div>
           <div class="card-body">
-            <h5 class="card-title">Month Sales</h5>
             <p class="card-text">#9999</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="card" style="width: auto;">
-      <div class="card-title">Stocky Selling</div>
+    <div class="card border-dark" style="width: auto;">
+      <div class="card-header bg-dark text-light">
+        <h5 class="card-title mt-2">Stocky Selling</h5>
+      </div>
       <div class="card-body">
         <p class="card-text">
-        <table class="table">
+        <table class="table table-striped table-responsive">
           <thead>
             <tr>
               <th scope="col">Part Number</th>

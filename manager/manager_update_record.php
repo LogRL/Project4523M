@@ -115,7 +115,7 @@ mysqli_close($conn);
   <?php foreach($orderId as $key => $orderid): $mkey = $key ?> 
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo"$mkey"?>" aria-expanded="false" aria-controls="flush-collapse<?php echo"$mkey"?>">
+      <button class="btn btn-light accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo"$mkey"?>" aria-expanded="false" aria-controls="flush-collapse<?php echo"$mkey"?>">
         <div><br>
           Order: <?php echo "$orderid"?> <br>
           Manager ID: <?php if($smId[$mkey] === null){echo"NULL";}else{echo"$smId[$mkey]";}?><br>
@@ -129,8 +129,8 @@ mysqli_close($conn);
         </div>
       </button>
     </h2>
-    <div id="flush-collapse<?php echo"$mkey"?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?php echo"$mkey"?>" data-bs-parent="#accordionFlushExample">
-      <table class="table table-striped table-bordered">
+    <div id="flush-collapse<?php echo"$mkey"?>" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+      <table class="table table-striped table-bordered table-responsive">
         <thead class="table-dark">
           <tr>
             <th scope="col">#</th>
@@ -153,7 +153,7 @@ mysqli_close($conn);
             }
           ?>
           <tr>
-            <th scope="row"><?php echo"$itemCount"?> </th>
+            <th scope="row"><?php echo"$itemCount"?></th>
             <td><div class="col-sm-2 align-self-start"><img src="<?php echo"$itemImage[$item]"?>" class="img-thumbnail" alt="..."></div></td>
             <td><?php echo"$itemName[$item]"?></td>
             <td><?php echo"$quantity[$mykey]"?></td>
