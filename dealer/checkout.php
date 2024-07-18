@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //if enough, create order and insert into order table and order_item table
         //if not enough, alert "not enough stock and show the id of the item that is not enough"
         foreach ($_SESSION['cart'] as $key => $value) {
+            $item_full_product_id = $value['full_product_id'];
             $item_id = $value['item_id'];
             $quantity = $value['quantity'];
             $check_stock_sql = "SELECT quantity FROM item WHERE item_id = $item_id";
@@ -39,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // echo "Stock quantity: " . $stock_quantity . "<br>";
                 // echo "Order quantity: " . $quantity . "<br>";
                 // echo "Please remove the item from cart and try again<br>";
-                echo "<script>alert('Not enough stock for item ID: " . $item_id . "'); </script>";
+                echo "<script>alert('Not enough stock for item ID: " . $item_full_product_id . "'); </script>";
                 echo "<script>alert('Please remove the item from cart and try again'); </script>";
                 $canCreateOrder = false;
             }
@@ -155,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container-fluid">
+        <div class="container-fluid ">
             <a class="navbar-brand" href="#">
                 <i class="bi bi-x-diamond-fill"></i>
             </a>
@@ -164,27 +165,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="dealer_home.html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="dealer_home.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="dealer_UpdateInfo.php">User Info</a>
+                        <a class="nav-link" href="dealer_UpdateInfo.php">User Info</i></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Orders
+                            Order
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="Item.php">Create Order</a></li>
+                            <li><a class="dropdown-item" href="Item.php">Order Item</a></li>
+
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="dealer_viewOrder.php">View Orders</a></li>
+                            <li><a class="dropdown-item" href="dealer_viewOrder.php">View Order</a></li>
                         </ul>
                     </li>
+
                 </ul>
                 <div class="d-flex">
                     <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button">Checkout</a>

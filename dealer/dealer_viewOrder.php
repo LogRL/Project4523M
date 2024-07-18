@@ -23,20 +23,20 @@ while ($order_detail_rs = mysqli_fetch_assoc($order_detail_result)) {
   );
   $array_order['order'][] = $array_order_detail;
 }
-if($_SERVER['REQUEST_METHOD'] == "POST"){
-  if(isset($_POST['cancel_order'])){
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+  if (isset($_POST['cancel_order'])) {
     //change the order status to cancel and add the order_item quantity back to item quantity
-    $cancel_order_sql = "update `order` set order_status = 'cancel' where order_id = '".$_POST['order_id']."'";
-    $cancel_order_result = mysqli_query($conn,$cancel_order_sql);
-    $get_order_item_sql = "select * from order_item where order_id = '".$_POST['order_id']."'";
-    $get_order_item_result = mysqli_query($conn,$get_order_item_sql);
-    while($get_order_item_rs = mysqli_fetch_assoc($get_order_item_result)){
-      $get_item_quantity_sql = "select quantity from item where item_id = '".$get_order_item_rs['item_id']."'";
-      $get_item_quantity_result = mysqli_query($conn,$get_item_quantity_sql);
+    $cancel_order_sql = "update `order` set order_status = 'cancel' where order_id = '" . $_POST['order_id'] . "'";
+    $cancel_order_result = mysqli_query($conn, $cancel_order_sql);
+    $get_order_item_sql = "select * from order_item where order_id = '" . $_POST['order_id'] . "'";
+    $get_order_item_result = mysqli_query($conn, $get_order_item_sql);
+    while ($get_order_item_rs = mysqli_fetch_assoc($get_order_item_result)) {
+      $get_item_quantity_sql = "select quantity from item where item_id = '" . $get_order_item_rs['item_id'] . "'";
+      $get_item_quantity_result = mysqli_query($conn, $get_item_quantity_sql);
       $get_item_quantity_rs = mysqli_fetch_assoc($get_item_quantity_result);
       $new_quantity = $get_item_quantity_rs['quantity'] + $get_order_item_rs['quantity'];
-      $update_item_quantity_sql = "update item set quantity = '".$new_quantity."' where item_id = '".$get_order_item_rs['item_id']."'";
-      $update_item_quantity_result = mysqli_query($conn,$update_item_quantity_sql);
+      $update_item_quantity_sql = "update item set quantity = '" . $new_quantity . "' where item_id = '" . $get_order_item_rs['item_id'] . "'";
+      $update_item_quantity_result = mysqli_query($conn, $update_item_quantity_sql);
     }
     header("Refresh:0");
   }
@@ -90,18 +90,18 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
       <div class="collapse navbar-collapse " id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="dealer_home.html">Home</a>
+            <a class="nav-link active" aria-current="page" href="dealer_home.html">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="dealer_UpdateInfo.php">User Info</i></a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               Order
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="Item.php">Create Order</a></li>
+              <li><a class="dropdown-item" href="Item.php">Order Item</a></li>
 
               <li>
                 <hr class="dropdown-divider">
@@ -112,8 +112,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
         </ul>
         <div class="d-flex">
-          <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button"
-            >Checkout</a>
+          <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button">Checkout</a>
           <a class="btn btn btn-outline-success m-2" href="./logout.php" role="button">Logout</a>
         </div>
       </div>
@@ -172,14 +171,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                   echo "address: " . $value['address'] . "<br>";
                   echo "delivery_date: " . $value['delivery_date'] . "<br>";
                   echo "deal_id: " . $value['deal_id'] . "<br>";
-                
+
                   echo "total_price: " . $value['total_price'] . "<br>";
                   echo "shipping_cost: " . $value['shipping_cost'] . "<br>";
                   echo "shipping_method: " . $value['shipping_method'] . "<br>";
-                  if($value['order_status'] == "Packing"){
+                  if ($value['order_status'] == "Packing") {
                     echo "sm_id: " . $value['sm_id'] . "<br>";
-                  }else{
-                   
+                  } else {
+
                   }
                   echo "</div>";
                   ?>
@@ -192,28 +191,29 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
                 ?>
                 <div class="d-flex justify-content-end m-2">
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $value['order_id']?>">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal<?php echo $value['order_id'] ?>">
                     Delete
                   </button>
                 </div>
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal<?php echo $value['order_id']?>" tabindex="-1" aria-labelledby="exampleModalLabel<?php echo $value['order_id']?>"
-                  aria-hidden="true">
+                <div class="modal fade" id="exampleModal<?php echo $value['order_id'] ?>" tabindex="-1"
+                  aria-labelledby="exampleModalLabel<?php echo $value['order_id'] ?>" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel<?php echo $value['order_id']?>">Delete Confirm</h5>
+                        <h5 class="modal-title" id="exampleModalLabel<?php echo $value['order_id'] ?>">Delete Confirm</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
                         Are you sure you want to delete this item?
                       </div>
-                      <form method = "POST" action = "">
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        <input type="hidden" name="order_id" value="<?php echo $value['order_id']?>">
-                        <button type="submit" name="cancel_order" class="btn btn-primary">Yes</button>
-                      </div>
+                      <form method="POST" action="">
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                          <input type="hidden" name="order_id" value="<?php echo $value['order_id'] ?>">
+                          <button type="submit" name="cancel_order" class="btn btn-primary">Yes</button>
+                        </div>
                       </form>
                     </div>
                   </div>

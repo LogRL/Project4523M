@@ -124,7 +124,7 @@ $username = $_SESSION['deal_name'];
 </script>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid ">
       <a class="navbar-brand" href="#">
         <i class="bi bi-x-diamond-fill"></i>
@@ -136,24 +136,26 @@ $username = $_SESSION['deal_name'];
       <div class="collapse navbar-collapse " id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="dealer_home.html">Home</a>
+            <a class="nav-link active" aria-current="page" href="dealer_home.html">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="dealer_UpdateInfo.php">User Info</i></a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               Order
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="Item.php">Create Order</a></li>
+              <li><a class="dropdown-item" href="Item.php">Order Item</a></li>
+
               <li>
                 <hr class="dropdown-divider">
               </li>
               <li><a class="dropdown-item" href="dealer_viewOrder.php">View Order</a></li>
             </ul>
           </li>
+
         </ul>
         <div class="d-flex">
           <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button"

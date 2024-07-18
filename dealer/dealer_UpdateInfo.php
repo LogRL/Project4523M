@@ -9,12 +9,15 @@ $fax_num = $_SESSION['fax_num'];
 $address = $_SESSION['address'];
 
 if (isset($_POST['update_password'])) {
-    $old_password = $_POST['old_password'];
-    $new_password = $_POST['new_password'];
-    $re_new_password = $_POST['re_new_password'];
-    $new_contact_num = $_POST['contact_num'];
-    $new_fax_num = $_POST['fax_num'];
-    $new_address = $_POST['address'];
+  $old_password = $_POST['old_password'];
+  $new_password = $_POST['new_password'];
+  $re_new_password = $_POST['re_new_password'];
+  $new_contact_num = $_POST['contact_num'];
+  $new_fax_num = $_POST['fax_num'];
+  $new_address = $_POST['address'];
+
+  // Update only if old password is provided
+  if (!empty($old_password)) {
     $sql_getpassword = "SELECT pwd FROM user WHERE deal_id='$id'";
     $result = mysqli_query($conn, $sql_getpassword);
     $rs = mysqli_fetch_array($result);
@@ -22,44 +25,49 @@ if (isset($_POST['update_password'])) {
 
     // Check if the old password matches
     if ($old_password === $pwd) {
-        // Check if new passwords match
-        if ($new_password === $re_new_password) {
-            // Update password in the database
-            $update_password_query = "UPDATE user SET pwd='$new_password' WHERE deal_id='$id'";
-            mysqli_query($conn, $update_password_query);
-
-            // Update contact number if provided
-            if (!empty($new_contact_num) && is_numeric($new_contact_num)) {
-                $update_contact_num_query = "UPDATE user SET contact_num='$new_contact_num' WHERE deal_id='$id'";
-                mysqli_query($conn, $update_contact_num_query);
-                $_SESSION['contact_num'] = $new_contact_num;
-            }
-
-            // Update fax number if provided
-            if (!empty($new_fax_num)) {
-                $update_fax_num_query = "UPDATE user SET fax_num='$new_fax_num' WHERE deal_id='$id'";
-                mysqli_query($conn, $update_fax_num_query);
-                $_SESSION['fax_num'] = $new_fax_num;
-            }
-
-            // Update address if provided and within length limit
-            if (!empty($new_address) && strlen($new_address) <= 200) {
-                $update_address_query = "UPDATE user SET address='$new_address' WHERE deal_id='$id'";
-                mysqli_query($conn, $update_address_query);
-                $_SESSION['address'] = $new_address;
-            }
-
-            echo "<script>alert('Update successful.');</script>";
-          
-        } else {
-            echo "<script>alert('New passwords do not match.');</script>";
-        }
+      // Check if new passwords match
+      if ($new_password === $re_new_password) {
+        // Update password in the database
+        $update_password_query = "UPDATE user SET pwd='$new_password' WHERE deal_id='$id'";
+        mysqli_query($conn, $update_password_query);
+        echo "<script>alert('Password updated successfully.');</script>";
+      } else {
+        echo "<script>alert('New passwords do not match.');</script>";
+      }
     } else {
-    
-        echo "<script>alert('Old password is incorrect.');</script>";
+      echo "<script>alert('Old password is incorrect.');</script>";
     }
+  }
 
+  // Update contact number if provided
+  if (!empty($new_contact_num) && is_numeric($new_contact_num)) {
+    $update_contact_num_query = "UPDATE user SET contact_num='$new_contact_num' WHERE deal_id='$id'";
+    mysqli_query($conn, $update_contact_num_query);
+    $_SESSION['contact_num'] = $new_contact_num;
+    echo "<script>alert('Contact Number Update Successful')</script>";
+  }
+
+  // Update fax number if provided
+  if (!empty($new_fax_num)) {
+    $update_fax_num_query = "UPDATE user SET fax_num='$new_fax_num' WHERE deal_id='$id'";
+    mysqli_query($conn, $update_fax_num_query);
+    $_SESSION['fax_num'] = $new_fax_num;
+    echo "<script>alert('Fax Number Update Successful')</script>";
+
+  }
+
+  // Update address if provided and within length limit
+  if (!empty($new_address) && strlen($new_address) <= 200) {
+    $update_address_query = "UPDATE user SET address='$new_address' WHERE deal_id='$id'";
+    mysqli_query($conn, $update_address_query);
+    $_SESSION['address'] = $new_address;
+    echo "<script>alert('Address Number Update Successful')</script>";
+
+  }
+  //refresh the page
+  echo "<script>location.href = 'dealer_UpdateInfo.php';</script>";
 }
+
 mysqli_close($conn);
 ?>
 
@@ -101,7 +109,7 @@ mysqli_close($conn);
               Order
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="Item.php">Create Order</a></li>
+              <li><a class="dropdown-item" href="Item.php">Order Item</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -110,8 +118,7 @@ mysqli_close($conn);
           </li>
         </ul>
         <div class="d-flex">
-          <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button"
-            >Checkout</a>
+          <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button">Checkout</a>
           <a class="btn btn btn-outline-success m-2" href="./logout.php" role="button">Logout</a>
         </div>
       </div>
@@ -124,19 +131,20 @@ mysqli_close($conn);
         <form action="" method="POST">
           <div class="mb-3">
             <label for="old_password" class="form-label">Old Password</label>
-            <input type="password" class="form-control" id="old_password" name="old_password" required>
+            <input type="password" class="form-control" id="old_password" name="old_password" >
           </div>
           <div class="mb-3">
             <label for="new_password" class="form-label">New Password</label>
-            <input type="password" class="form-control" id="new_password" name="new_password" required>
+            <input type="password" class="form-control" id="new_password" name="new_password" >
           </div>
           <div class="mb-3">
             <label for="re_new_password" class="form-label">Re-enter New Password</label>
-            <input type="password" class="form-control" id="re_new_password" name="re_new_password" required>
+            <input type="password" class="form-control" id="re_new_password" name="re_new_password" >
           </div>
           <div class="mb-3">
             <label for="contact_num" class="form-label">Contact Number</label>
-            <input type="text" class="form-control" id="contact_num" name="contact_num" placeholder="<?php echo $contact_num ?>">
+            <input type="text" class="form-control" id="contact_num" name="contact_num"
+              placeholder="<?php echo $contact_num ?>">
           </div>
           <div class="mb-3">
             <label for="fax_num" class="form-label">Fax Number</label>
@@ -163,7 +171,8 @@ mysqli_close($conn);
             </div>
             <div class="mb-3 disabledInput">
               <label for="exampleInputEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="exampleInputEmail" placeholder="<?php echo $_SESSION['email'] ?>">
+              <input type="email" class="form-control" id="exampleInputEmail"
+                placeholder="<?php echo $_SESSION['email'] ?>">
             </div>
           </fieldset>
         </form>
