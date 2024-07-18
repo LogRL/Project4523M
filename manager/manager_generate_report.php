@@ -1,3 +1,29 @@
+<?php
+require_once '../db/connet.php';
+
+$sql = "SELECT `order_id`, `order_item`.`item_id`, `order_item`.`quantity`, `item`.`item_id`, `item`.`item_name`, `item`.`item_image`, `item`.`price`, `item`.`category_id`, LPAD(product_id, 5, 0) AS `product_id` FROM `item`, `order_item`, `item_category` WHERE `item`.`category_id` = `item_category`.`categroy_id` AND `item`.`item_id` = `order_item`.`item_id` GROUP BY `order_item`.`item_id` ORDER BY `order_item`.`item_id` ASC;";
+$result = mysqli_query($conn, $sql);
+
+if ($result){
+  while ($rs = mysqli_fetch_assoc($result)){
+    $orderId[] = $rs['order_id'];
+    $itemId[] = $rs['item_id'];
+    $quantity[] = $rs['quantity'];
+    $itemName[] = $rs['item_name'];
+    $itemImage[] = $rs['item_image'];
+    $price[] = $rs['price'];
+    $categoryId[] = $rs['category_id'];
+    $productId[] = $rs['product_id'];
+  }
+}
+else{
+  echo "Error: " . mysqli_error($conn);
+}
+
+
+mysqli_close($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,30 +80,32 @@
       </div>
     </div>
   </nav>
-  <div class="container ">
-    <div class="row">
+  <div class="container mt-5">
+    <div class="row mb-5">
       <div class="col-sm-6">
-        <div class="card">
+        <div class="card border-dark my-2">
+          <div class="card-header bg-dark text-light"><h5 class="card-title mt-2">Today Sales</h5></div>
           <div class="card-body">
-            <h5 class="card-title"> Today Sales </h5>
             <p class="card-text">$99</p>
           </div>
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="card">
+        <div class="card border-dark my-2">
+          <div class="card-header bg-dark text-light"><h5 class="card-title mt-2">Month Sales</h5></div>
           <div class="card-body">
-            <h5 class="card-title">Month Sales</h5>
             <p class="card-text">#9999</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="card" style="width: auto;">
-      <div class="card-title">Stocky Selling</div>
+    <div class="card border-dark" style="width: auto;">
+      <div class="card-header bg-dark text-light">
+        <h5 class="card-title mt-2">Stocky Selling</h5>
+      </div>
       <div class="card-body">
         <p class="card-text">
-        <table class="table">
+        <table class="table table-striped table-responsive">
           <thead>
             <tr>
               <th scope="col">Part Number</th>
@@ -88,24 +116,33 @@
             </tr>
           </thead>
           <tbody>
+            <?php foreach($itemId as $key => $id): $mykey = $key?>
             <tr>
-              <th scope="row">100001</th>
-              <td>sheet Metal</td>
+              <th scope="row"><?php echo"$categoryId[$key]$productId[$key]";?></th>
+              <td><?php echo"$itemName[$key]";?></td>
               <td>
-                <img src="../asserts/img/sample images/A-Sheet Metal/100001.jpg" width="48" height="48">
+                <img src="<?php echo"$itemImage[$key]";?>" width="48" height="48">
               </td>
-              <td>100</td>
-              <td>$5000</td>
-            </tr>
-            <tr>
-              <th scope="row">200001</th>
-              <td>Major Assembilies</td>
-              <td>
-                <img src="../asserts/img/sample images/B-Major Assemblies/200001.jpg" width="48" height="48">
+              <td><?php
+                $totalQuantity = 0;
+                While($id == $itemId[$mykey] && $mykey < count($itemId)){
+                  $totalQuantity += $quantity[$mykey];
+                  $mykey++;
+                }
+                echo $totalQuantity;
+              ?>
               </td>
-              <td>100</td>
-              <td>$5000</td>
+              <td><?php
+                $totalSales = 0;
+                while($id == $itemId[$mykey] && $mykey < count($itemId)){
+                  $totalSales += $price[$mykey] * $quantity[$mykey];
+                  $mykey++;
+                }
+                echo $totalSales;
+              ?>
+              </td>
             </tr>
+            <?php endforeach;?>
           </tbody>
         </table>
         <h1 class="display-5">Total sales amount =$10000 </h1>

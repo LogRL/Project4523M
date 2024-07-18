@@ -1,30 +1,63 @@
 <?php
 require_once('../db/connet.php');
 
-$sql = "SELECT `order`.`order_id`, `order_date`, `total_price`, `order_time`, `address`, `delivery_date`, `deal_id`, `order`.`sm_id`, `order_status`, `order_item`.`item_id`, `item`.`item_name`, `item`.`item_image`, `order_item`.`quantity`, `sales_manager`.`contact_name`, `sales_manager`.`contact_num` FROM `order` INNER JOIN `order_item` on `order_item`.`order_id` = `order`.`order_id` INNER JOIN `item` on `item`.`item_id` = `order_item`.`item_id` INNER JOIN `sales_manager` on `sales_manager`.`sm_id` = `order`.`sm_id`;";
-$result = mysqli_query($conn, $sql);
+$sql1 = "SELECT `order`.`order_id`, `order_date`, `total_price`, `order_time`, `address`, `delivery_date`,`order`.`sm_id`, `order_status` FROM `order` GROUP BY `order`.`order_id` ORDER BY `order`.`order_id` ASC;";
+$result1 = mysqli_query($conn, $sql1);
 
-if ($result) {
-  while ($rs = mysqli_fetch_assoc($result)) {
-    $orderId[] = $rs['order_id'];
-    $smId[] = $rs['sm_id'];
-    $contactName[] = $rs['contact_name'];
-    $contactNum[] = $rs['contact_num'];
-    $orderDate[] = $rs['order_date'];
-    $orderTime[] = $rs['order_time'];
-    $address[] = $rs['address'];
-    $deliveryDate[] = $rs['delivery_date'];
-    $orderStatus[] = $rs['order_status'];
-    $itemId[] = $rs['item_id'];
-    $quantity[] = $rs['quantity'];
-    $itemName[] = $rs['item_name'];
-    $itemImage[] = $rs['item_image'];
-    $price[] = $rs['total_price'];
-    // ... process other columns as needed
+if ($result1) {
+  while ($rs1 = mysqli_fetch_assoc($result1)) {
+    $orderId[] = $rs1['order_id'];
+    $smId[] = $rs1['sm_id'];
+    $orderDate[] = $rs1['order_date'];
+    $orderTime[] = $rs1['order_time'];
+    $address[] = $rs1['address'];
+    $deliveryDate[] = $rs1['delivery_date'];
+    $orderStatus[] = $rs1['order_status'];
+    $totalPrice[] = $rs1['total_price'];
   }
 } else {
   echo "Error: " . mysqli_error($conn);
 }
+
+$sql2 = "SELECT `sm_id`, `contact_name`, `contact_num` FROM `sales_manager`;";
+$result2 = mysqli_query($conn, $sql2);
+
+if($result2) {
+  while($rs2 = mysqli_fetch_assoc($result2)) {
+    $contactName[] = $rs2['contact_name'];
+    $contactNum[] = $rs2['contact_num'];
+  }
+} else {
+  echo "Error: " . mysqli_error($conn);
+}
+
+$sql3 = "SELECT `order_id`, `item_id`, `quantity` FROM `order_item`;";
+$result3 = mysqli_query($conn, $sql3);
+
+if($result3) {
+  while($rs3 = mysqli_fetch_assoc($result3)) {
+    $orderItemIndex[] = $rs3['order_id'];
+    $orderItemId[] = $rs3['item_id'];
+    $quantity[] = $rs3['quantity'];
+  }
+} else {
+  echo "Error: " . mysqli_error($conn);
+}
+
+$sql4 = "SELECT `item_id`, `item_name`, `item_image`, `price` FROM `item`;";
+$result4 = mysqli_query($conn, $sql4);
+
+if($result4) {
+  while($rs4 = mysqli_fetch_assoc($result4)) {
+    $itemId[] = $rs4['item_id'];
+    $itemName[] = $rs4['item_name'];
+    $itemImage[] = $rs4['item_image'];
+    $price[] = $rs4['price'];
+  }
+} else {
+  echo "Error: " . mysqli_error($conn);
+}
+
 mysqli_close($conn);
 ?>
 
@@ -82,12 +115,12 @@ mysqli_close($conn);
   <?php foreach($orderId as $key => $orderid): $mkey = $key ?> 
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo"$mkey"?>" aria-expanded="false" aria-controls="flush-collapseOne">
+      <button class="btn btn-light accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?php echo"$mkey"?>" aria-expanded="false" aria-controls="flush-collapse<?php echo"$mkey"?>">
         <div><br>
           Order: <?php echo "$orderid"?> <br>
-          Manager ID: <?php echo"$smId[$mkey]"?><br>
-          Manager's Contact Name: <?php echo"$contactName[$mkey]"?><br>
-          Manager's Contact Number: <?php echo"$contactNum[$mkey]"?><br>
+          Manager ID: <?php if($smId[$mkey] === null){echo"NULL";}else{echo"$smId[$mkey]";}?><br>
+          Manager's Contact Name: <?php if($smId[$mkey] === null){echo"NULL";}else{$smIndex = $smId[$mkey] - 1;echo"$contactName[$smIndex]";}?><br>
+          Manager's Contact Number: <?php if($smId[$mkey] === null){echo"NULL";}else{$smIndex = $smId[$mkey] - 1;echo"$contactNum[$smIndex]";}?><br>
           Order Date: <?php echo"$orderDate[$mkey]"?><br>
           Order Time: <?php echo"$orderTime[$mkey]"?><br>
           Delivery Address: <?php echo"$address[$mkey]"?><br>
@@ -97,25 +130,34 @@ mysqli_close($conn);
       </button>
     </h2>
     <div id="flush-collapse<?php echo"$mkey"?>" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-      <table class="table table-striped">
-        <thead>
+      <table class="table table-striped table-bordered table-responsive">
+        <thead class="table-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Spare Part Image</th>
             <th scope="col">Spare Part Name</th>
             <th scope="col">Order Quantity</th>
             <th scope="col">Order Price</th>
-
           </tr>
         </thead>
         <tbody>
-          <?php foreach($itemId as $mykey => $item): $itemCount = $mykey + 1 ?>
+          <?php 
+          $itemCount = 0;
+          foreach($orderItemIndex as $mykey => $item): 
+            if($orderid == $orderItemIndex[$mykey]){
+              $item = $orderItemId[$mykey];
+              $itemCount ++;
+            }else{
+              $itemCount = 0;
+              continue;
+            }
+          ?>
           <tr>
-            <th scope="row"><?php echo"$itemCount"?> </th>
-            <td><div class="col-sm-2 align-self-start"><img src="<?php echo"$itemImage[$mykey]"?>" class="img-fluid rounded-start" alt="..."></div></td>
-            <td><?php echo"$itemName[$mykey]"?></td>
+            <th scope="row"><?php echo"$itemCount"?></th>
+            <td><div class="col-sm-2 align-self-start"><img src="<?php echo"$itemImage[$item]"?>" class="img-thumbnail" alt="..." width="200" height="200"></div></td>
+            <td><?php echo"$itemName[$item]"?></td>
             <td><?php echo"$quantity[$mykey]"?></td>
-            <td><?php echo"$price[$mykey]"?></td>
+            <td><?php $sum = $price[$item] * $quantity[$mykey]; echo $sum;?></td>
           </tr>
           <?php endforeach;?>
         </tbody>
