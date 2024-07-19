@@ -101,7 +101,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Toggle the sort direction
     sortDirection[id] = direction === 'asc' ? 'desc' : 'asc';
   }
-
+  function OrderStatusChange(status) {
+    // Send AJAX request to fetch orders based on status
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "fetch_orders.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // Update the order list with the response
+        document.getElementById("accordionFlushExample").innerHTML = xhr.responseText;
+      }
+    };
+    xhr.send("status=" + status);
+  }
 </script>
 
 <body>
@@ -157,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
               aria-controls="home" onclick="OrderStatusChange('All')">All</a>
             <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
-              aria-controls="home" onclick="OrderStatusChange('waiting to rpocess')">Waiting to process</a>
+              aria-controls="home" onclick="OrderStatusChange('waiting to process')">Waiting to process</a>
             <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
               aria-controls="home" onclick="OrderStatusChange('Packing')">Packing</a>
             <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
