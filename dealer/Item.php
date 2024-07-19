@@ -60,6 +60,7 @@ $username = $_SESSION['deal_name'];
   <title>Dealer Create Order</title>
 </head>
 
+</style>
 <script>
   function addtocart(item_id, item_name, item_image, item_desc, weight, price, category_id, product_id) {
     // Use fetch post to addtocart.php
@@ -124,7 +125,7 @@ $username = $_SESSION['deal_name'];
 </script>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid ">
       <a class="navbar-brand" href="#">
         <i class="bi bi-x-diamond-fill"></i>
@@ -158,9 +159,10 @@ $username = $_SESSION['deal_name'];
 
         </ul>
         <div class="d-flex">
-          <a class="btn btn btn-outline-success m-2" href="./checkout.php" role="button"
-            >Checkout</a>
-          <a class="btn btn btn-outline-success m-2" href="./logout.php" role="button">Logout</a>
+          <a class="btn btn btn-outline-success m-1" href="./checkout.php" role="button">Checkout</a>
+        </div>
+        <div class="d-flex">
+          <a class="btn btn btn-outline-success m-1" href="./logout.php" role="button">Logout</a>
         </div>
       </div>
     </div>
@@ -168,35 +170,38 @@ $username = $_SESSION['deal_name'];
   <div class="container" style="padding-top:5%;">
     <div class="row row-col-3">
       <!-- list of category -->
+
       <div class="col col-md-3">
-        <div class="list-group" id="list-tab" role="tablist">
-          <div class="list-outline-item">
-            <h3>Categories</h3>
-          </div>
-          <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" href="#list-home"
-            role="tab" aria-controls="home" onclick="linktotag('home')">All</a>
-          <?php
-          $sql = "select * from item_category";
-          $result = mysqli_query($conn, $sql);
-          while ($rs = mysqli_fetch_array($result)) {
-            ?>
+      <div class ="sticky-top"style="padding-top: 50%;">
+          <div class="list-group " id="list-tab" role="tablist">
+            <div class="list-outline-item">
+              <h3>Categories</h3>
+            </div>
             <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list"
-              href="#list-<?php echo $rs['category']; ?>" role="tab" aria-controls="home"
-              onclick="linktotag('<?php echo $rs['category']; ?>')"><?php echo $rs['category']; ?></a>
+              href="#list-home" role="tab" aria-controls="home" onclick="linktotag('home')">All</a>
             <?php
-          }
-          mysqli_free_result($result);
-          ?>
-          <form method="POST" action="">
-            <select name="selectOrder" class="form-select mt-3" aria-label="Default select example"
-              onchange="this.form.submit()">
-              <option value="" disabled selected>--select--</option>
-              <option value="1">ID (Low to High)</option>
-              <option value="2">ID (High to Low)</option>
-              <option value="3">Price (Low to High)</option>
-              <option value="4">Price (High to Low)</option>
-            </select>
-          </form>
+            $sql = "select * from item_category";
+            $result = mysqli_query($conn, $sql);
+            while ($rs = mysqli_fetch_array($result)) {
+              ?>
+              <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list"
+                href="#list-<?php echo $rs['category']; ?>" role="tab" aria-controls="home"
+                onclick="linktotag('<?php echo $rs['category']; ?>')"><?php echo $rs['category']; ?></a>
+              <?php
+            }
+            mysqli_free_result($result);
+            ?>
+            <form method="POST" action="">
+              <select name="selectOrder" class="form-select mt-3" aria-label="Default select example"
+                onchange="this.form.submit()">
+                <option value="" disabled selected>--select--</option>
+                <option value="1">ID (Low to High)</option>
+                <option value="2">ID (High to Low)</option>
+                <option value="3">Price (Low to High)</option>
+                <option value="4">Price (High to Low)</option>
+              </select>
+            </form>
+          </div>
         </div>
       </div>
 
@@ -232,7 +237,7 @@ $username = $_SESSION['deal_name'];
                   $keyword = "order by price desc";
                 }
               }
-              $sql2 = "select item_id, item_name, item_image, item_desc, weight, quantity, price, category_id, LPAD(product_id, 5, 0) as product_id from item, item_category where item.category_id = item_category.categroy_id and item_category.category = '$cate' " ." and quantity > 0 " . $keyword;
+              $sql2 = "select item_id, item_name, item_image, item_desc, weight, quantity, price, category_id, LPAD(product_id, 5, 0) as product_id from item, item_category where item.category_id = item_category.categroy_id and item_category.category = '$cate' " . " and quantity > 0 " . $keyword;
               $result2 = mysqli_query($conn, $sql2);
               while ($rs2 = mysqli_fetch_array($result2)) {
                 ?>
@@ -267,7 +272,8 @@ $username = $_SESSION['deal_name'];
                           <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
                             <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
                               <div class="toast-header">
-                                <img src="../asserts/img/cat_like_meme.jpg" class="rounded me-2" style="width:15.99px;height:15.99px">
+                                <img src="../asserts/img/cat_like_meme.jpg" class="rounded me-2"
+                                  style="width:15.99px;height:15.99px">
                                 <strong class="me-auto">Notification</strong>
                                 <small>Just now</small>
                                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
