@@ -76,6 +76,33 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <link rel="stylesheet" href="../asserts/css/style.css">
   <title>Dealer View Order </title>
 </head>
+<script>
+
+  let sortDirection = {}; // Object to keep track of sort direction for each table
+
+  function sortTableBySparePartId(id) {
+    let table = document.getElementById("order_item_table-" + id);
+    let rows = Array.from(table.rows).slice(1); // Skip the header row
+    let shouldSwitch;
+    let direction = sortDirection[id] || 'asc'; // Default to ascending
+
+    rows.sort((a, b) => {
+      let x = a.getElementsByTagName("TD")[3].innerHTML.toLowerCase();
+      let y = b.getElementsByTagName("TD")[3].innerHTML.toLowerCase();
+      if (direction === 'asc') {
+        return x > y ? 1 : -1;
+      } else {
+        return x < y ? 1 : -1;
+      }
+    });
+
+    rows.forEach(row => table.tBodies[0].appendChild(row)); // Re-order the rows in the table
+
+    // Toggle the sort direction
+    sortDirection[id] = direction === 'asc' ? 'desc' : 'asc';
+  }
+
+</script>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -118,118 +145,160 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       </div>
     </div>
   </nav>
-  <div class="container  pt-2">
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-      <?php
-      if (!empty($array_order['order'])) {
-        foreach ($array_order['order'] as $key => $value) {
+  <div class="container " style="padding-top:5%;">
+    <div class="row row-col-3">
+      <!-- space place -->
+      <div class="col col-md-3">
+        <div class="sticky-top" style="padding-top:50%">
+          <div class="list-group" id="list-tab" role="tablist">
+            <div class="list-outline-item">
+              <h3>Order Status</h3>
+            </div>
+            <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
+              aria-controls="home" onclick="OrderStatusChange('All')">All</a>
+            <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
+              aria-controls="home" onclick="OrderStatusChange('waiting to rpocess')">Waiting to process</a>
+            <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
+              aria-controls="home" onclick="OrderStatusChange('Packing')">Packing</a>
+            <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
+              aria-controls="home" onclick="OrderStatusChange('Cancel')">Cancel</a>
+          </div>
+        </div>
+      </div>
+      <!-- Order list page -->
+      <div class="col-3 col-md-9">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
 
-          ?>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne">
+          <?php
+          if (!empty($array_order['order'])) {
+            foreach ($array_order['order'] as $key => $value) {
 
-              <button class="accordion-button collapsed  " type="button" data-bs-toggle="collapse"
-                data-bs-target="#flush-collapse<?php echo $value['order_id'] ?>" aria-expanded="false"
-                aria-controls="flush-collapse<?php echo $value['order_id'] ?>">
-                <div>
-                  Order ID:<?php echo $value['order_id'] ?><br>
-                  Order Status:<?php echo $value['order_status'] ?><br>
-                </div>
-              </button>
+              ?>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
 
-            </h2>
-            <div id="flush-collapse<?php echo $value['order_id'] ?>" class="accordion-collapse collapse"
-              aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Spare Part Image</th>
-                    <th scope="col">Spare Part Name</th>
-                    <th scope="col">Order Quantity</th>
-                    <th scope="col">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
+                  <button class="accordion-button collapsed  " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapse<?php echo $value['order_id'] ?>" aria-expanded="false"
+                    aria-controls="flush-collapse<?php echo $value['order_id'] ?>">
+                    <div>
+                      Order ID:<?php echo $value['order_id'] ?><br>
+                      Order Status:<?php echo $value['order_status'] ?><br>
+                    </div>
+                  </button>
+
+                </h2>
+                <div id="flush-collapse<?php echo $value['order_id'] ?>" class="accordion-collapse collapse"
+                  aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                  <div class="card-header px-4 py-5">
+                    <h5 class="text-muted mb-0">Thanks for your Order</h5>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
+                    <p class="small text-muted mb-0">Receipt Voucher : <?php echo $value['order_id'] ?></p>
+                  </div>
+                  <div class="d-flex justify-content-between pt-2">
+                    <p class="fw-bold mb-0">Order Details</p>
+                    <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> $<?php echo $value['total_price'] ?>
+                    </p>
+                  </div>
+
+
+
+                  <table class="table table-striped" id="order_item_table-<?php echo $value['order_id'] ?>">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Spare Part Image</th>
+                        <th scope="col">Spare Part Name</th>
+                        <th scope="col" onclick="sortTableBySparePartId(<?php echo $value['order_id'] ?>)">Spare Part ID</th>
+                        <th scope="col">Order Quantity</th>
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $get_order_item_sql = "select order_item.quantity , item.item_name , item.item_image, item.price, item.category_id, LPAD(product_id,5,'0') as product_id from order_item join item on order_item.item_id = item.item_id where order_id = '" . $value['order_id'] . "'";
+                      $get_order_item_result = mysqli_query($conn, $get_order_item_sql);
+                      $count = 1;
+                      while ($get_order_item_rs = mysqli_fetch_assoc($get_order_item_result)) {
+                        echo "<tr>";
+                        echo "<td scope='row'>" . $count . "</td>";
+                        echo "<td><img src='" . $get_order_item_rs['item_image'] . "' alt='item image' style='width:50px;height:50px;'></td>";
+                        echo "<td>" . $get_order_item_rs['item_name'] . "</td>";
+                        echo "<td>" . $get_order_item_rs['category_id'] . $get_order_item_rs['product_id'] . "</td>";
+                        echo "<td>" . $get_order_item_rs['quantity'] . "</td>";
+                        echo "<td>" . $get_order_item_rs['price'] . "</td>";
+                        echo "</tr>";
+                        $count++;
+                      }
+                      echo "<div class = mg-2>";
+                      echo "order_date: " . $value['order_date'] . "<br>";
+                      echo "order_time: " . $value['order_time'] . "<br>";
+                      echo "address: " . $value['address'] . "<br>";
+                      echo "delivery_date: " . $value['delivery_date'] . "<br>";
+                      echo "deal_id: " . $value['deal_id'] . "<br>";
+
+                      echo "total_price: " . $value['total_price'] . "<br>";
+                      echo "shipping_cost: " . $value['shipping_cost'] . "<br>";
+                      echo "shipping_method: " . $value['shipping_method'] . "<br>";
+                      if ($value['order_status'] == "Packing") {
+                        echo "sm_id: " . $value['sm_id'] . "<br>";
+                      } else {
+
+                      }
+                      echo "</div>";
+                      ?>
+                    </tbody>
+                  </table>
+
+                  <!-- Button trigger modal -->
+
                   <?php
-                  $get_order_item_sql = "select order_item.quantity , item.item_name , item.item_image, item.price from order_item join item on order_item.item_id = item.item_id where order_id = '" . $value['order_id'] . "'";
-                  $get_order_item_result = mysqli_query($conn, $get_order_item_sql);
-                  $count = 1;
-                  while ($get_order_item_rs = mysqli_fetch_assoc($get_order_item_result)) {
-                    echo "<tr>";
-                    echo "<th scope='row'>" . $count . "</th>";
-                    echo "<td><img src='" . $get_order_item_rs['item_image'] . "' alt='item image' style='width:50px;height:50px;'></td>";
-                    echo "<td>" . $get_order_item_rs['item_name'] . "</td>";
-                    echo "<td>" . $get_order_item_rs['quantity'] . "</td>";
-                    echo "<td>" . $get_order_item_rs['price'] . "</td>";
-                    echo "</tr>";
-                    $count++;
-                  }
-                  echo "<div class = mg-2>";
-                  echo "order_date: " . $value['order_date'] . "<br>";
-                  echo "order_time: " . $value['order_time'] . "<br>";
-                  echo "address: " . $value['address'] . "<br>";
-                  echo "delivery_date: " . $value['delivery_date'] . "<br>";
-                  echo "deal_id: " . $value['deal_id'] . "<br>";
+                  if ($value['order_status'] == "waiting to process") {
 
-                  echo "total_price: " . $value['total_price'] . "<br>";
-                  echo "shipping_cost: " . $value['shipping_cost'] . "<br>";
-                  echo "shipping_method: " . $value['shipping_method'] . "<br>";
-                  if ($value['order_status'] == "Packing") {
-                    echo "sm_id: " . $value['sm_id'] . "<br>";
+                    ?>
+                    <div class="d-flex justify-content-end m-2">
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal<?php echo $value['order_id'] ?>">
+                        Delete
+                      </button>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal<?php echo $value['order_id'] ?>" tabindex="-1"
+                      aria-labelledby="exampleModalLabel<?php echo $value['order_id'] ?>" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel<?php echo $value['order_id'] ?>">Delete Confirm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to delete this item?
+                          </div>
+                          <form method="POST" action="">
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                              <input type="hidden" name="order_id" value="<?php echo $value['order_id'] ?>">
+                              <button type="submit" name="cancel_order" class="btn btn-primary">Yes</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+
+                    </div>
+                    <?php
                   } else {
 
                   }
-                  echo "</div>";
                   ?>
-                </tbody>
-              </table>
-              <!-- Button trigger modal -->
-
+                </div>
+              </div>
               <?php
-              if ($value['order_status'] == "waiting to process") {
-
-                ?>
-                <div class="d-flex justify-content-end m-2">
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal<?php echo $value['order_id'] ?>">
-                    Delete
-                  </button>
-                </div>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal<?php echo $value['order_id'] ?>" tabindex="-1"
-                  aria-labelledby="exampleModalLabel<?php echo $value['order_id'] ?>" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel<?php echo $value['order_id'] ?>">Delete Confirm</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        Are you sure you want to delete this item?
-                      </div>
-                      <form method="POST" action="">
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                          <input type="hidden" name="order_id" value="<?php echo $value['order_id'] ?>">
-                          <button type="submit" name="cancel_order" class="btn btn-primary">Yes</button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-
-                </div>
-                <?php
-              } else {
-
-              }
-              ?>
-            </div>
-          </div>
-          <?php
-        }
-      }
-      ?>
+            }
+          }
+          ?>
+        </div>
+      </div>
     </div>
   </div>
 
