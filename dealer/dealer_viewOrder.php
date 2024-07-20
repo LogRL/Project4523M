@@ -216,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
 
-                  <table class="table table-striped" id="order_item_table-<?php echo $value['order_id'] ?>">
+                  <table class="table table-striped table-hover" id="order_item_table-<?php echo $value['order_id'] ?>">
                     <thead>
                       <tr>
                         <th scope="col">#</th>

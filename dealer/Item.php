@@ -57,7 +57,8 @@ $username = $_SESSION['deal_name'];
 
   function linktotag(category) {
     if (category == "home") {
-      window.location.href = "Item.php";
+      //back to top
+      window.location.href = "#";
     } else {
       window.location.href = "#list-" + category;
     }
@@ -96,7 +97,7 @@ $username = $_SESSION['deal_name'];
 </script>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="z-index:1021;">
     <div class="container-fluid ">
       <a class="navbar-brand" href="#">
         <i class="bi bi-x-diamond-fill"></i>
