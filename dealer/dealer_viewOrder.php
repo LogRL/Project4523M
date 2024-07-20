@@ -171,7 +171,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
               aria-controls="home" onclick="OrderStatusChange('waiting to process')">Waiting to process</a>
             <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
-              aria-controls="home" onclick="OrderStatusChange('Packing')">Packing</a>
+              aria-controls="home" onclick="OrderStatusChange('accepted')">Accepted</a>
+            <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
+              aria-controls="home" onclick="OrderStatusChange('rejected')">Rejected</a>
             <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" role="tab"
               aria-controls="home" onclick="OrderStatusChange('Cancel')">Cancel</a>
           </div>
@@ -213,7 +215,44 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> $<?php echo $value['total_price'] ?>
                     </p>
                   </div>
+                  <?php
+                  if ($value['order_status'] == "waiting to process") {
 
+                    ?>
+                    <div class="d-flex justify-content-end m-2">
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal<?php echo $value['order_id'] ?>">
+                        Cancel Order
+                      </button>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal<?php echo $value['order_id'] ?>" tabindex="-1"
+                      aria-labelledby="exampleModalLabel<?php echo $value['order_id'] ?>" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel<?php echo $value['order_id'] ?>">Cancel Confirm</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to cancel this order?
+                          </div>
+                          <form method="POST" action="">
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                              <input type="hidden" name="order_id" value="<?php echo $value['order_id'] ?>">
+                              <button type="submit" name="cancel_order" class="btn btn-primary">Yes</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+
+                    </div>
+                    <?php
+                  } else {
+
+                  }
+                  ?>
 
 
                   <table class="table table-striped table-hover" id="order_item_table-<?php echo $value['order_id'] ?>">
@@ -222,7 +261,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <th scope="col">#</th>
                         <th scope="col">Spare Part Image</th>
                         <th scope="col">Spare Part Name</th>
-                        <th scope="col" onclick="sortTableBySparePartId(<?php echo $value['order_id'] ?>)">Spare Part ID</th>
+                        <th scope="col" onclick="sortTableBySparePartId(<?php echo $value['order_id'] ?>)">Spare Part ID
+                        </th>
                         <th scope="col">Order Quantity</th>
                         <th scope="col">Price</th>
                       </tr>
@@ -261,48 +301,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                       echo "</div>";
                       ?>
                     </tbody>
+
                   </table>
 
                   <!-- Button trigger modal -->
-
-                  <?php
-                  if ($value['order_status'] == "waiting to process") {
-
-                    ?>
-                    <div class="d-flex justify-content-end m-2">
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal<?php echo $value['order_id'] ?>">
-                        Delete
-                      </button>
-                    </div>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal<?php echo $value['order_id'] ?>" tabindex="-1"
-                      aria-labelledby="exampleModalLabel<?php echo $value['order_id'] ?>" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel<?php echo $value['order_id'] ?>">Delete Confirm</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            Are you sure you want to delete this item?
-                          </div>
-                          <form method="POST" action="">
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                              <input type="hidden" name="order_id" value="<?php echo $value['order_id'] ?>">
-                              <button type="submit" name="cancel_order" class="btn btn-primary">Yes</button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-
-                    </div>
-                    <?php
-                  } else {
-
-                  }
-                  ?>
                 </div>
               </div>
               <?php
