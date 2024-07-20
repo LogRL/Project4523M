@@ -155,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </script>
 
 <body>
+    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container-fluid ">
             <a class="navbar-brand" href="#">
@@ -198,6 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </nav>
     <div class="container">
         <div class="row">
+            <!-- right side of checkout -->
             <div class="col-md-4 order-md-2 mb-4" style="margin-top: 25px;">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Your cart</span>
@@ -236,6 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </li>
                 </ul>
             </div>
+            <!-- left side of checkout -->
             <div class="col-md-8 order-md-1" style="margin-top: 25px;">
                 <h4 class="mb-3">Smart & Luxury Motor Company</h4>
                 <form class="needs-validation" novalidate method="POST" action="checkout.php" id="checkout-form">

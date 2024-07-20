@@ -97,6 +97,7 @@ $username = $_SESSION['deal_name'];
 </script>
 
 <body>
+  <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="z-index:1021;">
     <div class="container-fluid ">
       <a class="navbar-brand" href="#">
@@ -139,6 +140,7 @@ $username = $_SESSION['deal_name'];
   </nav>
   <div class="container" style="padding-top:5%;">
     <div class="row row-col-3">
+      <!-- sorting and category -->
       <div class="col col-md-3">
       <div class ="sticky-top"style="padding-top: 50%;">
           <div class="list-group " id="list-tab" role="tablist">
@@ -169,6 +171,7 @@ $username = $_SESSION['deal_name'];
           </div>
         </div>
       </div>
+      <!-- item list -->
       <div class="col-3 col-md-9">
         <div id="item-list">
           <?php

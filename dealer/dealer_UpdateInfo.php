@@ -85,7 +85,7 @@ mysqli_close($conn);
 </head>
 
 <body>
-
+  <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid ">
       <a class="navbar-brand" href="#">
@@ -127,6 +127,7 @@ mysqli_close($conn);
 
   <div class="container" style="background:url('../asserts/img/bg.jpeg')no-repeat fixed;">
     <div class="row align-items-center">
+      <!-- Form for updating info -->
       <div class="forms1 col" style="margin-top: 10%;">
         <form action="" method="POST">
           <div class="mb-3">
@@ -157,6 +158,7 @@ mysqli_close($conn);
           <button type="submit" class="btn btn-primary" name="update_password">Submit</button>
         </form>
       </div>
+      <!-- Form for displaying info that cant edit -->
       <div class="forms2 col" style="margin-top: 10%;">
         <form>
           <div class="mb-3">
