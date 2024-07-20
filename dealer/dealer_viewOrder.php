@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 </script>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="z-index:1021;">
     <div class="container-fluid ">
       <a class="navbar-brand" href="#">
         <i class="bi bi-x-diamond-fill"></i>
