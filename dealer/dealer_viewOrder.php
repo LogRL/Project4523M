@@ -80,15 +80,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
   let sortDirection = {}; // Object to keep track of sort direction for each table
 
-  function sortTableBySparePartId(id) {
+  function sortTableBySparePartId(id, row) {
     let table = document.getElementById("order_item_table-" + id);
     let rows = Array.from(table.rows).slice(1); // Skip the header row
-    let shouldSwitch;
     let direction = sortDirection[id] || 'asc'; // Default to ascending
 
     rows.sort((a, b) => {
-      let x = a.getElementsByTagName("TD")[3].innerHTML.toLowerCase();
-      let y = b.getElementsByTagName("TD")[3].innerHTML.toLowerCase();
+      let x = a.getElementsByTagName("TD")[row].innerHTML.toLowerCase();
+      let y = b.getElementsByTagName("TD")[row].innerHTML.toLowerCase();
       if (direction === 'asc') {
         return x > y ? 1 : -1;
       } else {
@@ -101,6 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Toggle the sort direction
     sortDirection[id] = direction === 'asc' ? 'desc' : 'asc';
   }
+
   function OrderStatusChange(status) {
     // Send AJAX request to fetch orders based on status
     const xhr = new XMLHttpRequest();
@@ -260,8 +260,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Spare Part Image</th>
-                        <th scope="col">Spare Part Name</th>
-                        <th scope="col" onclick="sortTableBySparePartId(<?php echo $value['order_id'] ?>)">Spare Part ID
+                        <th scope="col" onclick="sortTableBySparePartId(<?php echo $value['order_id'] ?>,2)">Spare Part Name</th>
+                        <th scope="col" onclick="sortTableBySparePartId(<?php echo $value['order_id'] ?>,3)">Spare Part ID
                         </th>
                         <th scope="col">Order Quantity</th>
                         <th scope="col">Price</th>
