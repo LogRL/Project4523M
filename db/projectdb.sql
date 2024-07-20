@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1:3306
--- 產生時間： 2024-07-12 08:50:31
+-- 產生時間： 2024-07-20 04:43:18
 -- 伺服器版本： 8.0.37
 -- PHP 版本： 8.2.13
 
@@ -53,7 +53,7 @@ TRUNCATE TABLE `item`;
 --
 
 INSERT INTO `item` (`item_id`, `item_name`, `item_image`, `item_desc`, `weight`, `quantity`, `price`, `category_id`, `product_id`) VALUES
-(1, 'Sheet Metal 1', '../asserts/img/A-Sheet Metal/100001.jpg', 'Sheet Metal 1', 5, 1, 100, 1, 1),
+(1, 'Sheet Metal 1', '../asserts/img/A-Sheet Metal/100001.jpg', 'Sheet Metal 1', 5, 51, 100, 1, 1),
 (2, 'Sheet Metal 2', '../asserts/img/A-Sheet Metal/100002.jpg', 'Sheet Metal 2', 1, 2500, 9999, 1, 2),
 (3, 'Major Assemblies 1', '../asserts/img/B-Major Assemblies/200001.jpg', 'Major Assemblies 1 desc', 5, 1500, 50, 2, 1),
 (4, 'Major Assemblies 2', '../asserts/img/B-Major Assemblies/200002.jpg', 'Major Assemblies 2 desc', 1, 2500, 80, 2, 2),
@@ -136,13 +136,13 @@ TRUNCATE TABLE `order`;
 --
 
 INSERT INTO `order` (`order_id`, `order_date`, `order_time`, `address`, `delivery_date`, `deal_id`, `sm_id`, `order_status`, `total_price`, `shipping_cost`, `shipping_method`) VALUES
-(4, '2024-07-07', '19:58:08', 'HAHAHAHAHAHA', '2024-07-14', 1, NULL, 'waiting to process', 3200, 500, 'Quantity'),
+(4, '2024-07-07', '19:58:08', 'HAHAHAHAHAHA', '2024-07-14', 1, NULL, 'cancel', 3200, 500, 'Quantity'),
 (5, '2024-07-07', '20:10:03', 'HAHAHAHAHA', '2024-07-14', 1, NULL, 'cancel', 3180, 2800, 'Weight'),
-(6, '2024-07-07', '20:11:52', 'HAHAHAHAHAHHA', '2024-07-14', 1, NULL, 'cancel', 600, 500, 'Weight'),
+(6, '2024-07-07', '20:11:52', 'HAHAHAHAHAHHA', '2024-07-14', 1, NULL, 'rejected', 600, 500, 'Weight'),
 (7, '2024-07-12', '14:03:49', 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ', '2024-07-19', 1, NULL, 'waiting to process', 690, 650, 'Weight'),
 (8, '2024-07-12', '14:05:01', 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ', '2024-07-19', 1, NULL, 'waiting to process', 690, 650, 'Weight'),
 (9, '2024-07-12', '14:05:15', 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ', '2024-07-19', 1, NULL, 'waiting to process', 690, 650, 'Weight'),
-(10, '2024-07-12', '14:05:55', 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ', '2024-07-19', 1, 1, 'Packing', 690, 650, 'Weight');
+(10, '2024-07-12', '14:05:55', 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ', '2024-07-19', 1, 1, 'accepted', 690, 650, 'Weight');
 
 -- --------------------------------------------------------
 
@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `fax_num` int NOT NULL,
   `address` varchar(255) NOT NULL,
   PRIMARY KEY (`deal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- 資料表新增資料前，先清除舊資料 `user`
@@ -234,7 +234,8 @@ TRUNCATE TABLE `user`;
 --
 
 INSERT INTO `user` (`deal_id`, `deal_name`, `email`, `pwd`, `contact_num`, `fax_num`, `address`) VALUES
-(1, 'ken_deal', 'ken_deal@gmail.com', 123, 54946052, 54946052, 'Meow! Meow! Meow! Meow! Meow! Meow! Meow! ');
+(1, 'ken_deal', 'ken_deal@gmail.com', 123, 54946051, 54946051, 'Meow! Meow! Meow!Meow!Meow!'),
+(2, 'ken_deal2', 'ken_deal2@gmail.com', 123, 60515494, 60515494, 'QingYi');
 
 --
 -- 已傾印資料表的限制式
