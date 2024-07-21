@@ -65,18 +65,60 @@ if($result4) {
 }
 
 if($_SERVER['REQUEST_METHOD'] = 'GET') {
-  if(isset($_GET['Update'])){
-    $itemIndex = $_GET['Item'];
+  try {
+    if(isset($_GET['Reject'])){
+      $itemIndex = $_GET['Item'];
 
-    $sql5 = "UPDATE `order` SET `sm_id` = '$loginid', `order_status` = 'accepted' WHERE `order_id` = '$itemIndex';";
-    $result5 = mysqli_query($conn, $sql5);
+      $sql5 = "UPDATE `order` SET `sm_id` = NULL, `order_status` = 'rejected' WHERE `order_id` = '$itemIndex';";
+      $result5 = mysqli_query($conn, $sql5);
 
-    if($result5) {
-      echo "<script>alert('Manager updated successfully.');</script>";
-      echo "<script>location.href='manager_update_record.php';</script>";
-    } else {
-      echo "Error: " . mysqli_error($conn);
+      $sql5_1 = "SELECT `order_item`.`item_id`, `order_item`.`quantity` FROM `order_item` WHERE `order_id` = '$itemIndex';";
+      $result5_1 = mysqli_query($conn, $sql5_1);
+      if($result5_1) {
+        while($rs5_1 = mysqli_fetch_assoc($result5_1)) {
+          $itemIndexid = $rs5_1['item_id'];
+          $orderquantity = $rs5_1['quantity'];
+
+          $sql5_2 = "SELECT `quantity` FROM `item` WHERE `item_id` = '$itemIndexid';";
+          $result5_2 = mysqli_query($conn, $sql5_2);
+          if($result5_2) {
+            while($rs5_2 = mysqli_fetch_assoc($result5_2)) {
+              $itemQuantity = $rs5_2['quantity'];
+              $newQuantity = $itemQuantity + $orderquantity;
+
+              $sql5_3 = "UPDATE `item` SET `quantity` = '$newQuantity' WHERE `item_id` = '$itemIndexid';";
+              $result5_3 = mysqli_query($conn, $sql5_3);
+            }
+          } else {
+            echo "Error: " . mysqli_error($conn);
+          }
+        }
+        echo "<script>alert('Manager rejected successfully.');</script>";
+        echo "<script>location.href='manager_update_record.php';</script>";
+      } else {
+        echo "Error: " . mysqli_error($conn);
+      }
     }
+  } catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+  }
+
+  try {
+    if(isset($_GET['Update'])){
+      $itemIndex = $_GET['Item'];
+
+      $sql6 = "UPDATE `order` SET `sm_id` = '$loginid', `order_status` = 'accepted' WHERE `order_id` = '$itemIndex';";
+      $result6 = mysqli_query($conn, $sql6);
+
+      if($result6) {
+        echo "<script>alert('Manager updated successfully.');</script>";
+        echo "<script>location.href='manager_update_record.php';</script>";
+      } else {
+        echo "Error: " . mysqli_error($conn);
+      }
+    }
+  } catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
   }
 }
 
@@ -93,20 +135,6 @@ mysqli_close($conn);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<script language="javacript">
-    function updateManagerName(itemid) {
-      var smid = "<?php echo $loginid; ?>";
-      var itemid = itemid;
-      window.location.href= "manager_update_record.php?smid=" + smid + "&Item=" + itemid;
-    }
-
-    function updateItemStorage() {
-      // TODO: Implement the logic to update the item storage number
-    }
-
-    function logout() {
-      window.location.href = "index.html";
-    }
   </script>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -181,7 +209,7 @@ mysqli_close($conn);
           $itemCount = 0;
           foreach($orderItemIndex as $mykey => $item): 
             if($orderid == $orderItemIndex[$mykey]){
-              $item = $orderItemId[$mykey];
+              $item = $orderItemId[$mykey] - 1;
               $itemCount ++;
             }else{
               $itemCount = 0;
@@ -201,9 +229,9 @@ mysqli_close($conn);
       </table>
       <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="padding-bottom: 15px; padding-right: 15px;">
         <?php
-        if($smId[$mkey] === null){
-          echo"<a class='btn btn-primary me-md-2' role ='button' href = '?Update=ture&Item=$orderid'>Update</a>";
-          echo"<button class='btn btn-primary' type='button' id='itemReject' value='$orderid'>Reject</button>";
+        if($smId[$mkey] === null && $orderStatus[$mkey] != 'rejected' && $orderStatus[$mkey] != 'accepted'){
+          echo"<a class='btn btn-primary me-md-2' role='button' href= '?Update=ture&Item=$orderid'>Update</a>";
+          echo"<a class='btn btn-primary' role='button' href= '?Reject=ture&Item=$orderid'>Reject</a>";
         }
         ?>
       </div>
