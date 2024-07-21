@@ -1,7 +1,7 @@
 <?php
 require_once '../db/connet.php';
 
-$sql = "SELECT `order_id`, `order_item`.`item_id`, `order_item`.`quantity`, `item`.`item_id`, `item`.`item_name`, `item`.`item_image`, `item`.`price`, `item`.`category_id`, LPAD(product_id, 5, 0) AS `product_id` FROM `item`, `order_item`, `item_category` WHERE `item`.`category_id` = `item_category`.`categroy_id` AND `item`.`item_id` = `order_item`.`item_id` GROUP BY `order_item`.`item_id` ORDER BY `order_item`.`item_id` ASC;";
+$sql = "SELECT `order_item`.`order_id`, `order_item`.`item_id`, `order_item`.`quantity`, `item`.`item_id`, `item`.`item_name`, `item`.`item_image`, `item`.`price`, `item`.`category_id`, LPAD(product_id, 5, 0) AS `product_id` FROM `item`, `order_item`, `item_category`, `order` WHERE `item`.`category_id` = `item_category`.`categroy_id` AND `item`.`item_id` = `order_item`.`item_id` AND `order`.`order_status` = 'accepted' GROUP BY `order_item`.`item_id` ORDER BY `order_item`.`item_id` ASC;";
 $result = mysqli_query($conn, $sql);
 
 if ($result){
@@ -20,6 +20,7 @@ else{
   echo "Error: " . mysqli_error($conn);
 }
 
+$sql1 = "SELECT `order_status`, `order_date` FROM `order` ";
 
 mysqli_close($conn);
 ?>
