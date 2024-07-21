@@ -125,18 +125,24 @@ mysqli_close($conn);
               </td>
               <td><?php
                 $totalQuantity = 0;
-                While($id == $itemId[$mykey] && $mykey < count($itemId)){
-                  $totalQuantity += $quantity[$mykey];
-                  $mykey++;
+                $ckey = 0;
+                While($ckey < count($itemId)){
+                  if($id == $itemId[$ckey]){
+                    $totalQuantity += $quantity[$ckey];
+                  }
+                  $ckey++;
                 }
                 echo $totalQuantity;
               ?>
               </td>
               <td><?php
                 $totalSales = 0;
-                while($id == $itemId[$mykey] && $mykey < count($itemId)){
-                  $totalSales += $price[$mykey] * $quantity[$mykey];
-                  $mykey++;
+                $countKey = 0;
+                while($countKey < count($itemId)){
+                  if($id == $itemId[$countKey]){
+                    $totalSales = $price[$countKey] * $quantity[$countKey];
+                  }
+                  $countKey++;
                 }
                 echo $totalSales;
               ?>
@@ -145,7 +151,15 @@ mysqli_close($conn);
             <?php endforeach;?>
           </tbody>
         </table>
-        <h1 class="display-5">Total sales amount =$10000 </h1>
+        <h1 class="display-5"><?php
+          $totalSales = 0;
+          $countKey = 0;
+          while($countKey < count($itemId)){
+            $totalSales += $price[$countKey] * $quantity[$countKey];
+            $countKey++;
+          }
+          echo "Total sales amount = $totalSales";
+        ?></h1>
         </p>
       </div>
     </div>

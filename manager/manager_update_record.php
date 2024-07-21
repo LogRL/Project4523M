@@ -1,5 +1,11 @@
 <?php
+session_start();
 require_once('../db/connet.php');
+
+$loginid = $_SESSION['sm_id'];
+$loginsmName = $_SESSION['manager_name'];
+$loginNum = $_SESSION['contact_num'];
+$updateStatus = null;
 
 $sql1 = "SELECT `order`.`order_id`, `order_date`, `total_price`, `order_time`, `address`, `delivery_date`,`order`.`sm_id`, `order_status` FROM `order` GROUP BY `order`.`order_id` ORDER BY `order`.`order_id` ASC;";
 $result1 = mysqli_query($conn, $sql1);
@@ -58,6 +64,22 @@ if($result4) {
   echo "Error: " . mysqli_error($conn);
 }
 
+if($_SERVER['REQUEST_METHOD'] = 'GET') {
+  if(isset($_GET['Update'])){
+    $itemIndex = $_GET['Item'];
+
+    $sql5 = "UPDATE `order` SET `sm_id` = '$loginid', `order_status` = 'accepted' WHERE `order_id` = '$itemIndex';";
+    $result5 = mysqli_query($conn, $sql5);
+
+    if($result5) {
+      echo "<script>alert('Manager updated successfully.');</script>";
+      echo "<script>location.href='manager_update_record.php';</script>";
+    } else {
+      echo "Error: " . mysqli_error($conn);
+    }
+  }
+}
+
 mysqli_close($conn);
 ?>
 
@@ -71,7 +93,21 @@ mysqli_close($conn);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
+<script language="javacript">
+    function updateManagerName(itemid) {
+      var smid = "<?php echo $loginid; ?>";
+      var itemid = itemid;
+      window.location.href= "manager_update_record.php?smid=" + smid + "&Item=" + itemid;
+    }
 
+    function updateItemStorage() {
+      // TODO: Implement the logic to update the item storage number
+    }
+
+    function logout() {
+      window.location.href = "index.html";
+    }
+  </script>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container-fluid ">
@@ -107,7 +143,7 @@ mysqli_close($conn);
           </li>
         </ul>
         <form class="d-flex">
-          <button class="btn btn-outline-success" type="button">Logout</button>
+          <a class="btn btn-outline-success m-2" href="./logout.php" role="button">Logout</a>
         </form>
       </div>
     </div>
@@ -164,8 +200,12 @@ mysqli_close($conn);
 
       </table>
       <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="padding-bottom: 15px; padding-right: 15px;">
-        <button class="btn btn-primary me-md-2" type="button">Update</button>
-        <button class="btn btn-primary" type="button">Reject</button>
+        <?php
+        if($smId[$mkey] === null){
+          echo"<a class='btn btn-primary me-md-2' role ='button' href = '?Update=ture&Item=$orderid'>Update</a>";
+          echo"<button class='btn btn-primary' type='button' id='itemReject' value='$orderid'>Reject</button>";
+        }
+        ?>
       </div>
     </div>
   </div>

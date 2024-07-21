@@ -12,7 +12,13 @@
         {
             echo "success";
             session_start();
+            $_SESSION['manager_name'] = $manager_name;
+            $_SESSION['manager_pw'] = $manager_pw;
             $rs = mysqli_fetch_array($result);
+            $_SESSION['sm_id'] = $rs['sm_id'];
+            $_SESSION['contact_name'] = $rs['contact_name'];
+            $_SESSION['contact_num'] = $rs['contact_num'];
+
         }
         else
         {
