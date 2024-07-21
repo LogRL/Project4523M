@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         </ul>
         <form class="d-flex">
-          <button class="btn btn-outline-success" type="button">Logout</button>
+          <a class="btn btn-outline-success m-2" href="./logout.php" role="button">Logout</a>
         </form>
       </div>
     </div>
