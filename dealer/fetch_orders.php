@@ -4,7 +4,7 @@ SESSION_START();
 
 $status = $_POST['status'];
 
-//根據狀態過濾訂單
+//filter order by status
 if ($status == 'All') {
   $order_detail_sql = "SELECT * FROM `order` WHERE deal_id = '" . $_SESSION['deal_id'] . "'";
 } else {
@@ -17,7 +17,7 @@ while ($order_detail_rs = mysqli_fetch_assoc($order_detail_result)) {
   $array_order['order'][] = $order_detail_rs;
 }
 
-//輸出訂單HTML片段
+//echo html style
 if (!empty($array_order['order'])) {
   foreach ($array_order['order'] as $key => $value) {
     echo '<div class="accordion-item">
