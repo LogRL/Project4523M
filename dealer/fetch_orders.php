@@ -1,5 +1,5 @@
 <?php
-require_once ('../db/connet.php');
+require_once ('../db/connect.php');
 SESSION_START();
 
 $status = $_POST['status'];

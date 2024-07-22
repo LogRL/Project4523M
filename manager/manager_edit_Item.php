@@ -1,5 +1,5 @@
 <?php
-require_once '../db/connet.php';
+require_once '../db/connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $item_id = $_POST["inputItemID"];

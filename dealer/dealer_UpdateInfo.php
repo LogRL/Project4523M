@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once ('../db/connet.php');
+require_once ('../db/connect.php');
 $username = $_SESSION['deal_name'];
 
 $id = $_SESSION['deal_id'];

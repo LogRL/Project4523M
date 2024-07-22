@@ -1,5 +1,5 @@
 <?php
-require_once '../db/connet.php';
+require_once '../db/connect.php';
 mysqli_query($conn, "SET SESSION sql_mode=(SELECT REPLACE(@@SESSION.sql_mode,'ONLY_FULL_GROUP_BY',''))");
 
 $sql = "select `order`.order_id ,order_item.item_id, order_item.quantity from `order`,order_item where `order`.order_id = order_item.order_id and order_status = 'accepted'";

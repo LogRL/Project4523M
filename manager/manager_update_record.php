@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../db/connet.php');
+require_once('../db/connect.php');
 
 $loginid = $_SESSION['sm_id'];
 $loginsmName = $_SESSION['manager_name'];

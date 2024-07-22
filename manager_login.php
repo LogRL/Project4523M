@@ -1,5 +1,5 @@
 <?php 
-    require_once('./db/connet.php');
+    require_once('./db/connect.php');
     
     $manager_name = $_POST['manager_name'];
     $manager_pw = $_POST['manager_pw'];

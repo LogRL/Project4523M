@@ -1,5 +1,5 @@
 <?php
-require_once '../db/connet.php';
+require_once '../db/connect.php';
 
 $sql = "SELECT category FROM item_category";
 $result = mysqli_query($conn, $sql);

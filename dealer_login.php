@@ -1,5 +1,5 @@
 <?php
-    require_once('./db/connet.php');
+    require_once('./db/connect.php');
 
     $deal_name = $_POST['deal_name'];
     $dealer_pw = $_POST['dealer_pw'];
