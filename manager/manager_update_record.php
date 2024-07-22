@@ -68,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] = 'GET') {
   try {
     if(isset($_GET['Reject'])){
       $itemIndex = $_GET['Item'];
-      $sql5 = "UPDATE `order` SET `sm_id` = NULL, `order_status` = 'rejected' WHERE `order_id` = '$itemIndex';";
+      $sql5 = "UPDATE `order` SET `sm_id` = $loginid, `order_status` = 'rejected' WHERE `order_id` = '$itemIndex';";
       $result5 = mysqli_query($conn, $sql5);
 
       $sql5_1 = "SELECT `order_item`.`item_id`, `order_item`.`quantity` FROM `order_item` WHERE `order_id` = '$itemIndex';";
