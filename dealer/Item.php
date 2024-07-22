@@ -86,13 +86,13 @@ $username = $_SESSION['deal_name'];
       },
       body: JSON.stringify(data)
     })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById('item-list').innerHTML = data.html;
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('item-list').innerHTML = data.html;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }
 </script>
 
@@ -142,7 +142,7 @@ $username = $_SESSION['deal_name'];
     <div class="row row-col-3">
       <!-- sorting and category -->
       <div class="col col-md-3">
-      <div class ="sticky-top"style="padding-top: 50%;">
+        <div class="sticky-top" style="padding-top: 50%;">
           <div class="list-group " id="list-tab" role="tablist">
             <div class="list-outline-item">
               <h3>Categories</h3>
@@ -197,14 +197,16 @@ $username = $_SESSION['deal_name'];
                   <div class="col-md-8">
                     <div class="card-body">
                       <h5 class="card-title" name="item_nametext"><?php echo $rs2['item_name'] ?></h5>
-                      <p class="card-text"><small class="text-muted">Product ID: <?php echo $rs2['category_id'] . $rs2['product_id'] ?></small></p>
+                      <p class="card-text"><small class="text-muted">Product ID:
+                          <?php echo $rs2['category_id'] . $rs2['product_id'] ?></small></p>
                       <p class="card-text" name="item_desctext">Item Description: <?php echo $rs2['item_desc'] ?></p>
                       <p class="card-text" name="item_desctext">Price: $<?php echo $rs2['price'] ?></p>
                       <p class="card-text">Weight: <?php echo $rs2['weight'] ?>kg</p>
-                      <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="padding-bottom: 15px; padding-right: 15px;">
-                        <input type="number" class="form-control" name="quantity-<?php echo $rs2['item_id'] ?>" value="1" min="1" max="<?php echo $rs2['quantity'] ?>">
-                        <button id="liveToastBtn" name="add_to_cart" class="btn btn-primary me-md-2" type="button"
-                          onclick="addtocart(
+                      <div class="d-grid gap-2 d-md-flex justify-content-md-end"
+                        style="padding-bottom: 15px; padding-right: 15px;">
+                        <input type="number" class="form-control" name="quantity-<?php echo $rs2['item_id'] ?>" value="1"
+                          min="1" max="<?php echo $rs2['quantity'] ?>">
+                        <button id="liveToastBtn" name="add_to_cart" class="btn btn-primary me-md-2" type="button" onclick="addtocart(
                           '<?php echo $rs2['item_id'] ?>',
                           '<?php echo $rs2['item_name'] ?>',
                           '<?php echo $rs2['item_image'] ?>',
@@ -217,7 +219,8 @@ $username = $_SESSION['deal_name'];
                         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
                           <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="toast-header">
-                              <img src="../asserts/img/cat_like_meme.jpg" class="rounded me-2" style="width:15.99px;height:15.99px">
+                              <img src="../asserts/img/cat_like_meme.jpg" class="rounded me-2"
+                                style="width:15.99px;height:15.99px">
                               <strong class="me-auto">Notification</strong>
                               <small>Just now</small>
                               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -246,4 +249,5 @@ $username = $_SESSION['deal_name'];
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 </body>
+
 </html>
