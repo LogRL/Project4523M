@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $price = $_POST["inputPrice"];
 
   // Update the item in the database
-  $sql = "UPDATE items SET partImage = '$partImage', partDescription = '$partDescription', quantity = '$quantity', price = '$price' WHERE partNumber = '$partNumber'";
+  $sql = "UPDATE item SET partImage = '$partImage', partDescription = '$partDescription', quantity = '$quantity', price = '$price' WHERE partNumber = '$partNumber'";
   if (mysqli_query($conn, $sql)) {
     echo "Item updated successfully";
   } else {

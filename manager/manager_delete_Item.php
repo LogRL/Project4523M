@@ -1,23 +1,20 @@
 <?php
 require_once('../db/connet.php');
 
-if(isset($_POST['submit'])) {
-    $partNumber = $_POST['inputPartnumber'];
-    $rePartNumber = $_POST['inputrePartnumber'];
+if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    // Check if the part numbers match
-    if($partNumber == $rePartNumber) {
-        $query = "DELETE FROM item WHERE item_id = '$partNumber'";
-        $result = mysqli_query($conn, $query);
-
-        if($result) {
-            echo "Item deleted successfully.";
-        } else {
-            echo "Failed to delete item.";
+    if(isset($_POST['inputPartnumber'])){
+        $partNumber = $_POST['inputPartnumber'];
+        $rePartNumber = $_POST['reinputPartnumber'];
+        if($partNumber == $rePartNumber){
+            $sql = "DELETE FROM item WHERE item_id = '$partNumber'";
+            if(mysqli_query($conn, $sql)){
+            }else{
+                // echo "Error deleting item: " . mysqli_error($conn);
+            }
+        }else{
+            // echo "Part number does not match";
         }
-        mysqli_close($conn);
-    } else {
-        echo "Part numbers do not match.";
     }
 }
 ?>
@@ -84,14 +81,14 @@ if(isset($_POST['submit'])) {
     <div class="container">
         <div class="row">
             <div class=" forms1 col">
-                <form>
+                <form method = "POST">
                     <div class="mb-3">
-                        <label for="inputPartnumber" class="form-label">Part Number</label>
-                        <input type="text" class="form-control" id="inputPartnumber">
+                        <label for="inputPartnumber" class="form-label">Item ID</label>
+                        <input type="text" class="form-control" id="inputPartnumber" name="inputPartnumber">
                     </div>
                     <div class="mb-3">
-                        <label for="inputrePartnumber" class="form-label">Re enter the Part Number</label>
-                        <input type="text" class="form-control" id="inputrePartnumber">
+                        <label for="inputrePartnumber" class="form-label">Re enter the Item ID</label>
+                        <input type="text" class="form-control" id="reinputPartnumber" name="reinputPartnumber">
                     </div>
                     <div class="d-grid gap-2 d-md-block">
                         <button type="reset " class="btn btn-primary" type="button">Reset</button>
