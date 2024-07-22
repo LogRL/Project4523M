@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="forms1 col">
         <form method="POST" action="manager_insert_Item.php" enctype="multipart/form-data">
           <div class="mb-3">
-            <label for="inputPartNumber" class="form-label">Part Number</label>
+            <label for="inputPartNumber" class="form-label">Product ID</label>
             <input type="text" class="form-control" id="inputPartNumber" name="inputPartNumber">
           </div>
           <div class="mb-3">
