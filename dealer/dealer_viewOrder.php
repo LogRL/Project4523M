@@ -218,20 +218,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                   <?php
                   //An order can only be deleted at least two days before the delivery date.
                   //get today date
-                  // $today = date("Y-m-d");
+                  $today = date("Y-m-d");
                   // echo "today: " . $today . "<br>";
                   //get delivery date
-                  // $delivery_date = $value['delivery_date'];
+                  $delivery_date = $value['delivery_date'];
                   // echo "delivery_date: " . $delivery_date . "<br>";
                   //if today is less than 2 days before delivery date, then the order can not be deleted
-                  // $date1 = strtotime($today);
+                  $date1 = strtotime($today);
                   // echo "date1: " . $date1 . "<br>";
-                  // $date2 = strtotime($delivery_date);
+                  $date2 = strtotime($delivery_date);
                   // echo "date2: " . $date2 . "<br>";
                   //cal the difference between today and delivery date
-                  // $diff = $date2 - $date1;
+                  $diff = $date2 - $date1;
                   // echo "diff: " . $diff . "<br>";
-                  // $days = $diff / (60 * 60 * 24);
+                  $days = $diff / (60 * 60 * 24);
                   // echo "days: " . $days . "<br>";
                   //if the difference is less than 2 days, then the order can not be deleted
 
