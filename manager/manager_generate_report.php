@@ -1,8 +1,9 @@
 <?php
 require_once '../db/connet.php';
-
+mysqli_query($conn, "SET SESSION sql_mode=(SELECT REPLACE(@@SESSION.sql_mode,'ONLY_FULL_GROUP_BY',''))");
 $sql = "SELECT `order_item`.`order_id`, `order_item`.`item_id`, `order_item`.`quantity`, `item`.`item_id`, `item`.`item_name`, `item`.`item_image`, `item`.`price`, `item`.`category_id`, LPAD(product_id, 5, 0) AS `product_id` FROM `item`, `order_item`, `item_category`, `order` WHERE `item`.`category_id` = `item_category`.`categroy_id` AND `item`.`item_id` = `order_item`.`item_id` AND `order`.`order_status` = 'accepted' GROUP BY `order_item`.`item_id` ORDER BY `order_item`.`item_id` ASC;";
-$result = mysqli_query($conn, $sql);
+
+        $result = mysqli_query($conn, $sql);
 
 if ($result){
   while ($rs = mysqli_fetch_assoc($result)){

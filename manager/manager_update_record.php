@@ -68,7 +68,6 @@ if($_SERVER['REQUEST_METHOD'] = 'GET') {
   try {
     if(isset($_GET['Reject'])){
       $itemIndex = $_GET['Item'];
-
       $sql5 = "UPDATE `order` SET `sm_id` = NULL, `order_status` = 'rejected' WHERE `order_id` = '$itemIndex';";
       $result5 = mysqli_query($conn, $sql5);
 
@@ -229,7 +228,7 @@ mysqli_close($conn);
       </table>
       <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="padding-bottom: 15px; padding-right: 15px;">
         <?php
-        if($smId[$mkey] === null && $orderStatus[$mkey] != 'rejected' && $orderStatus[$mkey] != 'accepted'){
+        if($smId[$mkey] === null && $orderStatus[$mkey] != 'rejected' && $orderStatus[$mkey] != 'accepted' && $orderStatus[$mkey] != 'cancel'){
           echo"<a class='btn btn-primary me-md-2' role='button' href= '?Update=ture&Item=$orderid'>Update</a>";
           echo"<a class='btn btn-primary' role='button' href= '?Reject=ture&Item=$orderid'>Reject</a>";
         }

@@ -15,22 +15,59 @@ if ($result) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $partNum = $_POST['inputPartNumber'];
-  $partCategory = $_POST['inputpartCategory'];
-  $partName = $_POST['inputPartname'];
-  $imgFile = $_POST['imgFile'];
-  $partDescription = $_POST['inputPartdescription'];
-  $partWeight = $_POST['inputWeight'];
-  $partQty = $_POST['inputQuantity'];
-  $partPrice = $_POST['inputPrice'];
-
-  $sql = "INSERT INTO item (item_id, item_name, item_image, item_desc, weight, quantity, price, category_id, product_id) VALUES (NULL, '$partName', '$imgFile', '$partDescription', '$partWeight', '$partQty', '$partPrice', '$partCategory', '$partNum')";
-  if (mysqli_query($conn, $sql)) {
-    echo "Data inserted successfully";
-  } else {
-    echo "Error: " . mysqli_error($conn);
+  $partNum = $_POST['inputPartNumber'] ?? '';
+  $partCategory = $_POST['inputPartCategory'] ?? '';
+  $partName = $_POST['inputPartName'] ?? '';
+  $partDescription = $_POST['inputPartDescription'] ?? '';
+  $partWeight = $_POST['inputWeight'] ?? '';
+  $partQty = $_POST['inputQuantity'] ?? '';
+  $partPrice = $_POST['inputPrice'] ?? '';
+  //set the file name
+  $uploadDir = '';
+  $filePrefix = '';
+  switch ($partCategory) {
+    case '1':
+      $uploadDir = '../asserts/img/A-Sheet Metal/';
+      $filePrefix = '10000';
+      break;
+    case '2':
+      $uploadDir = '../asserts/img/B-Major Assemblies/';
+      $filePrefix = '20000';
+      break;
+    case '3':
+      $uploadDir = '../asserts/img/C-Light Components/';
+      $filePrefix = '30000';
+      break;
+    case '4':
+      $uploadDir = '../asserts/img/D-Accessories/';
+      $filePrefix = '40000';
+      break;
+    default:
+      $uploadDir = '../asserts/img/others/';
+      break;
   }
-  
+  //upload the file and change the name
+  if (isset($_FILES['imgFile']) && $_FILES['imgFile']['error'] == UPLOAD_ERR_OK) {
+    $fileExtension = pathinfo($_FILES['imgFile']['name'], PATHINFO_EXTENSION);
+    $newFileName = $filePrefix . $partNum . '.' . $fileExtension;
+    $imgFile = $uploadDir . $newFileName;
+    move_uploaded_file($_FILES['imgFile']['tmp_name'], $imgFile);
+  } else {
+    $imgFile = '';
+  }
+
+  // check if upload successful
+  if ($partNum && $partCategory && $partName && $partDescription && is_numeric($partWeight) && is_numeric($partQty) && is_numeric($partPrice)) {
+    $sql = "INSERT INTO item (item_id, item_name, item_image, item_desc, weight, quantity, price, category_id, product_id) VALUES (NULL, '$partName', '$imgFile', '$partDescription', '$partWeight', '$partQty', '$partPrice', '$partCategory', '$partNum')";
+    if (mysqli_query($conn, $sql)) {
+    
+    } else {
+      echo "Error: " . mysqli_error($conn);
+    }
+  } else {
+    echo "Invalid data provided.";
+  }
+
   mysqli_close($conn);
 }
 ?>
@@ -42,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="./manager_form.css">
 </head>
@@ -90,15 +127,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </nav>
   <div class="container">
     <div class="row">
-      <div class=" forms1 col">
+      <div class="forms1 col">
         <form method="POST" action="manager_insert_Item.php" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="inputPartNumber" class="form-label">Part Number</label>
-            <input type="text" class="form-control" id="inputPartNumber">
+            <input type="text" class="form-control" id="inputPartNumber" name="inputPartNumber">
           </div>
           <div class="mb-3">
-            <label for="partCategory" class="form-label">Part Category</label>
-            <select class="form-select" id="inputpartCategory">
+            <label for="inputPartCategory" class="form-label">Part Category</label>
+            <select class="form-select" id="inputPartCategory" name="inputPartCategory">
               <option selected>Choose...</option>
               <?php
               foreach ($categories as $key => $category) {
@@ -109,35 +146,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </select>
           </div>
           <div class="mb-3">
-            <label for="inputPartname" class="form-label">Part Name</label>
-            <input type="text" class="form-control" id="inputPartname">
+            <label for="inputPartName" class="form-label">Part Name</label>
+            <input type="text" class="form-control" id="inputPartName" name="inputPartName">
           </div>
           <div class="mb-3">
             <label for="imgFile" class="form-label">Part Image</label>
-            <input class="form-control" type="file" id="imgFile">
+            <input class="form-control" type="file" id="imgFile" name="imgFile">
           </div>
           <div class="mb-3">
-            <label for="inputPartdescription" class="form-label">Part Description</label>
-            <input type="text" class="form-control" id="inputPartdescription">
+            <label for="inputPartDescription" class="form-label">Part Description</label>
+            <input type="text" class="form-control" id="inputPartDescription" name="inputPartDescription">
           </div>
           <div class="mb-3">
             <label for="inputWeight" class="form-label">Weight</label>
-            <input type="text" class="form-control" id="inputWeight">
+            <input type="text" class="form-control" id="inputWeight" name="inputWeight">
           </div>
           <div class="mb-3">
             <label for="inputQuantity" class="form-label">Quantity</label>
-            <input type="text" class="form-control" id="inputQuantity">
+            <input type="text" class="form-control" id="inputQuantity" name="inputQuantity">
           </div>
           <div class="mb-3">
             <label for="inputPrice" class="form-label">Price</label>
-            <input type="text" class="form-control" id="inputPrice">
+            <input type="text" class="form-control" id="inputPrice" name="inputPrice">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
