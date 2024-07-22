@@ -2,18 +2,52 @@
 require_once '../db/connet.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $partNumber = $_POST["inputPartNumber"];
+  $item_id = $_POST["inputItemID"];
   $partImage = $_FILES["imgFile"]["name"];
+  $partImageTmp = $_FILES["imgFile"]["tmp_name"];
   $partDescription = $_POST["inputPartdescription"];
   $quantity = $_POST["inputQuantity"];
   $price = $_POST["inputPrice"];
 
-  // Update the item in the database
-  $sql = "UPDATE item SET partImage = '$partImage', partDescription = '$partDescription', quantity = '$quantity', price = '$price' WHERE partNumber = '$partNumber'";
-  if (mysqli_query($conn, $sql)) {
-    echo "Item updated successfully";
+  // check type of item
+  $itemType = $_POST["itemType"];
+  switch ($itemType) {
+    case 'sheet metal':
+      $uploadDir = '../asserts/img/A-Sheet Metal/';
+      break;
+    case 'Major Assemblies':
+      $uploadDir = '../asserts/img/B-Major Assemblies/';
+      break;
+    case 'Light Components':
+      $uploadDir = '../asserts/img/C-Light Components/';
+      break;
+    case 'Accessories':
+      $uploadDir = '../asserts/img/D-Accessories/';
+      break;
+
+  }
+  //get the old image
+  $sql = "SELECT item_image FROM item WHERE item_id = '$item_id'";
+  $result = mysqli_query($conn, $sql);
+  if ($row = mysqli_fetch_assoc($result)) {
+    $oldImage = $row['item_image'];
+    // delete the old image
+    if (file_exists($oldImage)) {
+        unlink($oldImage);
+    }
+    //upload new image
+    $newImagePath = $uploadDir . basename($partImage);
+    move_uploaded_file($partImageTmp, $newImagePath);
+
+    // update database record
+    $sql = "UPDATE item SET item_image = '$newImagePath', item_desc = '$partDescription', quantity = '$quantity', price = '$price' WHERE item_id = '$item_id'";
+    if (mysqli_query($conn, $sql)) {
+        // echo "Item updated successfully";
+    } else {
+        // echo "Error updating item: " . mysqli_error($conn);
+    }
   } else {
-    echo "Error updating item: " . mysqli_error($conn);
+    // echo "Item not found";
   }
 }
 ?>
@@ -63,7 +97,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <li><a class="dropdown-item" href="manager_delete_Item.php">Delete Item</a></li>
             </ul>
           </li>
-
         </ul>
         <form class="d-flex">
           <a class="btn btn-outline-success m-2" href="./logout.php" role="button">Logout</a>
@@ -73,27 +106,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </nav>
   <div class="container">
     <div class="row">
-      <div class=" forms1 col">
-        <form>
+      <div class="forms1 col">
+        <form method="POST" enctype="multipart/form-data">
           <div class="mb-3">
-            <label for="inputPartNumber" class="form-label">Part Number</label>
-            <input type="text" class="form-control" id="inputPartNumber">
+            <label for="inputItemID" class="form-label">Item ID</label>
+            <input type="text" class="form-control" id="inputItemID" name="inputItemID" required>
           </div>
           <div class="mb-3">
             <label for="imgFile" class="form-label">Part Image</label>
-            <input class="form-control" type="file" id="imgFile">
+            <input class="form-control" type="file" id="imgFile" name="imgFile" required>
           </div>
           <div class="mb-3">
             <label for="inputPartdescription" class="form-label">Part Description</label>
-            <input type="text" class="form-control" id="inputPartdescription">
+            <input type="text" class="form-control" id="inputPartdescription" name="inputPartdescription" required>
           </div>
           <div class="mb-3">
             <label for="inputQuantity" class="form-label">Quantity</label>
-            <input type="text" class="form-control" id="inputQuantity">
+            <input type="text" class="form-control" id="inputQuantity" name="inputQuantity" required>
           </div>
           <div class="mb-3">
             <label for="inputPrice" class="form-label">Price</label>
-            <input type="text" class="form-control" id="inputPrice">
+            <input type="text" class="form-control" id="inputPrice" name="inputPrice" required>
+          </div>
+          <div class="mb-3">
+            <label for="itemType" class="form-label">Item Type</label>
+            <select class="form-select" id="itemType" name="itemType" required>
+              <option value="sheet metal">Sheet Metal</option>
+              <option value="Major Assemblies">Major Assemblies</option>
+              <option value="Light Components">Light Components</option>
+              <option value="Accessories">Accessories</option>
+            </select>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
