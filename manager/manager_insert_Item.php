@@ -15,13 +15,18 @@ if ($result) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $partNum = $_POST['inputPartNumber'] ?? '';
+  //get the producd_id from item table and +1 to get the next product_id,system will be auto generate the product_id
+
   $partCategory = $_POST['inputPartCategory'] ?? '';
   $partName = $_POST['inputPartName'] ?? '';
   $partDescription = $_POST['inputPartDescription'] ?? '';
   $partWeight = $_POST['inputWeight'] ?? '';
   $partQty = $_POST['inputQuantity'] ?? '';
   $partPrice = $_POST['inputPrice'] ?? '';
+  $sql = "SELECT product_id FROM item where category_id = '$partCategory' ORDER BY product_id DESC LIMIT 1";
+  $result = mysqli_query($conn, $sql);
+  $row = mysqli_fetch_assoc($result);
+  $partNum = $row['product_id'] + 1;
   //set the file name
   $uploadDir = '';
   $filePrefix = '';
@@ -42,9 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $uploadDir = '../asserts/img/D-Accessories/';
       $filePrefix = '40000';
       break;
-    default:
-      $uploadDir = '../asserts/img/others/';
-      break;
+
   }
   //upload the file and change the name
   if (isset($_FILES['imgFile']) && $_FILES['imgFile']['error'] == UPLOAD_ERR_OK) {
@@ -127,10 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="row">
       <div class="forms1 col">
         <form method="POST" action="manager_insert_Item.php" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="inputPartNumber" class="form-label">Product ID</label>
-            <input type="text" class="form-control" id="inputPartNumber" name="inputPartNumber">
-          </div>
+          <h1>Insert Item</h1>
           <div class="mb-3">
             <label for="inputPartCategory" class="form-label">Part Category</label>
             <select class="form-select" id="inputPartCategory" name="inputPartCategory">
