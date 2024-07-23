@@ -22,17 +22,22 @@ if ($result) {
   }
   //count the total sales of today
   $total_sales_today = 0;
-  foreach ($order_todays as $order_today) {
-    $order_id = $order_today['order_id'];
-    $sql = "select sum(item.price*order_item.quantity) as total from order_item ,item where order_item.item_id = item.item_id and order_id = $order_id";
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-      $total = mysqli_fetch_assoc($result);
-      $total_sales_today += $total['total'];
-    } else {
-      echo 'Error fetching item: ' . mysqli_error($conn);
+  //if the order  today is not empty
+  if(!empty($order_todays)){
+    foreach ($order_todays as $order_today) {
+      $order_id = $order_today['order_id'];
+      $sql = "select sum(item.price*order_item.quantity) as total from order_item ,item where order_item.item_id = item.item_id and order_id = $order_id";
+      $result = mysqli_query($conn, $sql);
+      if ($result) {
+        $total = mysqli_fetch_assoc($result);
+        $total_sales_today += $total['total'];
+      } else {
+        echo 'Error fetching item: ' . mysqli_error($conn);
+      }
     }
   }
+
+
   //count the total sales of this month
   $sql = "select * from `order` where order_status = 'accepted' and month(order_date) = month(CURDATE())";
   $result = mysqli_query($conn, $sql);

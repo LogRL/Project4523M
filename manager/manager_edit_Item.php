@@ -36,8 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         unlink($oldImage);
     }
     //upload new image
-    $newImagePath = $uploadDir . basename($partImage);
+    //change the new image name to the same as the old image
+    $partImage = $uploadDir . basename($oldImage);
+    $newImagePath = $partImage;
     move_uploaded_file($partImageTmp, $newImagePath);
+
+
 
     // update database record
     $sql = "UPDATE item SET item_image = '$newImagePath', item_desc = '$partDescription', quantity = '$quantity', price = '$price' WHERE item_id = '$item_id'";

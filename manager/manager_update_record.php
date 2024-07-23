@@ -227,7 +227,7 @@ mysqli_close($conn);
       <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="padding-bottom: 15px; padding-right: 15px;">
         <?php
         if($smId[$mkey] === null && $orderStatus[$mkey] != 'rejected' && $orderStatus[$mkey] != 'accepted' && $orderStatus[$mkey] != 'cancel'){
-          echo"<a class='btn btn-primary me-md-2' role='button' href= '?Update=ture&Item=$orderid'>Update</a>";
+          echo"<a class='btn btn-primary me-md-2' role='button' href= '?Update=ture&Item=$orderid'>Accepted</a>";
           echo"<a class='btn btn-primary' role='button' href= '?Reject=ture&Item=$orderid'>Reject</a>";
         }
         ?>
