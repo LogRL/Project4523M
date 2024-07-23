@@ -32,7 +32,7 @@ if ($result) {
         $total = mysqli_fetch_assoc($result);
         $total_sales_today += $total['total'];
       } else {
-        echo 'Error fetching item: ' . mysqli_error($conn);
+        
       }
     }
   }
@@ -48,15 +48,18 @@ if ($result) {
   }
   //count the total sales of this month
   $total_sales_month = 0;
-  foreach ($order_months as $order_month) {
-    $order_id = $order_month['order_id'];
-    $sql = "select sum(item.price*order_item.quantity) as total from order_item ,item where order_item.item_id = item.item_id and order_id = $order_id";
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-      $total = mysqli_fetch_assoc($result);
-      $total_sales_month += $total['total'];
-    } else {
-      echo 'Error fetching item: ' . mysqli_error($conn);
+  //if the order  this month is not empty
+  if(!empty($order_months)){
+    foreach ($order_months as $order_month) {
+      $order_id = $order_month['order_id'];
+      $sql = "select sum(item.price*order_item.quantity) as total from order_item ,item where order_item.item_id = item.item_id and order_id = $order_id";
+      $result = mysqli_query($conn, $sql);
+      if ($result) {
+        $total = mysqli_fetch_assoc($result);
+        $total_sales_month += $total['total'];
+      } else {
+        
+      }
     }
   }
 
