@@ -269,6 +269,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> $<?php echo $value['total_price'] ?>
                     </p>
                   </div>
+                  <div class="d-flex justify-content-between pt-2">
+                    <p class="fw-bold mb-0">Delivery Date: <?php echo $value['delivery_date']?></p>
+                   
+                  </div>
+
                   <?php
                   //An order can only be deleted at least two days before the delivery date.
                   //get today date

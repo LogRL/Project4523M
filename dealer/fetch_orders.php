@@ -32,9 +32,9 @@ if (!empty($array_order['order'])) {
       case 'rejected':
         $status_color = 'text-danger';
         break;
-        case 'cancel':
-        $status_color = 'text-warning';
-
+      case 'cancel':
+          $status_color = 'text-secondary';
+        break;
     }
     
     echo '<div class="accordion-item">
