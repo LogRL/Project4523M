@@ -20,6 +20,23 @@ while ($order_detail_rs = mysqli_fetch_assoc($order_detail_result)) {
 //echo html style
 if (!empty($array_order['order'])) {
   foreach ($array_order['order'] as $key => $value) {
+    // Set color based on order status
+    $status_color = '';
+    switch ($value['order_status']) {
+      case 'waiting to process':
+        $status_color = 'text-secondary';
+        break;
+      case 'accepted':
+        $status_color = 'text-success';
+        break;
+      case 'rejected':
+        $status_color = 'text-danger';
+        break;
+        case 'cancel':
+        $status_color = 'text-warning';
+
+    }
+    
     echo '<div class="accordion-item">
       <h2 class="accordion-header" id="flush-headingOne">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -27,7 +44,7 @@ if (!empty($array_order['order'])) {
           aria-controls="flush-collapse' . $value['order_id'] . '">
           <div>
             Order ID:' . $value['order_id'] . '<br>
-            Order Status:' . $value['order_status'] . '<br>
+            Order Status: <span class="' . $status_color . '">' . $value['order_status'] . '</span><br>
           </div>
         </button>
       </h2>

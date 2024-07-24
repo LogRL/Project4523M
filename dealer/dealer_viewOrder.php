@@ -76,6 +76,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <link rel="stylesheet" href="../asserts/css/style.css">
   <title>Dealer View Order </title>
 </head>
+<style>
+  .square {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin: 2px;
+  }
+
+  .align-center {
+    display: flex;
+    align-items: center;
+  }
+</style>
 <script>
 
   let sortDirection = {}; // Object to keep track of sort direction for each table
@@ -181,7 +194,32 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       </div>
       <!-- Order list page -->
       <div class="col-3 col-md-9">
+         <!-- show a 5x5px square with color grey green red yellow -->
+         <div class="container">
+            <div class="row">
+              <div class="col align-center">
+                <div class="square bg-secondary"></div><!-- Grey -->
+                <span>Waiting to process</span>
+              </div>
+              <div class="col align-center">
+                <div class="square bg-success"></div><!-- Green -->
+                <span>Accepted</span>
+              </div>
+              <div class="col align-center">
+                <div class="square bg-danger"></div><!-- Red -->
+                <span>Rejected</span>
+              </div>
+              <div class="col align-center">
+                <div class="square bg-warning"></div><!-- Yellow -->
+                <span>Cancel</span>
+              </div>
+            </div>
+          </div>
         <div class="accordion accordion-flush" id="accordionFlushExample">
+         
+
+
+
 
           <?php
           if (!empty($array_order['order'])) {
@@ -195,8 +233,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     data-bs-target="#flush-collapse<?php echo $value['order_id'] ?>" aria-expanded="false"
                     aria-controls="flush-collapse<?php echo $value['order_id'] ?>">
                     <div>
-                      Order ID:<?php echo $value['order_id'] ?><br>
-                      Order Status:<?php echo $value['order_status'] ?><br>
+                      Order ID:<?php echo $value['order_id'] ?> <br>
+                      <?php
+                      switch ($value['order_status']) {
+                        case 'waiting to process':
+                          echo "<p>Order Status: <span class='text-secondary'>". $value['order_status'] ."</span></p>";
+                          break;
+                        case 'accepted':
+                          echo "<p>Order Status: <span class='text-success'>". $value['order_status'] ."</span></p>";
+                          break;
+                        case 'rejected':        
+                          echo "<p>Order Status: <span class='text-danger'>". $value['order_status'] ."</span></p>";
+                          break;
+                        case 'cancel':
+                          echo "<p>Order Status: <span class='text-warning'>". $value['order_status'] ."</span></p>";
+                          break;
+
+                      }
+                      ?>
                     </div>
                   </button>
 
@@ -234,7 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                   $days = $diff / (60 * 60 * 24);
                   // echo "days: " . $days . "<br>";
                   //if the difference is less than 2 days, then the order can not be deleted
-
+              
                   if ($value['order_status'] == "waiting to process" && $days > 2) {
 
                     ?>
@@ -279,7 +333,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Spare Part Image</th>
-                        <th scope="col" onclick="sortTableBySparePartId(<?php echo $value['order_id'] ?>,2)">Spare Part Name</th>
+                        <th scope="col" onclick="sortTableBySparePartId(<?php echo $value['order_id'] ?>,2)">Spare Part Name
+                        </th>
                         <th scope="col" onclick="sortTableBySparePartId(<?php echo $value['order_id'] ?>,3)">Spare Part ID
                         </th>
                         <th scope="col">Order Quantity</th>
